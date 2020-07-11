@@ -1,0 +1,46 @@
+[
+  {
+    "name": "wavelab",
+    "organization": "U.S. Geological Survey",
+    "description": "Storm-tide water level and wave statistics processing toolbox.",
+    "version": "0.1",
+    "status": "Beta",
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://code.usgs.gov/wavelab/wavelab/-/blob/master/LICENSE.md"
+        }
+        ]
+    },
+
+    "homepageURL": "https://code.usgs.gov/wavelab/wavelab",
+    "downloadURL": "https://code.usgs.gov/gft/wavelab/wavelab/-/archive/master/wavelab-master.zip",
+    "disclaimerURL": "https://code.usgs.gov/wavelab/wavelab/-/blob/master/DISCLAIMER.md",
+    "repositoryURL": "https://code.usgs.gov/wavelab/wavelab.git",
+    "vcs": "git",
+
+    "laborHours": 0,
+
+    "tags": [
+      "Python",
+      "netCDF4",
+      "USGS",
+      "water"
+      ],
+
+    "languages": [
+      "Python"
+      ],
+
+    "contact": {
+      "name": "Gregory Petrochenkov",
+      "email": "gpetrochenkov@usgs.gov"
+    },
+
+    "date": {
+      "metadataLastUpdated": "2020-07-11"
+    }
+  }
+]
