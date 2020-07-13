@@ -32,7 +32,7 @@ To build the final executable, run the following command:
 
 #### Documentation
 
-- Reference documentation can be found <a hef="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/index.md">here</a>.
+- Reference documentation can be found <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/index.md">here</a>.
 
 - The jupyter notebooks can be found in the "documentation/notebooks" directory. These can run by changing to the notebooks directory and running the following command: <code>jupyter notebook</code>.  This will provide a link to view the notebooks in your browser or automatically open in a browser window.
 
