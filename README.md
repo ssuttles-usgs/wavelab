@@ -8,7 +8,7 @@ This software calculates Storm-Tide water level and wave statistics (where appli
 
 ### Use of Executable
 
-For windows, download distibution.zip, unzip, and then double click WaveLab.exe.
+For windows, download distibution.zip, unzip, and then double click WaveLab.exe.  the program may take a minute or more to load.
 
 ### Code Installation
 
@@ -32,8 +32,7 @@ To build the final executable, run the following command:
 
 #### Documentation
 
-- The "documentation" directory contains the sphinx documentation building blocks.  One can make a new set of HTML pages by changing to the docs page and entering the following command:
-<code>./make html</code>
+- Reference documentation can be found <a hef="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/index.md">here</a>.
 
 - The jupyter notebooks can be found in the "documentation/notebooks" directory. These can run by changing to the notebooks directory and running the following command: <code>jupyter notebook</code>.  This will provide a link to view the notebooks in your browser or automatically open in a browser window.
 
@@ -91,5 +90,5 @@ Petrochenkov G (2020). wavelab: Storm-Tide water level and wave statistics proce
 
 ##### Authors
 Gregory Petrochenkov. Author, maintainer. <br />
-Harry Jenter. Contributor.
+Harry Jenter. Contributor. <br />
 Chriz Mazzullo. Contributor.
