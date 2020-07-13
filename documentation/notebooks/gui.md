@@ -31,7 +31,7 @@
 
 .sea-custom-list li:first {
     margin: 50px;
-    text-wieght: bold;
+    text-weight: bold;
     list-style-type: none;
 }
 
@@ -68,7 +68,7 @@
 
 .storm-custom-list li:first {
     margin: 50px;
-    text-wieght: bold;
+    text-weight: bold;
     list-style-type: none;
 }
 
