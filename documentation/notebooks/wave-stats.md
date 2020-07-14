@@ -51,21 +51,6 @@ for x in range(0,len(p_chunks)):
 ```
 
 
-```python
-f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(10,5))
-ax1.plot(dt_chunks[5], corrected_pressure[8192:12288])
-ax1.set_title('Before Detrend')
-ax2.plot(dt_chunks[5], p_chunks[4])
-ax2.set_title('After Detrend')
-detrend_img = './images/detrend.png'
-plt.savefig(detrend_img)
-```
-
-
-![png](output_12_0.png)
-
-
-
 
 
 <img src='./images/detrend.png' />
@@ -253,7 +238,7 @@ for x in range(0,len(t_chunks)):
     final_times.append(np.mean(t_chunks[x]))
 ```
 
-### Wave Height Statistics
+### Example Visualizations
 
 The following is a graph of significant wave height:
 
