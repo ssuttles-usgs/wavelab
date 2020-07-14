@@ -33,7 +33,10 @@ corrected_date_times = sea_date_times[begin:end]
 ```
 
 
-![png](output_7_0.png)
+
+
+<img src='./images/corrected_pressure.png' />
+
 
 
 ### Calculating Water Level
@@ -50,7 +53,10 @@ unfiltered_water_level = hydrostatic_method(corrected_pressure, density="salt")
 ```
 
 
-![png](output_13_0.png)
+
+
+<img src='./images/unfiltered_wl.png' />
+
 
 
 ### Choosing a Filter
@@ -73,5 +79,8 @@ storm_tide_water_level = lowpass_filter(unfiltered_water_level, 4)
 ```
 
 
-![png](output_19_0.png)
+
+
+<img src='./images/st_wl.png' />
+
 
