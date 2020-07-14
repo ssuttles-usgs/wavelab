@@ -7,7 +7,10 @@ To begin, we take a time series of sea pressure corrected by barometric pressure
 
 
 ```python
-from wavelab.utilities.nc import get_pressure, get_air_pressure, get_time, get_datetimes
+from wavelab.utilities.nc import (get_pressure, 
+                                  get_air_pressure, 
+                                  get_time, 
+                                  get_datetimes)
 
 sea_file = '../data/NCCAR00007_1511451_sea.csv.nc'
 baro_file = '../data/NCCAR12248_9983816_air.csv.nc'
@@ -66,8 +69,8 @@ USGS defines Storm-Tide as low-pass filtered signal including frequencies of bot
 Other things to consider are:
 
 - A one-minute cutoff was used in the low-pass filter, this ensured that by 30 seconds (the beginning of wind-wave frequencies), the signal was fully attenuated.
-- The signal was filtered twice to preserve the angles (original position) of the water level time series.
-- Although adequate for data with a wid reange of sampling frequencies, this filter was optimized for 4hz data
+- The signal was filtered twice to preserve the phase angles (original position) of the water level time series.
+- Although adequate for data with a wid reange of sampling frequencies, this filter was optimized for 4hz data (adjustments were mad to prepare for edge cases of 1 minute or more sampled data.)
 
 ### Calculating Storm-Tide
 
@@ -75,7 +78,23 @@ Other things to consider are:
 ```python
 from wavelab.processing.pressure_to_depth import lowpass_filter
 
-storm_tide_water_level = lowpass_filter(unfiltered_water_level, 4)
+storm_tide_water_level = lowpass_filter(unfiltered_water_level, 4 #frequency in hz)
+```
+
+This is the longer hand version of the above:
+
+
+```python
+from scipy import signal
+
+# One minute cutoff divided by the Nyquist Frequency of 4hz
+lowcut = .016666666665 / (.5 * 4)
+
+# 4th order butterworth filter
+b, a = signal.butter(4, [lowcut], btype='lowpass')
+
+# Double filter to presever phase angles
+storm_tide_water_level = signal.filtfilt(b, a, unfiltered_water_level)
 ```
 
 
