@@ -3,12 +3,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="wavelab",
     version="0.0.1",
     author="Gregory Petrochenkov",
@@ -17,7 +17,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://code.usgs.gov/wavelab/wavelab",
-    packages=['wavelab'],
+    packages= find_packages("."),
     install_requires=['easygui',
                       'matplotlib==3.0.3',
                       'numpy',

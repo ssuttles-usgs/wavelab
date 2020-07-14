@@ -55,7 +55,7 @@ Enter the appropriate information in the fields and then press "Add File(s)".  Y
     </ul>
 </div>
 
-- <b>Remove File</b>: Revmoes the file from the list
+- <b>Remove File</b>: Removes the file from the list
 - <b>Save entries</b>: Saves data entered for use in other windows or future sessions
 - <b>Load Entries</b>: Load saved entries
 
