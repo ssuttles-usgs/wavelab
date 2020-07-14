@@ -1,21 +1,3 @@
-<style>
-
-.cust-table th {
-text-align: left;
-}
-
-.cust-table td {
-text-align: left;
-}
-
-.cust-table img {
-border: 1px solid black;
-}
-
-</style>
-
-
-
 <img src="./images/usgs.png" style=" padding-top: 26px; float: left"/>
 <img src="./images/WaveLabLogo.png" style="float: left"/>
 

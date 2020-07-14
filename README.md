@@ -1,5 +1,5 @@
 <img src="./documentation/notebooks/images/usgs.png" style="width: 100px; height: 40px; float: left"/>
-<img src="./documentation/notebooks/images/WaveLab Logo.png" style="width: 100px; height: 40px; float: left"/>
+<img src="./documentation/notebooks/images/WaveLabLogo.png" style="width: 100px; height: 40px; float: left"/>
 
 # WaveLab (wavelab)
 

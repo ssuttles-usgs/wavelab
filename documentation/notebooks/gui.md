@@ -1,84 +1,3 @@
-<style>
-
-.custom-list {
-    margin-left: 285px;
-    font-size: 14pt;
-}
-
-.custom-list li {
-    margin: 50px;
-}
-
-.custom-list li:first {
-    margin: 50px;
-    text-wieght: bold;
-    list-style-type: none;
-}
-
-.custom-list b {
-    margin-left: 30px;
-}
-
-.sea-custom-list {
-    margin-left: 550px;
-    margin-top: 0px;
-    font-size: 10pt;
-}
-
-.sea-custom-list li {
-    margin: 10px;
-}
-
-.sea-custom-list li:first {
-    margin: 50px;
-    text-weight: bold;
-    list-style-type: none;
-}
-
-.chopper-custom-list {
-    margin-left: 250px;
-    margin-top: 0px;
-    font-size: 14pt;
-}
-
-.chopper-custom-list li {
-    margin: 50px;
-}
-
-.chopper-custom-list li:first {
-    margin: 50px;
-    text-wieght: bold;
-    list-style-type: none;
-}
-
-.chopper-custom-list b {
-    margin-left: 30px;
-}
-
-
-.storm-custom-list {
-    margin-left: 520px;
-    margin-top: 0px;
-    font-size: 12pt;
-}
-
-.storm-custom-list li {
-    margin: 30px;
-}
-
-.storm-custom-list li:first {
-    margin: 50px;
-    text-weight: bold;
-    list-style-type: none;
-}
-
-.storm-custom-list b {
-    margin-left: 30px;
-}
-</style>
-
-
-
 <img src="images/usgs.png" style=" padding-top: 26px; float: left"/>
 <img src="images/WaveLabLogo.png" style="float: left"/>
 
@@ -103,7 +22,7 @@ If you are starting from the beginning you should go through each of these toolb
 
 This toolbox takes the extracted sea pressure data from the instrument and converts to netCDF format with the approriate data and metadata.  You will see the following screen when you click on "Sea GUI":
 
-<img src="images/sea_air_begin.png" style="float:left; border:2px solid black; border-bottom: 1px solid black">
+<img src="images/sea_air_begin.png" style="float:left; border:2px solid black; border-bottom: 1px solid black" />
 
 - <b>Add File(s)</b>: adds one or more files to be processed (this would be the csv or similar data files extracted from the pressure instrument of choice)
 - <b>Save Globals</b>: Save the data from the three fields above to load for a future session
@@ -114,7 +33,7 @@ This toolbox takes the extracted sea pressure data from the instrument and conve
 
 Enter the appropriate information in the fields and then press "Add File(s)".  You will see the following window:
 
-<div style="padding-top: 5px">
+<span style="padding-top: 5px">
 <img src="images/sea_gui.png" style="margin-top: 17px; float: left; width: 550px; height: 550px; border: 2px solid black" />
     <ul class="sea-custom-list" >
         <b>Fields</b>
@@ -146,7 +65,7 @@ After filling in all the fields click on "Process Files" to convert all added fi
 
 This toolbox takes the extracted barometric pressure data from the instrument and converts to netCDF format with the approriate data and metadata.  At first you will see the same screen when you click on "Sea GUI".  After filling in the fields click "Add File(s)" and then you will see the following screen:
 
-<div>
+<span>
 <img src="images/air_gui.png" style="margin-top: 5px; float: left; width: 550px; height: 400px; border: 2px solid black" />
     <ul class="sea-custom-list" >
         <b>Fields</b>
@@ -161,7 +80,7 @@ This toolbox takes the extracted barometric pressure data from the instrument an
         <li>"Sensor orifice elevation at deployment time": Tape down to sensor at deployment time</li>
         <li>"Sensor orifice elevation at retrieval time": Tape down to sensor at retrieval time</li>
     </ul>
-</div>
+</span>
 
 As with "Sea GUI", click on "Process Files" to convert all added files to barometric pressure netCDF files.  Files will be the original name with ".nc" appended to the end.
 
@@ -169,7 +88,7 @@ As with "Sea GUI", click on "Process Files" to convert all added files to barome
 
 This tool box lets a user crop bad data out of the time series of either sea pressure or batorometric pressure netCDF files created by "Sea GUI" and "Air GUI".  You will see the following screen when click on "Chopper":
 
-<div>
+<span>
 <img src="images/chopper_begin.png" style="margin-top: 0px; float: left; width: 300px; height: 400px; border: 2px solid black" />
     <ul class="chopper-custom-list" >
         <b>Steps</b>
@@ -177,7 +96,7 @@ This tool box lets a user crop bad data out of the time series of either sea pre
         <li>Choose the time zone to display the dates</li>
         <li>Select the file of interest</li>
     </ul>
-</div>
+</span>
 
 After selecting the file you will see the following screen:
 
@@ -193,7 +112,7 @@ After selecting the file you will see the following screen:
 
 This toolbox takes the netCDF files from "Sea GUI" and "Air GUI", (or respective chopped time series from "Chopper"), and calculates unfiltered water level, Storm-Tide water level, and wave statistics.  You will see the following when "Storm GUI" is clicked:
 
-<div style="padding-top: 5px">
+<span style="padding-top: 5px">
 <img src="images/storm_gui.png" style="margin-top: 17px; float: left; width: 550px; height: 550px; border: 2px solid black" />
     <ul class="storm-custom-list" >
         <b>Steps</b>
@@ -204,6 +123,6 @@ This toolbox takes the netCDF files from "Sea GUI" and "Air GUI", (or respective
         <li>Optionally choose a reference height of interest and depth of water aobve said reference height</li>
         <li>Choose an output name and click "Process files"</li>
     </ul>
-</div>
+</span>
 
 All files are going to use the output name and append a suffix to describe the file.  Consult <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/output.md">output.md</a> to get a list of the suffixes and explanation of output.
