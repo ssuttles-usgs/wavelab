@@ -144,20 +144,14 @@ lower = psd_avg_amps[4]*df/stats.chi2.ppf((1 + ci)/2.0, df)
 
 
 
-Compute the wavenumber ($k$) for each frequency ($\omega$) using the dispersion
-relation $ω2 = g ∗ k ∗ tanh(k ∗ h)$ where is the mean water depth determined for the
+Compute the wavenumber ($`k`$) for each frequency ($`\omega`$) using the dispersion
+relation $`ω2 = g ∗ k ∗ tanh(k ∗ h)`$ where is the mean water depth determined for the
 4096-point chunk, then calculate the pressure response function, (Jones &
 Monismith, 2007) using the following equation:
 
-<table class="cust-table">
-<tr>
-    <td>
-$\Huge k_{p}(z) = \frac{cosh(z * k)}{cosh(h * k)}$ <br /><br />
+$`\Large k_{p}(z) = \frac{cosh(z * k)}{cosh(h * k)}`$ <br /><br />
 Where: <br />
-$z$ = Height of the pressure transducer off the sea floor
-    </td>
-    </tr>
-    </table>
+$`z`$ = Height of the pressure transducer off the sea floor
 
 
 ```python
@@ -170,19 +164,14 @@ k_vals = [omega_to_k(freqs * 2.0 * np.pi, np.repeat(x,len(freqs))) for x in wate
 kz_vals = [np.array(np.cosh(i*k)/np.cosh(w*k)) for w,k,i in zip(water_depth,k_vals,instrument_height)]
 ```
 
-Use $k_{p}^{2}$ to change the pressure PSD to a water-level PSD using the following
+Use $`k_{p}^{2}`$ to change the pressure PSD to a water-level PSD using the following
 equation:
 
-<table class="cust-table">
-<tr>
-    <td>
-$\Huge \eta = \frac{p}{k_{p}^{2}}$  <b>(Jones & Monismith, 2007)</b><br /><br />
+
+$`\Large \eta = \frac{p}{k_{p}^{2}}`$  <b>(Jones & Monismith, 2007)</b><br /><br />
 Where: <br />
-$p$ = Pressure PSD<br />
-$\eta$ = Water Level PSD
-    </td>
-    </tr>
-    </table>
+$`p`$ = Pressure PSD<br />
+$`\eta`$ = Water Level PSD
 
 
 ```python
@@ -207,17 +196,19 @@ wl_down = [z/kz**2 for z, kz in zip(lower_psd, kz_vals)]
 Calculate spectral moments by using the trapezoidal rule to integrate over the
 PSD using the following equation (Carter, 1982):
 
-<table class="cust-table">
-<tr>
-    <td style="width: 400px;">
-$\Huge m_{n} = \int_{0}^{\inf}f^{n}E(f)df$<br /><br />
+$`\Large m_{n} = \int_{0}^{\inf}f^{n}E(f)df`$<br /><br />
 Where: <br />
-$m_{n}$ = The nth spectral moment
-    </td>
-    </tr>
-    </table>
+$`m_{n}`$ = The nth spectral moment
 
 Calculate statistics based on the water level PSD.  The follow ing is a table of some statistics that are computed (Vrabel & Rendon, 2013):
+
+| Statistic | Equation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Explanation |
+| ----------------------- | --- | ------------------------ |
+| Significant Wave Height (H1/3) | $`4 * \sqrt{m_{0}}`$ | Height of the top one third of waves |
+| Top Ten Percent Wave Height (H 10%)) | $`5.091 * \sqrt{m_{0}}`$ | Height of the top ten percent of waves |
+| Top One Percent Wave Height (H 1%) | $`6.672 * \sqrt{m_{0}}`$ | Height of the top one percent of waves |
+| Average Zero Up Crossing Period | $`\sqrt{\frac{m_{0}}{m_{2}}}$ | Length of average wave period that crosses the mean sea surface |
+| Average Wave Period | $`\frac{m_{0}}{m_{1}}`$ | Length of average wave period |
 
 Quick note:  For confidence intervals around significant wave height, we also need to account for the total level accuracy of the two instruments used to collect the data.  <b>This is not the same as total error bars, the USGS has done through testing at our Hyrdrologic Instrumentation Facility but more in depth testing is necessary to release total error bars for our instruments.</b>
 

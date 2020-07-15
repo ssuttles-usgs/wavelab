@@ -46,6 +46,21 @@ corrected_date_times = sea_date_times[begin:end]
 
 For assessing either storm surge or Storm-Tide, the choices are either Linear Wave Theory or the Hydrostatic method.   This software was developed in the context of our Storm-Tide monitoring program. The instruments that are depolyed are either pre-bracketed, on the side of piers for example, or installed ad-hoc to systematically capture the most useful data possible.  The sites are typically are not very deep in the associated water-bodies, therefore the most accurate method to use would be the Hydrostatic method.  The equation is straight-forward as follows:
 
+$`\Huge \frac{\psi}{\rho * \mu}`$ <br /><br />
+Where: <br />
+$`\psi`$ = sea pressure in decibars (dbars)<br />
+$`\rho`$ = water density in parts per a million (ppm)<br />
+$`\mu`$ = gravity in meters per a second squared ($`ms^{2}`$)
+
+There are three values for density that are relevant to our process:
+<ul>
+    <li>Salt Water: 1027 ppm</li>
+    <li>Brackish Water: 1015 ppm</li>
+    <li>Fresh Water: 1000 ppm</li>
+</ul>
+<br />
+*In this particular example the site is comprised of salt water.
+
 Then calculate the water level for all frequencies (As you will see there is nearly a one to one relationship between decibar and meter units):
 
 
