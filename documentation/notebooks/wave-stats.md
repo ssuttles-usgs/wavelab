@@ -207,7 +207,7 @@ Calculate statistics based on the water level PSD.  The follow ing is a table of
 | Significant Wave Height (H1/3) | $`4 * \sqrt{m_{0}}`$ | Height of the top one third of waves |
 | Top Ten Percent Wave Height (H 10%)) | $`5.091 * \sqrt{m_{0}}`$ | Height of the top ten percent of waves |
 | Top One Percent Wave Height (H 1%) | $`6.672 * \sqrt{m_{0}}`$ | Height of the top one percent of waves |
-| Average Zero Up Crossing Period | $`\sqrt{\frac{m_{0}}{m_{2}}}$ | Length of average wave period that crosses the mean sea surface |
+| Average Zero Up Crossing Period | $`\sqrt{\frac{m_{0}}{m_{2}}}`$ | Length of average wave period that crosses the mean sea surface |
 | Average Wave Period | $`\frac{m_{0}}{m_{1}}`$ | Length of average wave period |
 
 Quick note:  For confidence intervals around significant wave height, we also need to account for the total level accuracy of the two instruments used to collect the data.  <b>This is not the same as total error bars, the USGS has done through testing at our Hyrdrologic Instrumentation Facility but more in depth testing is necessary to release total error bars for our instruments.</b>
