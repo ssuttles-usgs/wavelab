@@ -118,3 +118,15 @@ storm_tide_water_level = signal.filtfilt(b, a, unfiltered_water_level)
 <img src='./images/st_wl.png' />
 
 
+
+## References (filtering)
+
+Emery, William J. and Richard E. Thomson (2014), Data Analysis Methods in Physical Oceanography, 617-619.
+
+Hamid, S. and Alan V. Oppenheim and Alan S. Willsky (1997), Signals and Systems.
+
+scipy.signal.butter (2014), https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.signal.butter.html
+
+scipy.signal.buttord (2014), https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.signal.buttord.html#scipy.signal.buttord
+
+Oliphant, Travis, scipy.signal.filtfilt (2002), https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.signal.filtfilt.html

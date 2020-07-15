@@ -257,6 +257,8 @@ Carter D. J. T. (1982). Prediction of Wave Height and Period For a Constant Wind
 Earle, Marshall D. (1996). Nondirectional and Directional Wave Data Analysis Procedures. National <br />
 &nbsp;&nbsp;Data Buoy Center.
 
+Emery, William J. and Richard E. Thomson (2014), Data Analysis Methods in Physical Oceanography.
+
 Jones, N. and S. Monismith. (2007). Measuring Short Period Wind Waves in a Tidally Forced <br />
 &nbsp;&nbsp;Environment with a Subsurface Pressure Gauge. Limnology and Oceanography: Methods, 5, 317-327.
 
