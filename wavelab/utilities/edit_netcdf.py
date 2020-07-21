@@ -131,6 +131,12 @@ class NetCDFWriter(object):
             vstore["instrument_model"] = "500"
             vstore["instrument_serial_number"] = self.instrument_serial
             vstore["instrument_level_accuracy_in_meters"] = 0.0106679996
+        elif inst == "RBRSolo":
+            vstore["instrument_manufacturer"] = "RBR"
+            vstore["instrument_make"] = "RBR Solo"
+            vstore["instrument_model"] = "Solo"
+            vstore["instrument_serial_number"] = self.instrument_serial
+            vstore["instrument_level_accuracy_in_meters"] = 0.05
         else:
             vstore["instrument_manufacturer"] = "Measurement Specialties"
             vstore["instrument_make"] = "TruBlue"

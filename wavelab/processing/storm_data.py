@@ -58,8 +58,8 @@ class StormData(object):
                 error = 0.0106679996
             if instrument == 'Hobo':
                 error = 0.021335999
-
-        return error
+            if instrument == 'RBR Solo':
+                error = 0.05
 
     @staticmethod
     def derive_wind_speed(u, v):
