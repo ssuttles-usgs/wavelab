@@ -61,6 +61,8 @@ class StormData(object):
             if instrument == 'RBR Solo':
                 error = 0.05
 
+        return error
+
     @staticmethod
     def derive_wind_speed(u, v):
         return [(np.sqrt(x**2 + y**2)) *

@@ -238,7 +238,10 @@ class RBRSolo(edit_netcdf.NetCDFWriter):
                          header=None, engine='c', usecols=[0, 1, 2], sep=',')
         
 #         self.datestart = uc.datestring_to_ms('%s %s' % (df[0][0], df[1][0]), self.date_format_string)
-        self.datestart = uc.datestring_to_ms('%s' % (df[0][0]), self.date_format_string)
+        self.datestart = uc.datestring_to_ms('%s' % (df[0][0]),
+                                             self.date_format_string,
+                                             self.tz_info,
+                                             self.daylight_savings)
         self.utc_millisecond_data = uc.generate_ms(self.datestart, df.shape[0] - 1,
                                                     self.frequency)
         self.pressure_data = np.array([x for x in df[1][:-1]])

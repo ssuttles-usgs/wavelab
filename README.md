@@ -8,7 +8,7 @@ This software calculates Storm-Tide water level and wave statistics (where appli
 
 ### Use of Executable
 
-For windows, download distibution.zip, unzip, and then double click WaveLab.exe.  the program may take a minute or more to load.
+For windows, download WaveLab.zip, unzip, and then double click WaveLab.exe.  the program may take a minute or more to load.
 
 ### Code Installation
 

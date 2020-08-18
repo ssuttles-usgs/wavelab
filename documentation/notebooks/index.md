@@ -1,7 +1,7 @@
 <img src="./images/usgs.png" style=" padding-top: 26px; float: left"/>
 <img src="./images/WaveLabLogo.png" style="float: left"/>
 
-# WaveLab: Storm-Tide and Wave Statisitcs Processing Toolbox
+# WaveLab: Storm-Tide and Wave Statistics Processing Toolbox
 
 #### Documentation Pages
 

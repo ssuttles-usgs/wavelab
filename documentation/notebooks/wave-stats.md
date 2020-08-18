@@ -6,10 +6,10 @@
 We make the following assumptions when calculating wave statistics:
 
 1. Linear Wave Theory is applicable.
-2. Mean water depth and waves are sufficiently constant over each 17 minute time series chunk (4096 poins of data collected at 4 Hz) in order to yield meaningful wave statistics.
+2. Mean water depth and waves are sufficiently constant over each 17 minute time series chunk (4096 points of data collected at 4 Hz) in order to yield meaningful wave statistics.
 
 Split the corrected sea pressure time series into chunks of 4096 points
-(approximatley 17 minutes of 4 Hz data) with each chunk overlapping the preceding chunk
+(approximately 17 minutes of 4 Hz data) with each chunk overlapping the preceding chunk
 by 2048 points.
 
 
@@ -35,7 +35,7 @@ while end_index < len(corrected_pressure):
 og_pchunks = [x for x in p_chunks]
 ```
 
-### Calculating Pessure and Water Level Spectra
+### Calculating Pressure and Water Level Spectra
 
 Remove the linear trend from each pressure time series chunk. The time series
 of a single 4096-point chunk with the trend removed is plotted below . We plot the 5th
@@ -61,7 +61,7 @@ Calculate the power spectral density of each pressure chunk:
 
 
 ```python
-#parameters are number of samples in segment and sampling time step inseconds
+#parameters are number of samples in segment and sampling time step in seconds
 ogfreqs = np.fft.rfftfreq(4096,d=1/4.0)
 ogfreqs = ogfreqs[1:]
 psd_amps = []
@@ -82,7 +82,7 @@ psd_amps = np.array(psd_amps)
 
 Band average every 16 bands and center them on the average of each band's
 frequencies in order to increase the degrees of freedom and narrow the confidence
-intervals of the spectral estim ates. Then, filter all energy that is greater than 1hz.
+intervals of the spectral estimates. Then, filter all energy that is greater than 1hz.
 
 
 ```python
@@ -145,7 +145,7 @@ lower = psd_avg_amps[4]*df/stats.chi2.ppf((1 + ci)/2.0, df)
 
 
 Compute the wavenumber ($`k`$) for each frequency ($`\omega`$) using the dispersion
-relation $`ω2 = g ∗ k ∗ tanh(k ∗ h)`$ where is the mean water depth determined for the
+relation $`ω2 = g ∗ k ∗ tanh(k ∗ h)`$ where h is the mean water depth determined for the
 4096-point chunk, then calculate the pressure response function, (Jones &
 Monismith, 2007) using the following equation:
 
@@ -200,21 +200,21 @@ $`\Large m_{n} = \int_{0}^{\inf}f^{n}E(f)df`$<br /><br />
 Where: <br />
 $`m_{n}`$ = The nth spectral moment
 
-Calculate statistics based on the water level PSD.  The follow ing is a table of some statistics that are computed (Vrabel & Rendon, 2013):
+Calculate statistics based on the water level PSD.  The following is a table of some statistics that are computed (Vrabel & Rendon, 2013):
 
 | Statistic | Equation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Explanation |
 | ----------------------- | --- | ------------------------ |
 | Significant Wave Height (H1/3) | $`4 * \sqrt{m_{0}}`$ | Height of the top one third of waves |
 | Top Ten Percent Wave Height (H 10%)) | $`5.091 * \sqrt{m_{0}}`$ | Height of the top ten percent of waves |
 | Top One Percent Wave Height (H 1%) | $`6.672 * \sqrt{m_{0}}`$ | Height of the top one percent of waves |
-| Average Zero Up Crossing Period | $`\sqrt{\frac{m_{0}}{m_{2}}}`$ | Length of average wave period that crosses the mean sea surface |
+| Average Zero Up-crossing Period | $`\sqrt{\frac{m_{0}}{m_{2}}}`$ | Length of average wave period that crosses the mean sea surface |
 | Average Wave Period | $`\frac{m_{0}}{m_{1}}`$ | Length of average wave period |
 
-Quick note:  For confidence intervals around significant wave height, we also need to account for the total level accuracy of the two instruments used to collect the data.  <b>This is not the same as total error bars, the USGS has done through testing at our Hyrdrologic Instrumentation Facility but more in depth testing is necessary to release total error bars for our instruments.</b>
+Quick note:  For confidence intervals around significant wave height, we also need to account for the total level accuracy of the two instruments used to collect the data.  <b>This is not the same as total error bars, the USGS has done through testing at our <a href="https://water.usgs.gov/hif/">Hyrdrologic Instrumentation Facility</a> but more in depth testing is necessary to release total error bars for our instruments.</b>
 
 
 ```python
-# Calculate Significant Wave Height and Average Zero Upcrossing Period
+# Calculate Significant Wave Height and Average Zero Up-crossing Period
 h13, tavg, h13_up, h13_down = [], [], [], []
 
 # Account for confidence intervals computed earlier as well as combined level accuracy of both deployed instruments
@@ -264,9 +264,14 @@ Jones, N. and S. Monismith. (2007). Measuring Short Period Wind Waves in a Tidal
 
 SciPy (0.17.1) [Software]. (2016). SciPy, scipy.signal.welch, 1. http://www.scipy.org
     
-Smith J. M. (2002). "Wave Pressure Gauge Analysis w ith Current". Journal of Waterway, Port, <br />
+Smith J. M. (2002). "Wave Pressure Gauge Analysis with Current". Journal of Waterway, Port, <br />
 &nbsp;&nbsp;Coastal, and Ocean Engineering, Novemeber/Decemeber 2002, 271-275. <br />
 &nbsp;&nbsp;doi:10.10161/(ASCE)0733-950X(2002)128:6(271)
         
-Vrabel, J. and S. Rendon. (2013). Storm Surge, Unpublished Softw are Routine. United States <br />
+Vrabel, J. and S. Rendon. (2013). Storm Surge, Unpublished Software Routine. United States <br />
 &nbsp;&nbsp;Geological Survey, personal communication.
+
+
+```python
+
+```

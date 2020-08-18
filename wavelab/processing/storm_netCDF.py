@@ -205,7 +205,8 @@ class Storm_netCDF(object):
                                 'summary',
                                 'This file contains time, frequency, power spectral density, and wave statistics.'
                                 '  For both wave heights and the power spectral density, the 90% confidence intervals'
-                                ' were derived. Documentation can be found at insert repo name here.')
+                                ' were derived. Documentation can be found at '
+                                'https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/index.md.')
 
         nc.set_global_attribute(out_fname2,
                                 'combined_instrument_accuracy_in_meters+-',

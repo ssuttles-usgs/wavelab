@@ -13139,7 +13139,7 @@ border: 1px solid black;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">wavelab.utilities.nc</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_pressure</span><span class="p">,</span> 
@@ -13183,7 +13183,7 @@ border: 1px solid black;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[73]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -13207,7 +13207,7 @@ border: 1px solid black;
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For assessing either storm surge or Storm-Tide, the choices are either Linear Wave Theory or the Hydrostatic method.   This software was developed in the context of our Storm-Tide monitoring program. The instruments that are depolyed are either pre-bracketed, on the side of piers for example, or installed ad-hoc to systematically capture the most useful data possible.  The sites are typically are not very deep in the associated water-bodies, therefore the most accurate method to use would be the Hydrostatic method.  The equation is straight-forward as follows:</p>
+<p>For assessing either storm surge or Storm-Tide, the choices are either Linear Wave Theory or the Hydrostatic method.   This software was developed in the context of our Storm-Tide monitoring program. The instruments that are deployed are either pre-bracketed, on the side of piers for example, or installed ad-hoc to systematically capture the most useful data possible.  The sites are typically are not very deep in the associated water-bodies, therefore the most accurate method to use would be the Hydrostatic method.  The equation is straight-forward as follows:</p>
 
 </div>
 </div>
@@ -13242,7 +13242,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">wavelab.processing.pressure_to_depth</span> <span class="kn">import</span> <span class="n">hydrostatic_method</span>
@@ -13263,7 +13263,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[76]:</div>
+    <div class="prompt output_prompt">Out[34]:</div>
 
 
 
@@ -13287,7 +13287,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge.  There are many such filters to accomplish theis low-pass including USGS PL33 and Godin which use a kernel to attenuate the high frequencies.  This software euses a Butterworth filter which attenuates in frequency space.  It is desireable because of the minimized edge effects and steep decay in attenuation.  One of the parameters of the filter is an order which increases the steepness of the decay, (affecting less signal), however edge effects can occur and best judgement balancing the order must be used.  The best practice is to use an even number for the order of the filter because mathematicaly it is easier to resolve in frequncy space. After assessing performance of many orders a 4th order filter was chosen.</p>
+<p>USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge. There are many such filters to accomplish this low-pass including USGS PL33 and Godin which use a kernel to attenuate the high frequencies. This software uses a Butterworth filter which attenuates in frequency space. It is desirable because of the minimized edge effects and steep decay in attenuation. One of the parameters of the filter is an order which increases the steepness of the decay, (affecting less signal), however edge effects can occur and best judgement balancing the order must be used. The best practice is to use an even number for the order of the filter because mathematically it is easier to resolve in frequency space. After assessing performance of many orders, a 4th order filter was chosen.</p>
 
 </div>
 </div>
@@ -13299,7 +13299,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 <ul>
 <li>A one-minute cutoff was used in the low-pass filter, this ensured that by 30 seconds (the beginning of wind-wave frequencies), the signal was fully attenuated.</li>
 <li>The signal was filtered twice to preserve the phase angles (original position) of the water level time series.</li>
-<li>Although adequate for data with a wid reange of sampling frequencies, this filter was optimized for 4hz data (adjustments were mad to prepare for edge cases of 1 minute or more sampled data.)</li>
+<li>Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data.)</li>
 </ul>
 
 </div>
@@ -13314,12 +13314,12 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">wavelab.processing.pressure_to_depth</span> <span class="kn">import</span> <span class="n">lowpass_filter</span>
 
-<span class="n">storm_tide_water_level</span> <span class="o">=</span> <span class="n">lowpass_filter</span><span class="p">(</span><span class="n">unfiltered_water_level</span><span class="p">,</span> <span class="mi">4</span> <span class="c1">#frequency in hz)</span>
+<span class="n">storm_tide_water_level</span> <span class="o">=</span> <span class="n">lowpass_filter</span><span class="p">(</span><span class="n">unfiltered_water_level</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">#frequency in hz</span>
 </pre></div>
 
     </div>
@@ -13337,7 +13337,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
@@ -13348,7 +13348,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 <span class="c1"># 4th order butterworth filter</span>
 <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="n">lowcut</span><span class="p">],</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;lowpass&#39;</span><span class="p">)</span>
 
-<span class="c1"># Double filter to presever phase angles</span>
+<span class="c1"># Double filter to preserve phase angles</span>
 <span class="n">storm_tide_water_level</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">unfiltered_water_level</span><span class="p">)</span>
 </pre></div>
 
@@ -13365,7 +13365,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[79]:</div>
+    <div class="prompt output_prompt">Out[38]:</div>
 
 
 

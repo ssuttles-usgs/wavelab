@@ -44,7 +44,7 @@ corrected_date_times = sea_date_times[begin:end]
 
 ### Calculating Water Level
 
-For assessing either storm surge or Storm-Tide, the choices are either Linear Wave Theory or the Hydrostatic method.   This software was developed in the context of our Storm-Tide monitoring program. The instruments that are depolyed are either pre-bracketed, on the side of piers for example, or installed ad-hoc to systematically capture the most useful data possible.  The sites are typically are not very deep in the associated water-bodies, therefore the most accurate method to use would be the Hydrostatic method.  The equation is straight-forward as follows:
+For assessing either storm surge or Storm-Tide, the choices are either Linear Wave Theory or the Hydrostatic method.   This software was developed in the context of our Storm-Tide monitoring program. The instruments that are deployed are either pre-bracketed, on the side of piers for example, or installed ad-hoc to systematically capture the most useful data possible.  The sites are typically are not very deep in the associated water-bodies, therefore the most accurate method to use would be the Hydrostatic method.  The equation is straight-forward as follows:
 
 $`\Huge \frac{\psi}{\rho * \mu}`$ <br /><br />
 Where: <br />
@@ -79,13 +79,13 @@ unfiltered_water_level = hydrostatic_method(corrected_pressure, density="salt")
 
 ### Choosing a Filter
 
-USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge.  There are many such filters to accomplish theis low-pass including USGS PL33 and Godin which use a kernel to attenuate the high frequencies.  This software euses a Butterworth filter which attenuates in frequency space.  It is desireable because of the minimized edge effects and steep decay in attenuation.  One of the parameters of the filter is an order which increases the steepness of the decay, (affecting less signal), however edge effects can occur and best judgement balancing the order must be used.  The best practice is to use an even number for the order of the filter because mathematicaly it is easier to resolve in frequncy space. After assessing performance of many orders a 4th order filter was chosen.
+USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge. There are many such filters to accomplish this low-pass including USGS PL33 and Godin which use a kernel to attenuate the high frequencies. This software uses a Butterworth filter which attenuates in frequency space. It is desirable because of the minimized edge effects and steep decay in attenuation. One of the parameters of the filter is an order which increases the steepness of the decay, (affecting less signal), however edge effects can occur and best judgement balancing the order must be used. The best practice is to use an even number for the order of the filter because mathematically it is easier to resolve in frequency space. After assessing performance of many orders, a 4th order filter was chosen.
 
 Other things to consider are:
 
-- A one-minute cutoff was used in the low-pass filter, this ensured that by 30 seconds (the beginning of wind-wave frequencies), the signal was fully attenuated.
-- The signal was filtered twice to preserve the phase angles (original position) of the water level time series.
-- Although adequate for data with a wid reange of sampling frequencies, this filter was optimized for 4hz data (adjustments were mad to prepare for edge cases of 1 minute or more sampled data.)
+-	A one-minute cutoff was used in the low-pass filter, this ensured that by 30 seconds (the beginning of wind-wave frequencies), the signal was fully attenuated.
+-	The signal was filtered twice to preserve the phase angles (original position) of the water level time series.
+-	Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data.)
 
 ### Calculating Storm-Tide
 
@@ -93,7 +93,7 @@ Other things to consider are:
 ```python
 from wavelab.processing.pressure_to_depth import lowpass_filter
 
-storm_tide_water_level = lowpass_filter(unfiltered_water_level, 4 #frequency in hz)
+storm_tide_water_level = lowpass_filter(unfiltered_water_level, 4) #frequency in hz
 ```
 
 This is the longer hand version of the above:
@@ -108,7 +108,7 @@ lowcut = .016666666665 / (.5 * 4)
 # 4th order butterworth filter
 b, a = signal.butter(4, [lowcut], btype='lowpass')
 
-# Double filter to presever phase angles
+# Double filter to preserve phase angles
 storm_tide_water_level = signal.filtfilt(b, a, unfiltered_water_level)
 ```
 

@@ -13135,7 +13135,7 @@ border: 1px solid black;
 <p>We make the following assumptions when calculating wave statistics:</p>
 <ol>
 <li>Linear Wave Theory is applicable.</li>
-<li>Mean water depth and waves are sufficiently constant over each 17 minute time series chunk (4096 poins of data collected at 4 Hz) in order to yield meaningful wave statistics.</li>
+<li>Mean water depth and waves are sufficiently constant over each 17 minute time series chunk (4096 points of data collected at 4 Hz) in order to yield meaningful wave statistics.</li>
 </ol>
 
 </div>
@@ -13145,7 +13145,7 @@ border: 1px solid black;
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Split the corrected sea pressure time series into chunks of 4096 points
-(approximatley 17 minutes of 4 Hz data) with each chunk overlapping the preceding chunk
+(approximately 17 minutes of 4 Hz data) with each chunk overlapping the preceding chunk
 by 2048 points.</p>
 
 </div>
@@ -13153,7 +13153,7 @@ by 2048 points.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">step</span> <span class="o">=</span> <span class="mi">2048</span>
@@ -13185,7 +13185,7 @@ by 2048 points.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Calculating-Pessure-and-Water-Level-Spectra">Calculating Pessure and Water Level Spectra<a class="anchor-link" href="#Calculating-Pessure-and-Water-Level-Spectra">&#182;</a></h3>
+<h3 id="Calculating-Pressure-and-Water-Level-Spectra">Calculating Pressure and Water Level Spectra<a class="anchor-link" href="#Calculating-Pressure-and-Water-Level-Spectra">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13202,7 +13202,7 @@ purposes throughout the remainder of this section:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">p_chunks</span><span class="p">)):</span>
@@ -13224,7 +13224,7 @@ purposes throughout the remainder of this section:</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[150]:</div>
+    <div class="prompt output_prompt">Out[57]:</div>
 
 
 
@@ -13248,10 +13248,10 @@ purposes throughout the remainder of this section:</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[151]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#parameters are number of samples in segment and sampling time step inseconds</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#parameters are number of samples in segment and sampling time step in seconds</span>
 <span class="n">ogfreqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfftfreq</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">4.0</span><span class="p">)</span>
 <span class="n">ogfreqs</span> <span class="o">=</span> <span class="n">ogfreqs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">psd_amps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -13276,7 +13276,7 @@ purposes throughout the remainder of this section:</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[153]:</div>
+    <div class="prompt output_prompt">Out[60]:</div>
 
 
 
@@ -13295,14 +13295,14 @@ purposes throughout the remainder of this section:</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Band average every 16 bands and center them on the average of each band's
 frequencies in order to increase the degrees of freedom and narrow the confidence
-intervals of the spectral estim ates. Then, filter all energy that is greater than 1hz.</p>
+intervals of the spectral estimates. Then, filter all energy that is greater than 1hz.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[154]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_freqs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -13348,7 +13348,7 @@ intervals of the spectral estim ates. Then, filter all energy that is greater th
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[156]:</div>
+    <div class="prompt output_prompt">Out[63]:</div>
 
 
 
@@ -13373,7 +13373,7 @@ a graph of the preceding spectral estimate with a higher and lower bound of conf
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
@@ -13398,7 +13398,7 @@ a graph of the preceding spectral estimate with a higher and lower bound of conf
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[159]:</div>
+    <div class="prompt output_prompt">Out[66]:</div>
 
 
 
@@ -13416,7 +13416,7 @@ a graph of the preceding spectral estimate with a higher and lower bound of conf
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Compute the wavenumber ($k$) for each frequency ($\omega$) using the dispersion
-relation $ω2 = g ∗ k ∗ tanh(k ∗ h)$ where is the mean water depth determined for the
+relation $ω2 = g ∗ k ∗ tanh(k ∗ h)$ where h is the mean water depth determined for the
 4096-point chunk, then calculate the pressure response function, (Jones &amp;
 Monismith, 2007) using the following equation:</p>
 
@@ -13435,7 +13435,7 @@ $z$ = Height of the pressure transducer off the sea floor</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[160]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#----------------Calculate k_p(z) for the 4096-point chunk data</span>
@@ -13474,7 +13474,7 @@ $\eta$ = Water Level PSD</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[161]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">wavelab.processing.wave_stats</span> <span class="kn">import</span> <span class="n">Stats</span>
@@ -13527,7 +13527,7 @@ $m_{n}$ = The nth spectral moment</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Calculate statistics based on the water level PSD.  The follow ing is a table of some statistics that are computed (Vrabel &amp; Rendon, 2013):</p>
+<p>Calculate statistics based on the water level PSD.  The following is a table of some statistics that are computed (Vrabel &amp; Rendon, 2013):</p>
 
 </div>
 </div>
@@ -13559,7 +13559,7 @@ $m_{n}$ = The nth spectral moment</p>
 <td>Height of the top one percent of waves</td>
 </tr>
 <tr>
-<td>Average Zero Up Crossing Period</td>
+<td>Average Zero Up-crossing Period</td>
 <td>$\sqrt{\frac{m_{0}}{m_{2}}}$</td>
 <td>Length of average wave period that crosses the mean sea surface</td>
 </tr>
@@ -13577,17 +13577,17 @@ $m_{n}$ = The nth spectral moment</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Quick note:  For confidence intervals around significant wave height, we also need to account for the total level accuracy of the two instruments used to collect the data.  <b>This is not the same as total error bars, the USGS has done through testing at our Hyrdrologic Instrumentation Facility but more in depth testing is necessary to release total error bars for our instruments.</b></p>
+<p>Quick note:  For confidence intervals around significant wave height, we also need to account for the total level accuracy of the two instruments used to collect the data.  <b>This is not the same as total error bars, the USGS has done through testing at our <a href="https://water.usgs.gov/hif/">Hyrdrologic Instrumentation Facility</a> but more in depth testing is necessary to release total error bars for our instruments.</b></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[162]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate Significant Wave Height and Average Zero Upcrossing Period</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate Significant Wave Height and Average Zero Up-crossing Period</span>
 <span class="n">h13</span><span class="p">,</span> <span class="n">tavg</span><span class="p">,</span> <span class="n">h13_up</span><span class="p">,</span> <span class="n">h13_down</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
 
 <span class="c1"># Account for confidence intervals computed earlier as well as combined level accuracy of both deployed instruments</span>
@@ -13630,7 +13630,7 @@ $m_{n}$ = The nth spectral moment</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[167]:</div>
+    <div class="prompt output_prompt">Out[71]:</div>
 
 
 
@@ -13660,7 +13660,7 @@ $m_{n}$ = The nth spectral moment</p>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[166]:</div>
+    <div class="prompt output_prompt">Out[73]:</div>
 
 
 
@@ -13685,14 +13685,27 @@ $m_{n}$ = The nth spectral moment</p>
 <p>Jones, N. and S. Monismith. (2007). Measuring Short Period Wind Waves in a Tidally Forced <br />
 &nbsp;&nbsp;Environment with a Subsurface Pressure Gauge. Limnology and Oceanography: Methods, 5, 317-327.</p>
 <p>SciPy (0.17.1) [Software]. (2016). SciPy, scipy.signal.welch, 1. <a href="http://www.scipy.org">http://www.scipy.org</a></p>
-<p>Smith J. M. (2002). "Wave Pressure Gauge Analysis w ith Current". Journal of Waterway, Port, <br />
+<p>Smith J. M. (2002). "Wave Pressure Gauge Analysis with Current". Journal of Waterway, Port, <br />
 &nbsp;&nbsp;Coastal, and Ocean Engineering, Novemeber/Decemeber 2002, 271-275. <br />
 &nbsp;&nbsp;doi:10.10161/(ASCE)0733-950X(2002)128:6(271)</p>
-<p>Vrabel, J. and S. Rendon. (2013). Storm Surge, Unpublished Softw are Routine. United States <br />
+<p>Vrabel, J. and S. Rendon. (2013). Storm Surge, Unpublished Software Routine. United States <br />
 &nbsp;&nbsp;Geological Survey, personal communication.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
