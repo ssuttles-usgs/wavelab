@@ -145,9 +145,9 @@ class StormCSV(object):
         
         time_column = self.time_column_format(so)
 
-        excel_file = pd.DataFrame({time_column: format_time[::4],
-                                  format_air_pressure_label: format_air_pressure[::4],
-                                  format_surge_label : format_surge_water_level[::4],
+        excel_file = pd.DataFrame({time_column: format_time,
+                                  format_air_pressure_label: format_air_pressure,
+                                  format_surge_label : format_surge_water_level,
                                   })
         
         out_file_name = ''.join([so.output_fname,'_stormtide','.csv'])

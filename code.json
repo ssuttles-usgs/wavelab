@@ -1,6 +1,6 @@
 [
   {
-    "name": "wavelab",
+    "name": "WaveLab",
     "organization": "U.S. Geological Survey",
     "description": "Storm-tide water level and wave statistics processing toolbox.",
     "version": "0.1",
@@ -16,7 +16,7 @@
     },
 
     "homepageURL": "https://code.usgs.gov/wavelab/wavelab",
-    "downloadURL": "https://code.usgs.gov/gft/wavelab/wavelab/-/archive/master/wavelab-master.zip",
+    "downloadURL": "https://code.usgs.gov/wavelab/wavelab/-/archive/master/wavelab-master.zip",
     "disclaimerURL": "https://code.usgs.gov/wavelab/wavelab/-/blob/master/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/wavelab/wavelab.git",
     "vcs": "git",
@@ -40,7 +40,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2020-07-11"
+      "metadataLastUpdated": "2020-09-04"
     }
   }
 ]

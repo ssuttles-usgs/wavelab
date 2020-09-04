@@ -88,7 +88,13 @@ Petrochenkov G (2020). WaveLab: Storm-Tide water level and wave statistics proce
   url = {https://code.usgs.gov/wavelab/wavelab},
 }</code>
 
+##### DOI
+https://doi.org/10.5066/P9M6YLMN
+
+##### IPDS Number
+IP-121859
+
 ##### Authors
 Gregory Petrochenkov. Author, maintainer. <br />
 Harry Jenter. Contributor. <br />
-Chriz Mazzullo. Contributor.
+Christopher Mazzullo. Contributor.

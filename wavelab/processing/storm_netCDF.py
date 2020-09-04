@@ -152,7 +152,7 @@ class Storm_netCDF(object):
 
         out_fname2 = ''.join([so.output_fname,'_stormtide','.nc'])
         
-        step = 4
+        step = 1
         nc.custom_copy(so.sea_fname, out_fname2, so.begin, so.end, mode ='storm_surge', step=step)
         
         self.common_attributes(so, out_fname2, step)

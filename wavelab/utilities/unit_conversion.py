@@ -44,8 +44,8 @@ FILL_VALUE = -1e10
 
 def get_time_duration(ms_difference):
     days = int(ms_difference / 1000 / 60 / 60 / 24)
-    hours =  int((ms_difference / 1000 / 60 / 60) % 24)
-    minutes =  int((ms_difference / 1000 / 60)  % 60)
+    hours = int((ms_difference / 1000 / 60 / 60) % 24)
+    minutes = int((ms_difference / 1000 / 60) % 60)
     seconds = (ms_difference / 1000) % 60
     data_duration_time = "P%sDT%sH%sM%sS" % (days, hours, minutes, seconds)
     return data_duration_time
