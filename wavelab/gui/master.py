@@ -31,6 +31,7 @@ from tkinter import (Tk,
                      Toplevel,
                      DISABLED,
                      BOTH)
+import os
 from tkinter.constants import W, E, N
 from PIL import Image, ImageTk
 import gc
@@ -478,25 +479,25 @@ if __name__ == '__main__':
 
         def sea_gui(self):
             self.root1 = Toplevel(self.root)
-            self.root1.iconbitmap(get_image('wavelab_icon.ico'))
+            if os.name == 'nt': self.root1.iconbitmap(get_image('wavelab_icon.ico'))
             gui1 = script1.SeaPressureGUI(self.root1, air_pressure=False)
             self.root1.mainloop()
 
         def air_gui(self):
             self.root2 = Toplevel(self.root)
-            self.root2.iconbitmap(get_image('wavelab_icon.ico'))
+            if os.name == 'nt': self.root2.iconbitmap(get_image('wavelab_icon.ico'))
             gui2 = script1_air.BaroPressureGUI(self.root2)
             self.root2.mainloop()
 
         def chopper(self):
             self.root3 = Toplevel(self.root)
-            self.root3.iconbitmap(get_image('wavelab_icon.ico'))
+            if os.name == 'nt': self.root3.iconbitmap(get_image('wavelab_icon.ico'))
             gui3 = chopper.Chopper(self.root3)
             self.root3.mainloop()
 
         def storm_surge(self):
             self.root5 = Toplevel(self.root)
-            self.root5.iconbitmap(get_image('wavelab_icon.ico'))
+            if os.name == 'nt': self.root5.iconbitmap(get_image('wavelab_icon.ico'))
             gui5 = StormGui(self.root5)
             self.root5.mainloop()
 
@@ -508,7 +509,7 @@ if __name__ == '__main__':
     arb = cftime.datetime
 
     root = Tk()
-    root.iconbitmap(get_image('wavelab_icon.ico'))
+    if os.name == 'nt': root.iconbitmap(get_image('wavelab_icon.ico'))
     gui = MasterGui(root)
     root.protocol("WM_DELETE_WINDOW", gui.on_closing)
     root.mainloop()
