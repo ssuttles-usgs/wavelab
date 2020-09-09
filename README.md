@@ -8,7 +8,7 @@ This software calculates Storm-Tide water level and wave statistics (where appli
 
 ### Use of Executable
 
-For windows, download WaveLab.zip, unzip, and then double click WaveLab.exe.  the program may take a minute or more to load.
+For windows, download WaveLab.zip, unzip, and then double click WaveLab.exe.  The program may take a minute or more to load.
 
 ### Code Installation
 
@@ -24,7 +24,7 @@ You will need to run the following in order to run data tests for the sea pressu
 
 <code>python ./wavelab/addons/cython_setup.py build_ext --inplace</code>
 
-To build the final executable, run the following command:
+To build the final executable for Windows (not supported in Linux as of now), run the following command:
 
 <code>pyinstaller --clean --add-data 'wavelab/images/*;./images' -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole ./wavelab/gui/master.py</code>
 
