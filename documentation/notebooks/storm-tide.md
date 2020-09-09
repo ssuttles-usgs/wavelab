@@ -7,6 +7,7 @@ To begin, we take a time series of sea pressure corrected by barometric pressure
 
 
 ```python
+from datetime import datetime
 from wavelab.utilities.nc import (get_pressure, 
                                   get_air_pressure, 
                                   get_time, 
@@ -33,6 +34,7 @@ begin = itemindex[0][0]
 end = itemindex[0][len(itemindex[0]) - 1]
 corrected_pressure = sea_pressure_data[begin:end] - baro_interp[begin:end]
 corrected_date_times = sea_date_times[begin:end]
+
 ```
 
 

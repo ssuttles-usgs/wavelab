@@ -576,7 +576,10 @@ def get_datetimes(fname):
     time = []
     with Dataset(fname) as nc_file:
         
-        time = num2date(nc_file.variables['time'][:],nc_file.variables['time'].units)
+        time = num2date(nc_file.variables['time'][:],
+                        nc_file.variables['time'].units,
+                        only_use_cftime_datetimes=False,
+                        only_use_python_datetimes=True)
     
     return time
 

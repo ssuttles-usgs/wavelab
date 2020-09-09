@@ -240,7 +240,7 @@ The following is a graph of significant wave height:
 
 
 
-The following is a graph of the average zero up crossing period:
+The following is a graph of the average zero up-crossing period:
 
 
 
