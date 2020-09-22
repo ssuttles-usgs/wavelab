@@ -82,7 +82,7 @@ This project is licensed under the Creative Commons CC0 1.0 Universal License - 
 
 ### Citation
 
-Petrochenkov G (2020). WaveLab: Storm-Tide water level and wave statistics processing toolbox. https://code.usgs.gov/wavelab/wavelab.
+Petrochenkov G (2020). WaveLab Water Level and Wave Statistics Processing Toolbox: U.S. Geological Survey Software Release, doi:10.5066/P9M6YLMN.
 
 <code>@Manual{,
   author = {Gregory Petrochenkov},
