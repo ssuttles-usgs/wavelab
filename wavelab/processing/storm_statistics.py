@@ -16,6 +16,7 @@ from datetime import datetime
 import gc
 import pytz
 from wavelab.processing.storm_options import StormOptions
+from wavelab.utilities.nc import get_frequency
 from wavelab.utilities import unit_conversion as uc
 from wavelab.utilities.get_image import get_image
 matplotlib.use('Agg', warn=False)
@@ -55,65 +56,66 @@ class StormStatistics(object):
         
     def process_graphs(self,so):
 
-        if so.statistics['H1/3'].get() is True:
-            self.get_data(so)
-            self.create_header(so)
-            self.plot_h13(so)
+        if get_frequency(so.sea_fname) >= 4:
+            if so.statistics['H1/3'].get() is True:
+                self.get_data(so)
+                self.create_header(so)
+                self.plot_h13(so)
 
-            self.figure.clear()
-            plt.close("all")
-#             plt.close(self.figure)
-            self.figure = None
-            del self.figure
-            self.canvas = None
-            del self.canvas
-            gc.collect()
+                self.figure.clear()
+                plt.close("all")
+    #             plt.close(self.figure)
+                self.figure = None
+                del self.figure
+                self.canvas = None
+                del self.canvas
+                gc.collect()
 
-            
-        if so.statistics['Average Z Cross'].get() is True:
-            self.get_data(so)
-            self.create_header(so)
-            self.plot_avgz(so)
 
-            self.figure.clear()
-            plt.close("all")
-#             plt.close(self.figure)
+            if so.statistics['Average Z Cross'].get() is True:
+                self.get_data(so)
+                self.create_header(so)
+                self.plot_avgz(so)
 
-            self.figure = None
-            del self.figure
-            self.canvas = None
-            del self.canvas
-            gc.collect()
+                self.figure.clear()
+                plt.close("all")
+    #             plt.close(self.figure)
 
-        if so.statistics['Peak Wave'].get() is True:
-            self.get_data(so)
-            self.create_header(so)
-            self.plot_peak(so)
+                self.figure = None
+                del self.figure
+                self.canvas = None
+                del self.canvas
+                gc.collect()
 
-            self.figure.clear()
-            plt.close("all")
-#             plt.close(self.figure)
+            if so.statistics['Peak Wave'].get() is True:
+                self.get_data(so)
+                self.create_header(so)
+                self.plot_peak(so)
 
-            self.figure = None
-            del self.figure
-            self.canvas = None
-            del self.canvas
-            gc.collect()
+                self.figure.clear()
+                plt.close("all")
+    #             plt.close(self.figure)
 
-        if so.statistics['PSD Contour'].get() is True:
-            self.get_data(so)
-            self.create_header(so, True)
-            self.spectra_plot(so)
+                self.figure = None
+                del self.figure
+                self.canvas = None
+                del self.canvas
+                gc.collect()
 
-            self.figure.clear()
-            plt.close("all")
-#             plt.close(self.figure)
+            if so.statistics['PSD Contour'].get() is True:
+                self.get_data(so)
+                self.create_header(so, True)
+                self.spectra_plot(so)
 
-            self.figure = None
-            del self.figure
-            self.canvas = None
-            del self.canvas
-            gc.collect()
+                self.figure.clear()
+                plt.close("all")
+    #             plt.close(self.figure)
+
+                self.figure = None
+                del self.figure
+                self.canvas = None
+                del self.canvas
+                gc.collect()
 
     def create_header(self,so, psd=False):
 

@@ -32,12 +32,13 @@ class Storm_netCDF(object):
         time.sleep(2)
 
         if so.netCDF['Wave Statistics'].get() is True:
-            so.get_meta_data()
-            so.get_air_meta_data()
-            so.get_wave_water_level()
-            so.test_water_elevation_below_sensor_orifice_elevation()
-            so.get_wave_statistics()
-            self.wave_statistics(so)
+            if nc.get_frequency(so.sea_fname) >= 4:
+                so.get_meta_data()
+                so.get_air_meta_data()
+                so.get_wave_water_level()
+                so.test_water_elevation_below_sensor_orifice_elevation()
+                so.get_wave_statistics()
+                self.wave_statistics(so)
 
     @staticmethod
     def common_attributes(so, file_name, step):

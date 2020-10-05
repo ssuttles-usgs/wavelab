@@ -4,6 +4,7 @@ This module extracts the relevant information from the StormOptions object
 and creates output files in CSV format.
 """
 import pandas as pd
+from wavelab.utilities.nc import get_frequency
 from wavelab.utilities import unit_conversion as uc
 import pytz
 import csv as csv_package
@@ -35,16 +36,18 @@ class StormCSV(object):
             self.atmospheric_pressure(so)
             
         if so.csv['Stats'].get() is True:
-            so.get_meta_data()
-            so.get_air_meta_data()
-            so.get_wave_statistics()
-            self.stats(so)
+            if get_frequency(so.sea_fname) >= 4:
+                so.get_meta_data()
+                so.get_air_meta_data()
+                so.get_wave_statistics()
+                self.stats(so)
             
         if so.csv['PSD'].get() is True:
-            so.get_meta_data()
-            so.get_air_meta_data()
-            so.get_wave_statistics()
-            self.psd(so)
+            if get_frequency(so.sea_fname) >= 4:
+                so.get_meta_data()
+                so.get_air_meta_data()
+                so.get_wave_statistics()
+                self.psd(so)
 
     @staticmethod
     def format_time(so, time_type='sea'):
