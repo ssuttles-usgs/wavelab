@@ -209,13 +209,13 @@ def eta_to_pressure(a, omega, k, z, H, t):
 def lowpass_filter(data, fs):
     """Performs a butterworth filter of order 4 with a 1 min cutoff"""
 
-    if fs > 1 / 15:
+    if fs >= 1 / 15.:
 
         cutoff = .016666666665
 
         lowcut = cutoff / (.5 * fs)
 
-        b, a = signal.butter(fs, [lowcut], btype='lowpass')
+        b, a = signal.butter(4, [lowcut], btype='lowpass')
 
         filtered_data = signal.filtfilt(b, a, data)
 

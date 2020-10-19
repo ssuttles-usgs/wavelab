@@ -18,6 +18,7 @@ from wavelab.processing.storm_options import StormOptions
 from wavelab.utilities import unit_conversion as uc
 from matplotlib.ticker import FormatStrFormatter
 from wavelab.utilities.get_image import get_image
+from wavelab.utilities.nc import get_frequency
 matplotlib.use('Agg', warn=False)
 
 
@@ -261,7 +262,9 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0, pos1.width, pos1.height + .06]
         ax.set_position(pos2)  # set a new position
 
+        graph_stormtide = get_frequency(so.sea_fname) >= 1 / 15.
         # create the second graph title
+
         first_title = "Storm Tide Water Elevation, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
                       % (so.latitude, so.longitude, so.stn_station_number)
         second_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
@@ -369,39 +372,61 @@ class StormGraph(object):
 
         # plot the pressure, depth, and min depth
 
-        p4, = ax.plot(self.time_nums, self.df.RawDepth, color='#969696', alpha=.75)
-        p1, = par1.plot(self.time_nums, self.df.Pressure, color="red")
-        p2, = ax.plot(self.time_nums, self.df.SurgeDepth, color="#045a8d")
-        p3, = ax.plot(self.time_nums, np.repeat(sensor_min, len(self.df.SurgeDepth)), linestyle="--",
+        legend_entries = []
+        legend_names = []
+
+        def add_entry(plt_entry, name):
+            legend_entries.append(plt_entry)
+            legend_names.append(name)
+
+        entry, = ax.plot(self.time_nums, self.df.RawDepth, color='#969696', alpha=.75)
+        add_entry(entry, 'Unfiltered Water Elevation')
+
+        entry, = par1.plot(self.time_nums, self.df.Pressure, color="red")
+        add_entry(entry, 'Barometric Pressure')
+
+        if graph_stormtide:
+            entry, = ax.plot(self.time_nums, self.df.SurgeDepth, color="#045a8d" )
+            add_entry(entry, 'Storm Tide (Lowpass Filtered) Water Elevation')
+
+        entry, = ax.plot(self.time_nums, np.repeat(sensor_min, len(self.df.SurgeDepth)), linestyle="--",
                       color="#fd8d3c")
+        add_entry(entry, "Minimum Recordable Water Elevation")
 
         ref = False
         legend_y = 1.399
         inst_accuracy_y = 1.13
         if so.reference_elevation is not None and so.reference_elevation != '':
             ref = True
-            p7 = ax.axhspan(so.reference_elevation, tide_max, alpha=0.25, color='#add8e6', linewidth=0)
-            p8, = ax.plot(self.time_nums, np.repeat(so.reference_elevation, len(self.df.SurgeDepth)), linestyle="--",
-                          color="#000000")
+            entry = ax.axhspan(so.reference_elevation, tide_max, alpha=0.25,
+                                             color='#add8e6', linewidth=0)
+            add_entry(entry, 'Water Depth Above %s' % so.reference_name)
+            entry, = ax.plot(self.time_nums, np.repeat(so.reference_elevation, len(self.df.SurgeDepth)),
+                                          linestyle="--", color="#000000")
+            add_entry(entry, so.reference_name)
             inst_accuracy_y = 1.105
             legend_y = 1.44
 
-        # add8e6
-        p5, = ax.plot(depth_num, depth_max, 'o', markersize=10, color='#969696', alpha=1)
-        p6, = ax.plot(tide_num, tide_max, '^', markersize=10, color='#045a8d', alpha=1)
+        entry, = ax.plot(depth_num, depth_max, 'o', markersize=10, color='#969696', alpha=1)
+        add_entry(entry, 'Maximum Unfiltered Water Elevation')
+        if graph_stormtide:
+            entry, = ax.plot(tide_num, tide_max, '^', markersize=10, color='#045a8d', alpha=1)
+            add_entry(entry, 'Maximum Storm Tide Water Elevation')
 
-        if self.international_units is True:
-            max_storm_tide = "Maximum Unfiltered Water Elevation, meters above datum = %.2f at %s\n \
-            Maximum Storm Tide Water Elevation, meters above datum = %.2f at %s" \
-                             % (depth_max, depth_time, tide_max, tide_time)
+        if self.international_units:
+            max_storm_tide = "Maximum Unfiltered Water Elevation, meters above datum = %.2f at %s" \
+                % (depth_max, depth_time)
+            max_storm_tide += "\nMaximum Storm Tide Water Elevation, meters above datum = %.2f at %s" \
+                % (tide_max, tide_time) if graph_stormtide else ""
             ax.text(0.645, inst_accuracy_y, 'Combined Instrument Error (m): %f' %
                     so.combined_level_accuracy_in_meters,
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
-            max_storm_tide = "Maximum Unfiltered Water Elevation, feet above datum = %.2f at %s\n \
-            Maximum Storm Tide Water Elevation, feet above datum = %.2f at %s" \
-                             % (depth_max, depth_time, tide_max, tide_time)
+            max_storm_tide = "Maximum Unfiltered Water Elevation, feet above datum = %.2f at %s" \
+                             % (depth_max, depth_time)
+            max_storm_tide += "\nMaximum Storm Tide Water Elevation, feet above datum = %.2f at %s" \
+                              % (tide_max, tide_time) if graph_stormtide else ""
             ax.text(0.645, inst_accuracy_y, 'Combined Instrument Error (ft): %f' %
                     (so.combined_level_accuracy_in_meters * uc.METER_TO_FEET),
                     va='center', ha='left', transform=ax.transAxes,
@@ -411,20 +436,6 @@ class StormGraph(object):
                                bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10}, \
                                va='center', ha='center', transform=par1.transAxes)
         stringText.set_size(11)
-
-        legend_entries = [p4, p2, p3, p1, p5, p6]
-        legend_names = ['Unfiltered Water Elevation',
-                        'Storm Tide (Lowpass Filtered) Water Elevation',
-                        'Minimum Recordable Water Elevation',
-                        'Barometric Pressure',
-                        'Maximum Unfiltered Water Elevation',
-                        'Maximum Storm Tide Water Elevation']
-
-        if ref is True:
-            legend_entries.append(p7)
-            legend_entries.append(p8)
-            legend_names.append('Water Depth Above %s' % so.reference_name)
-            legend_names.append(so.reference_name)
 
         # Legend options not needed but for future reference
         legend = ax.legend(legend_entries,
@@ -701,12 +712,13 @@ class Bool(object):
 
 
 if __name__ == '__main__':
-  
+    import os
+
     so = StormOptions()
     so.clip = False
     so.from_water_level_file = False
 
-    project_path = '../documentation/data'
+    project_path = '../../documentation/data'
     # so.air_fname = project_path + '/NCCAR12248_9983816_air.csv.nc'
     # so.sea_fname = project_path + '/NCCAR00007_1511451_sea.csv.nc'
     so.air_fname = project_path + '/1_NYRIC_bp.nc'
@@ -720,7 +732,7 @@ if __name__ == '__main__':
     so.daylight_savings = False
     so.graph['Storm Tide with Unfiltered Water Level'] = Bool(True)
     so.graph['Storm Tide Water Level'] = Bool(True)
-    so.graph['Atmospheric Pressure'] = Bool(True)
+    so.graph['Atmospheric Pressure'] = Bool(False)
     so.level_troll = False
 
     sg = StormGraph()

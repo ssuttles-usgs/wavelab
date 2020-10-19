@@ -317,9 +317,9 @@ def wave_stats_copy(fname, out_fname, so):
     long = get_variable_data(fname, 'longitude')
     d = Dataset(fname)
     output = Dataset(out_fname, 'w', format='NETCDF4_CLASSIC')
-    print('time len %d' % len(so.stat_dictionary['time']))
+    # print('time len %d' % len(so.stat_dictionary['time']))
     output.createDimension('time', len(so.stat_dictionary['time']))
-    print('freq len %d' % len(so.stat_dictionary['Frequency'][0]))
+    # print('freq len %d' % len(so.stat_dictionary['Frequency'][0]))
     output.createDimension('frequency', len(so.stat_dictionary['Frequency'][0]))
     output.createDimension("station_id", len(stn_site_id))
 

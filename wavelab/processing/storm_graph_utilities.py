@@ -14,7 +14,7 @@ def plot_wind_data(ax, so, time_nums):
 
     so.wind_speed = np.array(so.wind_speed)
     wind_speed_max = np.nanmax(so.wind_speed)
-    print('max speed', wind_speed_max, len(so.wind_speed))
+    # print('max speed', wind_speed_max, len(so.wind_speed))
     
     logo = image.imread(get_image('north.png'), None)
     bbox2 = Bbox.from_bounds(210, 330, 30, 40)

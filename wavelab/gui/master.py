@@ -41,6 +41,7 @@ import wavelab.gui.chopper_gui as chopper
 import wavelab.gui.sea_pressure_gui as script1
 import wavelab.gui.baro_pressure_gui as script1_air
 from wavelab.utilities.get_image import get_image
+from wavelab.utilities.nc import get_frequency
 import wavelab.gui.sea_pressure_gui as sea_gui
 from wavelab.processing.storm_options import StormOptions
 from wavelab.processing.storm_graph import StormGraph
@@ -345,6 +346,24 @@ if __name__ == '__main__':
                 message = ("Please select at least one option")
                 sea_gui.MessageDialog(root, message=message, title='Error!')
                 return
+
+            if get_frequency(self.sea_fname) < 1 / 15.:
+                if self.so.netCDF['Storm Tide Water Level'].get() is True or \
+                   self.so.csv['Storm Tide Water Level'].get() is True or \
+                   self.so.graph['Storm Tide Water Level'].get() is True:
+
+                    message = ("Sampling rate is over the minimum to apply filter, "
+                               "please deselect 'Storm Tide Water Level'")
+                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    return
+
+            if get_frequency(self.sea_fname) < 4:
+                for _, val in self.so.statistics.items():
+                    if val.get() is True:
+                        message = ("Sampling rate is over the minimum to run wave statistics, "
+                                   "please deselect all 'Statistics Graph Options'")
+                        sea_gui.MessageDialog(root, message=message, title='Error!')
+                        return
 
             self.so.clear_data()
             self.so.international_units = False
