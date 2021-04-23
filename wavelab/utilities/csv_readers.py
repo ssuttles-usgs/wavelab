@@ -367,3 +367,62 @@ class Waveguage(edit_netcdf.NetCDFWriter):
                            names='p')
         data.p = data.p.apply(lambda x: x.strip())
         return data.p
+
+
+class NOAA_Station(edit_netcdf.NetCDFWriter):
+    """As of now for barometric pressure only
+    """
+
+    def __init__(self):
+        self.timezone_marker = "time zone"
+        super().__init__()
+        self.frequency = 4
+        self.date_format_string = '%Y/%m/%d %H:%M'
+
+    def read(self):
+        """load the data from in_filename
+        only parse the initial datetime = much faster
+        """
+
+        skip_index = find_first(self.in_filename, 'Date')
+        df = pd.read_csv(self.in_filename, skiprows=skip_index,
+                         header=None, engine='c', sep=',')
+
+        self.datestart = uc.datestring_to_ms(df[0][0] + ' ' + df[1][0],
+                                             self.date_format_string,
+                                             self.tz_info,
+                                             self.daylight_savings)
+        self.utc_millisecond_data = uc.generate_ms(self.datestart, df.shape[0],
+                                                   self.frequency)
+
+        df[6][:].values[df[6][:].values == '-'] = '0'
+        vals = np.array(df[6][:].values).astype(np.float64) / 100
+        self.pressure_data = np.interp(np.arange(len(vals)), np.arange(len(vals))[vals != 0], vals[vals != 0])
+
+
+class West_Coast_Station(edit_netcdf.NetCDFWriter):
+    """As of now for barometric pressure only
+    """
+
+    def __init__(self):
+        self.timezone_marker = "time zone"
+        super().__init__()
+        self.frequency = 4
+        self.date_format_string = '%m/%d/%Y %H:%M UTC'
+
+    def read(self):
+        """load the data from in_filename
+        only parse the initial datetime = much faster
+        """
+
+        skip_index = find_first(self.in_filename, '.*[0-9]{2}/[0-9]{2}/[0-9]{4}.*') - 1
+        df = pd.read_csv(self.in_filename, skiprows=skip_index,
+                         header=None, engine='c', sep=',')
+
+        self.datestart = uc.datestring_to_ms('%s' % (df[1][0]),
+                                             self.date_format_string,
+                                             self.tz_info,
+                                             self.daylight_savings)
+        self.utc_millisecond_data = uc.generate_ms(self.datestart, df.shape[0],
+                                                   self.frequency)
+        self.pressure_data = np.array([x for x in df[6][:]]) / uc.DBAR_TO_INCHES_OF_MERCURY

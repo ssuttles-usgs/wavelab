@@ -10,7 +10,8 @@ import argparse
 import numpy as np
 import wavelab.utilities.nc as nc
 from pytz import timezone
-from wavelab.utilities.csv_readers import Leveltroll, MeasureSysLogger, House, Hobo, RBRSolo, Waveguage
+from wavelab.utilities.csv_readers import Leveltroll, MeasureSysLogger, House, \
+    Hobo, RBRSolo, Waveguage, NOAA_Station, West_Coast_Station
 from wavelab.utilities import unit_conversion as uc
 
 INSTRUMENTS = {
@@ -19,7 +20,10 @@ INSTRUMENTS = {
     'Wave Guage': Waveguage,
     'USGS Homebrew': House,
     'MS TruBlue 255': MeasureSysLogger,
-    'Onset Hobo U20': Hobo }
+    'Onset Hobo U20': Hobo,
+    'NOAA Station': NOAA_Station,
+    'West Coast': West_Coast_Station
+}
 
 
 def convert_to_netcdf(inputs):
