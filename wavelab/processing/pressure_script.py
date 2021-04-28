@@ -22,7 +22,7 @@ INSTRUMENTS = {
     'MS TruBlue 255': MeasureSysLogger,
     'Onset Hobo U20': Hobo,
     'NOAA Station': NOAA_Station,
-    'West Coast': West_Coast_Station
+    'Meso West': West_Coast_Station
 }
 
 

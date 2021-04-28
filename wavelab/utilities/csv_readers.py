@@ -41,33 +41,49 @@ class Hobo(edit_netcdf.NetCDFWriter):
             skip_index = find_first(self.in_filename, '#')
 
         df = pd.read_table(self.in_filename, skiprows=skip_index, header=None,
-                           engine='c', sep=',', usecols=(1, 2))
+                           engine='c', sep=',', usecols=(1,2,3))
         df = df.dropna()
+
+        if isinstance(df[2][0], str):
+            vals = df[3].values
+            date1, date2 = df[1][0] + ' ' + df[2][0], df[1][1] + ' ' + df[2][1]
+        else:
+            vals = df[2].values
+            date1, date2 = df[1][0], df[1][1]
         
         try:
-            first_stamp = uc.datestring_to_ms(df.values[0][0], self.date_format_string, self.tz_info, self.daylight_savings)
-            second_stamp = uc.datestring_to_ms(df.values[1][0], self.date_format_string, self.tz_info, self.daylight_savings)
+            first_stamp = uc.datestring_to_ms(date1, self.date_format_string,
+                                              self.tz_info, self.daylight_savings)
+            second_stamp = uc.datestring_to_ms(date2, self.date_format_string,
+                                               self.tz_info, self.daylight_savings)
         except:
             try:
-                first_stamp = uc.datestring_to_ms(df.values[0][0], self.date_format_string2, self.tz_info, self.daylight_savings)
-                second_stamp = uc.datestring_to_ms(df.values[1][0], self.date_format_string2, self.tz_info, self.daylight_savings)
+                first_stamp = uc.datestring_to_ms(date1, self.date_format_string2,
+                                                  self.tz_info, self.daylight_savings)
+                second_stamp = uc.datestring_to_ms(date2, self.date_format_string2,
+                                                   self.tz_info, self.daylight_savings)
             except:
-                first_stamp = uc.datestring_to_ms(df.values[0][0], self.date_format_string3, self.tz_info, self.daylight_savings)
-                second_stamp = uc.datestring_to_ms(df.values[1][0], self.date_format_string3, self.tz_info, self.daylight_savings)
+                first_stamp = uc.datestring_to_ms(date1, self.date_format_string3,
+                                                  self.tz_info, self.daylight_savings)
+                second_stamp = uc.datestring_to_ms(date2, self.date_format_string3,
+                                                   self.tz_info, self.daylight_savings)
             
         self.frequency = 1000 / (second_stamp - first_stamp)
         
         try:
-            start_ms = uc.datestring_to_ms(df[1][0], self.date_format_string, self.tz_info, self.daylight_savings)
+            start_ms = uc.datestring_to_ms(date1, self.date_format_string,
+                                           self.tz_info, self.daylight_savings)
         except:
             try:
-                start_ms = uc.datestring_to_ms(df[1][0], self.date_format_string2, self.tz_info, self.daylight_savings)
+                start_ms = uc.datestring_to_ms(date1, self.date_format_string2,
+                                               self.tz_info, self.daylight_savings)
             except:
-                start_ms = uc.datestring_to_ms(df[1][0], self.date_format_string3, self.tz_info, self.daylight_savings)
+                start_ms = uc.datestring_to_ms(date1, self.date_format_string3,
+                                               self.tz_info, self.daylight_savings)
             
         self.utc_millisecond_data = uc.generate_ms(start_ms, df.shape[0], self.frequency)
 
-        self.pressure_data = df[2].values * uc.PSI_TO_DBAR
+        self.pressure_data = vals * uc.PSI_TO_DBAR
         
     def get_serial(self):
         self.instrument_serial = "not found"
@@ -425,4 +441,4 @@ class West_Coast_Station(edit_netcdf.NetCDFWriter):
                                              self.daylight_savings)
         self.utc_millisecond_data = uc.generate_ms(self.datestart, df.shape[0],
                                                    self.frequency)
-        self.pressure_data = np.array([x for x in df[6][:]]) / uc.DBAR_TO_INCHES_OF_MERCURY
+        self.pressure_data = np.array([x for x in df[2][:]]) / uc.DBAR_TO_INCHES_OF_MERCURY

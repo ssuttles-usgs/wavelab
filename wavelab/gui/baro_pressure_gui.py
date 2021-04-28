@@ -23,7 +23,7 @@ GLOBAL_FIELDS = OrderedDict([
 LOCAL_FIELDS = OrderedDict([
     ('instrument_name', ['Instrument:', [
         'MS TruBlue 255', 'Onset Hobo U20', 'LevelTroll', 'RBRSolo',
-        'NOAA Station', 'West Coast'#, 'USGS Homebrew'
+        'NOAA Station', 'Meso West'#, 'USGS Homebrew'
         ], True]),
      ('stn_station_number', ['STN Site Id:', '']),
     ('stn_instrument_id', ['STN Instrument Id:', '']),
@@ -96,51 +96,51 @@ class BaroPressureGUI:
         message = ('Working, this may take a few minutes.')
         dialog = None
 
-        # try:
-        dialog = MessageDialog(self.parent, message=message,
-                               title='Processing...', buttons=0, wait=False)
-        globs = dict(zip(GLOBAL_FIELDS.keys(),
-                         self.global_form.export_entries()))
+        try:
+            dialog = MessageDialog(self.parent, message=message,
+                                   title='Processing...', buttons=0, wait=False)
+            globs = dict(zip(GLOBAL_FIELDS.keys(),
+                             self.global_form.export_entries()))
 
 
-        for fname, datafile in self.datafiles.items():
-            inputs = dict(zip(LOCAL_FIELDS.keys(), datafile.export_entries()))
-            inputs.update(globs)
-            if self.air_pressure == False:
-                inputs['pressure_type'] = 'Sea Pressure'
-            else:
-                inputs['pressure_type'] = 'Air Pressure'
-            inputs['in_filename'] = fname
-            inputs['out_filename'] = fname + '.nc'
+            for fname, datafile in self.datafiles.items():
+                inputs = dict(zip(LOCAL_FIELDS.keys(), datafile.export_entries()))
+                inputs.update(globs)
+                if self.air_pressure == False:
+                    inputs['pressure_type'] = 'Sea Pressure'
+                else:
+                    inputs['pressure_type'] = 'Air Pressure'
+                inputs['in_filename'] = fname
+                inputs['out_filename'] = fname + '.nc'
 
-            process_files = self.validate_entries(inputs)
+                process_files = self.validate_entries(inputs)
 
-            if process_files == True:
-                convert_to_netcdf(inputs)
-                self.remove_file(fname)
+                if process_files == True:
+                    convert_to_netcdf(inputs)
+                    self.remove_file(fname)
+                    dialog.destroy()
+                    MessageDialog(self.parent, message="Success! Files saved.",
+                          title='Success!')
+                else:
+                    dialog.destroy()
+                    MessageDialog(self.parent, message= self.error_message,
+                              title='Error')
+
+                self.error_message = ''
+
+        except:
+            if dialog is not None:
                 dialog.destroy()
-                MessageDialog(self.parent, message="Success! Files saved.",
-                      title='Success!')
-            else:
-                dialog.destroy()
-                MessageDialog(self.parent, message= self.error_message,
-                          title='Error')
 
-            self.error_message = ''
-
-        # except:
-        #     if dialog is not None:
-        #         dialog.destroy()
-        #
-        #     # MessageDialog(self.parent, message="Could not process files, please check file type.",
-        #     #             title='Error')
-        #     import sys, traceback
-        #     exc_type, exc_value, exc_traceback = sys.exc_info()
-        #
-        #     message = traceback.format_exception(exc_type, exc_value,
-        #                                   exc_traceback)
-        #     MessageDialog(self.parent, message=message,
-        #                   title='Error')
+            MessageDialog(self.parent, message="Could not process files, please check file type.",
+                        title='Error')
+            # import sys, traceback
+            # exc_type, exc_value, exc_traceback = sys.exc_info()
+            #
+            # message = traceback.format_exception(exc_type, exc_value,
+            #                               exc_traceback)
+            # MessageDialog(self.parent, message=message,
+            #               title='Error')
             
     
     def validate_entries(self, inputs):
