@@ -26,11 +26,11 @@ You will need to run the following in order to run data tests for the sea pressu
 
 To build the final executable for Windows, run the following command:
 
-<code>pyinstaller --clean --add-data 'wavelab/images/*;./images' -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole ./wavelab/gui/master.py</code>
+<code>pyinstaller --clean --add-data wavelab/images/*;./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole ./wavelab/gui/master.py</code>
 
 For Linux:
 
-<code>pyinstaller --clean --add-data 'wavelab/images/*:./images' -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole --hidden-import='PIL._tkinter_finder' ./wavelab/gui/master.py</code>
+<code>pyinstaller --clean --add-data wavelab/images/*:./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole --hidden-import='PIL._tkinter_finder' ./wavelab/gui/master.py</code>
 
 Note building an executable makes it usable for only that operating system.  Consult pyinsller docs for more info:
 https://pyinstaller.readthedocs.io/en/stable/usage.html

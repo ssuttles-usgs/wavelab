@@ -22,7 +22,8 @@ GLOBAL_FIELDS = OrderedDict([
     ('creator_url', ['Your personal url:', ''])])
 LOCAL_FIELDS = OrderedDict([
     ('instrument_name', ['Instrument:', [
-        'MS TruBlue 255', 'Onset Hobo U20', 'LevelTroll', 'RBRSolo' #, 'USGS Homebrew'
+        'MS TruBlue 255', 'Onset Hobo U20', 'LevelTroll', 'RBRSolo',
+        'NOAA Station', 'Meso West'#, 'USGS Homebrew'
         ], True]),
      ('stn_station_number', ['STN Site Id:', '']),
     ('stn_instrument_id', ['STN Instrument Id:', '']),
@@ -126,19 +127,20 @@ class BaroPressureGUI:
                               title='Error')
 
                 self.error_message = ''
-             
+
         except:
             if dialog is not None:
                 dialog.destroy()
 
             MessageDialog(self.parent, message="Could not process files, please check file type.",
                         title='Error')
-#             exc_type, exc_value, exc_traceback = sys.exc_info()
-#
-#             message = traceback.format_exception(exc_type, exc_value,
-#                                           exc_traceback)
-#             MessageDialog(self.parent, message=message,
-#                           title='Error')
+            # import sys, traceback
+            # exc_type, exc_value, exc_traceback = sys.exc_info()
+            #
+            # message = traceback.format_exception(exc_type, exc_value,
+            #                               exc_traceback)
+            # MessageDialog(self.parent, message=message,
+            #               title='Error')
             
     
     def validate_entries(self, inputs):

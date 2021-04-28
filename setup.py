@@ -17,7 +17,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://code.usgs.gov/wavelab/wavelab",
-    packages= find_packages("."),
+    packages=find_packages("."),
     install_requires=['easygui==0.98.1',
                       'matplotlib==3.0.3',
                       'numpy==1.19.1',
