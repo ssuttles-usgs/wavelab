@@ -347,7 +347,7 @@ if __name__ == '__main__':
                 sea_gui.MessageDialog(root, message=message, title='Error!')
                 return
 
-            if get_frequency(self.sea_fname) < 1 / 15.:
+            if get_frequency(self.sea_fname) < 1 / 30.:
                 if self.so.netCDF['Storm Tide Water Level'].get() is True or \
                    self.so.csv['Storm Tide Water Level'].get() is True or \
                    self.so.graph['Storm Tide Water Level'].get() is True:
