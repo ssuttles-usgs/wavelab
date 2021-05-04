@@ -262,7 +262,7 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0, pos1.width, pos1.height + .06]
         ax.set_position(pos2)  # set a new position
 
-        graph_stormtide = get_frequency(so.sea_fname) >= 1 / 15.
+        graph_stormtide = get_frequency(so.sea_fname) >= 1 / 30.
         # create the second graph title
 
         first_title = "Storm Tide Water Elevation, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
@@ -584,7 +584,7 @@ class StormGraph(object):
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         
-        stringText = par1.text(0.5, 0.948,max_storm_tide,
+        stringText = par1.text(0.5, 0.948, max_storm_tide,
                 bbox={'facecolor':'white', 'alpha': 1, 'pad': 10},
                 va='center', ha='center', transform=par1.transAxes)
         stringText.set_size(11)
@@ -610,7 +610,7 @@ class StormGraph(object):
                            bbox_to_anchor=(.95, legend_y),
                            loc=1,
                            borderaxespad=0.0,
-                           prop={'size':10.3},
+                           prop={'size': 10.3},
                            frameon=False,
                            numpoints=1,
                            title="EXPLANATION")
