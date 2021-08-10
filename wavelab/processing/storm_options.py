@@ -319,9 +319,19 @@ class StormOptions(StormData):
             self.get_combined_level_accuracy()
             
             if self.raw_water_level is None:
-                self.raw_water_level = np.array(self.derive_raw_water_level(self.corrected_sea_pressure,
-                                                                             self.sensor_orifice_elevation,
-                                                                             self.salinity))
+                hydrostatic = True
+                try:
+                    if nc.get_variable_attr(self.sea_fname, 'sea_pressure', 'instrument_make') == "TD-Diver":
+                        hydrostatic = False
+                except:
+                    pass
+
+                if hydrostatic:
+                    self.raw_water_level = np.array(self.derive_raw_water_level(self.corrected_sea_pressure,
+                                                                                 self.sensor_orifice_elevation,
+                                                                                 self.salinity))
+                else:
+                    self.raw_water_level = np.array(self.corrected_sea_pressure + self.sensor_orifice_elevation)
             
     def get_surge_water_level(self): 
         if self.surge_water_level is None:
@@ -334,10 +344,21 @@ class StormOptions(StormData):
                 self.surge_water_level = nc.get_variable_data(self.sea_fname,
                                                               "water_surface_height_above_reference_datum")
             else:
-                self.surge_water_level = np.array(self.derive_filtered_water_level(self.surge_sea_pressure, 
-                                                                      self.sea_pressure_mean, 
-                                                                      self.sensor_orifice_elevation,
-                                                                      self.salinity))
+                hydrostatic = True
+                try:
+                    if nc.get_variable_attr(self.sea_fname, 'sea_pressure', 'instrument_make') == "TD-Diver":
+                        hydrostatic = False
+                except:
+                    pass
+
+                if hydrostatic:
+                    self.surge_water_level = np.array(self.derive_filtered_water_level(self.surge_sea_pressure,
+                                                                          self.sea_pressure_mean,
+                                                                          self.sensor_orifice_elevation,
+                                                                          self.salinity))
+                else:
+                    self.surge_water_level = np.array(self.surge_sea_pressure + self.sea_pressure_mean +
+                                                      self.sensor_orifice_elevation)
             
     def test_water_elevation_below_sensor_orifice_elevation(self):
         if self.elev_test is False:

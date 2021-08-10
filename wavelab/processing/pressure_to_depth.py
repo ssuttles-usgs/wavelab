@@ -6,7 +6,8 @@ and perform low pass filtering on water level data.
 
 import numpy as np
 from wavelab.utilities import unit_conversion as uc
-from scipy import signal
+import pandas as pd
+# from scipy import signal
 
 # Constants
 GRAVITY = uc.GRAVITY  
@@ -207,19 +208,12 @@ def eta_to_pressure(a, omega, k, z, H, t):
 
 
 def lowpass_filter(data, fs):
-    """Performs a butterworth filter of order 4 with a 1 min cutoff"""
+    """Performs a rolling average with a 6 min cutoff"""
 
     if fs >= 1 / 180.:
 
-        cutoff = 0.002777777777775
-
-        lowcut = cutoff / (.5 * fs)
-
-        b, a = signal.butter(4, [lowcut], btype='lowpass')
-
-        filtered_data = signal.filtfilt(b, a, data)
-
-        return filtered_data
+        window = int(360 * fs)
+        return np.array(pd.Series(data).rolling(window).mean())
 
     else:
         return data

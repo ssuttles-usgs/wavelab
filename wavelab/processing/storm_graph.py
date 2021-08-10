@@ -50,7 +50,8 @@ class StormGraph(object):
                 so.get_wave_water_level()
             else:
                 so.get_meta_data()
-                so.get_air_meta_data()
+                if so.level_troll is False:
+                    so.get_air_meta_data()
                 so.get_raw_water_level()
                 so.get_surge_water_level()
 
@@ -71,7 +72,8 @@ class StormGraph(object):
 
         if so.graph['Storm Tide Water Level'].get() is True:
             so.get_meta_data()
-            so.get_air_meta_data()
+            if so.level_troll is False:
+                so.get_air_meta_data()
             so.get_raw_water_level()
             so.get_surge_water_level()
             so.test_water_elevation_below_sensor_orifice_elevation()
@@ -265,17 +267,19 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0, pos1.width, pos1.height + .06]
         ax.set_position(pos2)  # set a new position
 
-        graph_stormtide = get_frequency(so.sea_fname) >= 1 / 30.
+        graph_stormtide = get_frequency(so.sea_fname) >= 1 / 180.
         # create the second graph title
 
         first_title = "Storm Tide Water Elevation, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
                       % (so.latitude, so.longitude, so.stn_station_number)
-        second_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-                       % (so.air_latitude, so.air_longitude, so.air_stn_station_number)
-
         ax.text(0.5, 1.055, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
-        ax.text(0.5, 1.015, second_title, \
+
+        if so.level_troll is False:
+            second_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
+                           % (so.air_latitude, so.air_longitude, so.air_stn_station_number)
+
+            ax.text(0.5, 1.015, second_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         ax.set_xlabel('Timezone: %s' % so.timezone)
@@ -471,13 +475,15 @@ class StormGraph(object):
         
         first_title = "Storm Tide Water Elevation, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
                 % (so.latitude,so.longitude,so.stn_station_number)
-        second_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-                % (so.air_latitude,so.air_longitude,so.air_stn_station_number)
+        ax.text(0.5, 1.065, first_title, \
+                va='center', ha='center', transform=ax.transAxes)
 
-        ax.text(0.5, 1.065,first_title,  \
-                va='center', ha='center', transform=ax.transAxes)
-        ax.text(0.5, 1.015,second_title,  \
-                va='center', ha='center', transform=ax.transAxes)
+        if so.level_troll is False:
+            second_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
+                    % (so.air_latitude,so.air_longitude,so.air_stn_station_number)
+
+            ax.text(0.5, 1.015,second_title,  \
+                    va='center', ha='center', transform=ax.transAxes)
         
         par1 = ax.twinx()
         pos1 = par1.get_position() # get the original position 
@@ -556,8 +562,8 @@ class StormGraph(object):
     
         # plot the pressure, depth, and min depth
 
-        if self.level_troll is False:
-            p1, = par1.plot(self.time_nums,self.df.Pressure, color="red")
+        if so.level_troll is False:
+            p1, = par1.plot(self.time_nums, self.df.Pressure, color="red")
         p2, = ax.plot(self.time_nums,self.df.SurgeDepth, color="#045a8d")
         p3, = ax.plot(self.time_nums,np.repeat(sensor_min, len(self.df.SurgeDepth)), linestyle="--", color="#fd8d3c")
         p6,  = ax.plot(tide_num,tide_max, '^', markersize=10, color='#045a8d', alpha=1)
@@ -597,8 +603,8 @@ class StormGraph(object):
     
         # Legend options not needed but for future reference
 
-        if self.level_troll is False:
-            legend_entries = [p2,p3,p1,p6]
+        if so.level_troll is False:
+            legend_entries = [p2, p3, p1, p6]
             legend_names = [
             'Storm Tide (Lowpass Filtered) Water Elevation',
             'Minimum Recordable Water Elevation',

@@ -108,9 +108,10 @@ class StormData(object):
 
     @staticmethod
     def derive_raw_water_level(sea_pressure_data, sensor_orifice_elevation, salinity):
-        
+
         return sensor_orifice_elevation + p2d.hydrostatic_method(sea_pressure_data,
                                                                  salinity)
+
     @staticmethod
     def derive_filtered_water_level(pressure_data, pressure_mean,
                                     sensor_orifice_elevation, salinity):

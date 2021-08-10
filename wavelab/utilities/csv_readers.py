@@ -476,7 +476,7 @@ class VanEssen(edit_netcdf.NetCDFWriter):
 
         self.utc_millisecond_data = uc.generate_ms(first_stamp, df.shape[0], self.frequency)
 
-        self.pressure_data = vals / uc.METER_TO_FEET / uc.DBAR_TO_METERS
+        self.pressure_data = vals / uc.METER_TO_FEET
 
     def get_serial(self):
         self.instrument_serial = "not found"
