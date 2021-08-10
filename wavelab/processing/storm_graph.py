@@ -39,7 +39,7 @@ class StormGraph(object):
         date_str = mdates.num2date(x).strftime('%b-%d-%Y \n %H:%M')
         return ''.join([' ','\n',date_str])
     
-    def process_graphs(self,so):
+    def process_graphs(self, so):
         
         self.international_units = so.international_units
 
@@ -143,6 +143,9 @@ class StormGraph(object):
         time = so.sea_time
         self.time_nums = np.linspace(first_date, last_date, len(time))
         self.time_nums2 = np.linspace(first_date, last_date, len(time))
+
+        if so.level_troll is True:
+            so.interpolated_air_pressure = np.zeros(so.surge_water_level.shape[0])
 
         if self.international_units is True:
             # create dataframe in meters
@@ -382,8 +385,9 @@ class StormGraph(object):
         entry, = ax.plot(self.time_nums, self.df.RawDepth, color='#969696', alpha=.75)
         add_entry(entry, 'Unfiltered Water Elevation')
 
-        entry, = par1.plot(self.time_nums, self.df.Pressure, color="red")
-        add_entry(entry, 'Barometric Pressure')
+        if so.level_troll is False:
+            entry, = par1.plot(self.time_nums, self.df.Pressure, color="red")
+            add_entry(entry, 'Barometric Pressure')
 
         if graph_stormtide:
             entry, = ax.plot(self.time_nums, self.df.SurgeDepth, color="#045a8d" )
@@ -551,7 +555,9 @@ class StormGraph(object):
             par1.set_ylim([so.baroYLims[0],so.baroYLims[1]])
     
         # plot the pressure, depth, and min depth
-        p1, = par1.plot(self.time_nums,self.df.Pressure, color="red")
+
+        if self.level_troll is False:
+            p1, = par1.plot(self.time_nums,self.df.Pressure, color="red")
         p2, = ax.plot(self.time_nums,self.df.SurgeDepth, color="#045a8d")
         p3, = ax.plot(self.time_nums,np.repeat(sensor_min, len(self.df.SurgeDepth)), linestyle="--", color="#fd8d3c")
         p6,  = ax.plot(tide_num,tide_max, '^', markersize=10, color='#045a8d', alpha=1)
@@ -591,13 +597,21 @@ class StormGraph(object):
     
         # Legend options not needed but for future reference
 
-        legend_entries = [p2,p3,p1,p6]
-        legend_names = [
-        'Storm Tide (Lowpass Filtered) Water Elevation',
-        'Minimum Recordable Water Elevation',
-        'Barometric Pressure',
-        'Maximum Storm Tide Water Elevation'
-        ]
+        if self.level_troll is False:
+            legend_entries = [p2,p3,p1,p6]
+            legend_names = [
+            'Storm Tide (Lowpass Filtered) Water Elevation',
+            'Minimum Recordable Water Elevation',
+            'Barometric Pressure',
+            'Maximum Storm Tide Water Elevation'
+            ]
+        else:
+            legend_entries = [p2, p3, p6]
+            legend_names = [
+                'Storm Tide (Lowpass Filtered) Water Elevation',
+                'Minimum Recordable Water Elevation',
+                'Maximum Storm Tide Water Elevation'
+            ]
 
         if ref is True:
             legend_entries.append(p7)

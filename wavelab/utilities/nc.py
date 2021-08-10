@@ -100,12 +100,15 @@ def custom_copy(fname, out_fname, begin,end, mode="storm_surge", step = 1):
     if os.path.exists(out_fname):
         os.remove(out_fname)
     
-    #get station id for the station_id dimension
+    # get station id for the station_id dimension
     stn_site_id = get_global_attribute(fname, 'stn_station_number')
     
     t = get_time(fname)[begin:end:step]
-    
-    flags = get_flags(fname)[begin:end:step]
+
+    try:
+        flags = get_flags(fname)[begin:end:step]
+    except:
+        print('no pressure qc')
     alt = get_variable_data(fname, 'altitude')
     lat = get_variable_data(fname, 'latitude')
     long = get_variable_data(fname, 'longitude')

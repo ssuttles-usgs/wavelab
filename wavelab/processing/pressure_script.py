@@ -11,7 +11,7 @@ import numpy as np
 import wavelab.utilities.nc as nc
 from pytz import timezone
 from wavelab.utilities.csv_readers import Leveltroll, MeasureSysLogger, House, \
-    Hobo, RBRSolo, Waveguage, NOAA_Station, West_Coast_Station
+    Hobo, RBRSolo, Waveguage, NOAA_Station, West_Coast_Station, VanEssen
 from wavelab.utilities import unit_conversion as uc
 
 INSTRUMENTS = {
@@ -22,7 +22,8 @@ INSTRUMENTS = {
     'MS TruBlue 255': MeasureSysLogger,
     'Onset Hobo U20': Hobo,
     'NOAA Station': NOAA_Station,
-    'Meso West': West_Coast_Station
+    'Meso West': West_Coast_Station,
+    'VanEssen': VanEssen
 }
 
 

@@ -196,10 +196,12 @@ class StormOptions(StormData):
 
     def get_corrected_pressure(self):
         if self.corrected_sea_pressure is None:
-            if self.level_troll == True:
+            if self.level_troll is True:
                 self.slice_series()
+                self.sea_time = self.extract_time(self.sea_fname)
+                self.get_sea_pressure()
                 self.corrected_sea_pressure = self.raw_sea_pressure
-            elif self.from_water_level_file == False:
+            elif self.from_water_level_file is False:
                 self.slice_series()
                 self.corrected_sea_pressure = self.raw_sea_pressure - self.interpolated_air_pressure
             else:
@@ -224,7 +226,9 @@ class StormOptions(StormData):
 
     def get_combined_level_accuracy(self):
         sea_accuracy = self.extract_level_accuracy(self.sea_fname, 'sea_pressure')
-        air_accuracy = self.extract_level_accuracy(self.air_fname, 'air_pressure')
+        air_accuracy = 0
+        if self.level_troll is False:
+            air_accuracy = self.extract_level_accuracy(self.air_fname, 'air_pressure')
         self.combined_level_accuracy_in_meters = sea_accuracy + air_accuracy
     
     def slice_all(self):
@@ -245,29 +249,26 @@ class StormOptions(StormData):
         if self.sliced is False:
             if self.level_troll is False:
                 self.get_interpolated_air_pressure()
-            else:
-                self.interpolated_air_pressure = nc.get_air_pressure(self.air_fname)
-            self.get_sea_time()
-            self.get_sea_pressure()
-            self.get_sensor_orifice_elevation()
-            self.get_land_surface_elevation()
-            #g et the indexes for the first and last point which the sea and air times overlap
-            
-            
-            itemindex = np.where(~np.isnan(self.interpolated_air_pressure))
-            self.begin = begin = itemindex[0][0]
-            self.end = end = itemindex[0][len(itemindex[0]) - 1]
-            
-            # slice all data to include all instances where the times overlap
-            self.interpolated_air_pressure = self.interpolated_air_pressure[begin:end]
-            self.raw_sea_pressure = self.raw_sea_pressure[begin:end]
-            self.sea_time = self.sea_time[begin:end]
-            self.sensor_orifice_elevation = self.sensor_orifice_elevation[begin:end]
-            self.land_surface_elevation = self.land_surface_elevation[begin:end]
+
+                self.get_sea_time()
+                self.get_sea_pressure()
+                self.get_sensor_orifice_elevation()
+                self.get_land_surface_elevation()
+                # get the indexes for the first and last point which the sea and air times overlap
+
+                itemindex = np.where(~np.isnan(self.interpolated_air_pressure))
+                self.begin = begin = itemindex[0][0]
+                self.end = end = itemindex[0][len(itemindex[0]) - 1]
+
+                # slice all data to include all instances where the times overlap
+                self.interpolated_air_pressure = self.interpolated_air_pressure[begin:end]
+                self.raw_sea_pressure = self.raw_sea_pressure[begin:end]
+                self.sea_time = self.sea_time[begin:end]
+                self.sensor_orifice_elevation = self.sensor_orifice_elevation[begin:end]
+                self.land_surface_elevation = self.land_surface_elevation[begin:end]
 
             self.sliced = True
-            
-    
+
     def slice_wind_data(self):
         """Slice off portions of the wind time that do not overlap with the sea time
         *I may want to make sure ALL data is sliced together in the future"""
@@ -466,7 +467,19 @@ class StormOptions(StormData):
             if x != 'Atmospheric Pressure' and self.graph[x].get() is True:
                 return True
             
-        return False  
+        return False
+
+    def no_air_selected(self):
+
+        for x in self.csv:
+            if x == 'Atmospheric Pressure' and self.csv[x].get() is True:
+                return False
+
+        for x in self.graph:
+            if x == 'Atmospheric Pressure' and self.graph[x].get() is True:
+                return False
+
+        return True
 
     def wind_check_selected(self):
         for x in self.graph:
@@ -491,13 +504,15 @@ class StormOptions(StormData):
         2 if none, 0 if all overlaps"""
 
         self.get_sea_time()
-        self.get_air_time()
-        
-        if self.air_time[-1] < self.sea_time[0] or self.air_time[0] > self.sea_time[-1]:
-            return 2
-        
-        elif self.air_time[0] > self.sea_time[0] or self.air_time[-1] < self.sea_time[-1]:
-            return 1
+
+        if self.level_troll is False:
+            self.get_air_time()
+
+            if self.air_time[-1] < self.sea_time[0] or self.air_time[0] > self.sea_time[-1]:
+                return 2
+
+            elif self.air_time[0] > self.sea_time[0] or self.air_time[-1] < self.sea_time[-1]:
+                return 1
             
         return 0
     

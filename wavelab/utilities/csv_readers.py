@@ -442,3 +442,47 @@ class West_Coast_Station(edit_netcdf.NetCDFWriter):
         self.utc_millisecond_data = uc.generate_ms(self.datestart, df.shape[0],
                                                    self.frequency)
         self.pressure_data = np.array([x for x in df[2][:]]) / uc.DBAR_TO_INCHES_OF_MERCURY
+
+
+class VanEssen(edit_netcdf.NetCDFWriter):
+    """derived class for hobo csv files """
+
+    def __init__(self):
+        self.timezone_marker = "time zone"
+        super().__init__()
+        self.date_format_string = '%Y/%m/%d %H:%M:%S'
+
+    def read(self):
+        """load the data from in_filename
+        only parse the initial datetime = much faster"""
+
+        self.get_serial()
+
+        skip_index = find_first(self.in_filename, 'Date/time')
+
+        df = pd.read_table(self.in_filename, skiprows=skip_index, header=None,
+                           engine='c', sep=',', usecols=(0, 1))
+        df = df.dropna()
+
+        vals = df[1].values
+        date1, date2 = df[0][0],  df[0][1]
+
+        first_stamp = uc.datestring_to_ms(date1, self.date_format_string,
+                                          self.tz_info, self.daylight_savings)
+        second_stamp = uc.datestring_to_ms(date2, self.date_format_string,
+                                           self.tz_info, self.daylight_savings)
+
+        self.frequency = 1000 / (second_stamp - first_stamp)
+
+        self.utc_millisecond_data = uc.generate_ms(first_stamp, df.shape[0], self.frequency)
+
+        self.pressure_data = vals / uc.METER_TO_FEET / uc.DBAR_TO_METERS
+
+    def get_serial(self):
+        self.instrument_serial = "not found"
+        with open(self.in_filename, 'r') as text:
+            for i, line in enumerate(text):
+                if line.find("Serial number: ") != -1:
+                    match = line.split('Serial number: ')[1]
+                    self.instrument_serial = match.split(' ')[0]
+                    break
