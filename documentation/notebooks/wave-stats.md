@@ -270,8 +270,3 @@ Smith J. M. (2002). "Wave Pressure Gauge Analysis with Current". Journal of Wate
         
 Vrabel, J. and S. Rendon. (2013). Storm Surge, Unpublished Software Routine. United States <br />
 &nbsp;&nbsp;Geological Survey, personal communication.
-
-
-```python
-
-```

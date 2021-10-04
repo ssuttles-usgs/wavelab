@@ -6,6 +6,7 @@ and perform low pass filtering on water level data.
 
 import numpy as np
 from wavelab.utilities import unit_conversion as uc
+import pandas as pd
 from scipy import signal
 
 # Constants
@@ -65,12 +66,12 @@ def hydrostatic_method(pressure, density="salt"):
     """Return the depth corresponding to a hydrostatic pressure."""
     
     if density == "salt":
-        return (pressure *  1e4) / (SALT_WATER_DENSITY * GRAVITY)
+        return (pressure * 1e4) / (SALT_WATER_DENSITY * GRAVITY)
     
     if density == "brackish":
-        return (pressure *  1e4) / (BRACKISH_WATER_DENSITY * GRAVITY)
+        return (pressure * 1e4) / (BRACKISH_WATER_DENSITY * GRAVITY)
     
-    return (pressure *  1e4) / (FRESH_WATER_DENSITY * GRAVITY)
+    return (pressure * 1e4) / (FRESH_WATER_DENSITY * GRAVITY)
 
 
 def hydrostatic_pressure(wl, density="salt"):
@@ -117,8 +118,8 @@ def lo_omega_to_k(omega, h):
 def omega_to_k(omega, h):
     k = omega / (9.8 * np.sqrt(np.tanh(omega * h / 9.8)))
           
-    #tangent iteration to get better estimate of wavenumber
-    for x in range(0,6):
+    # tangent iteration to get better estimate of wavenumber
+    for x in range(0, 6):
         f0 = omega - 9.8 * k * np.tanh(k * h)
         dfdk = -9.8 * np.tanh(k*h) - 9.8*k*h / ((np.cosh(k*h))**2)
         k = k - f0/dfdk
@@ -206,12 +207,11 @@ def eta_to_pressure(a, omega, k, z, H, t):
         * (np.cos(omega*t)) - (SALT_WATER_DENSITY*GRAVITY*z)
 
 
-def lowpass_filter(data, fs):
-    """Performs a butterworth filter of order 4 with a 1 min cutoff"""
+def butterworth_filter(data, fs):
+    """Performs a 4th order butterworth filter with a 6 min cutoff."""
+    if fs >= 1 / 180.:
 
-    if fs >= 1 / 30.:
-
-        cutoff = .016666666665
+        cutoff = 0.002777777777775
 
         lowcut = cutoff / (.5 * fs)
 
@@ -220,6 +220,40 @@ def lowpass_filter(data, fs):
         filtered_data = signal.filtfilt(b, a, data)
 
         return filtered_data
+
+    else:
+        return data
+
+
+def rolling_std_filter(data, fs, rolling=False):
+    """Performs a butterworth filter of order 4 with a 1 min cutoff"""
+
+    if fs >= 1 / 180.:
+
+        window = int(360 * fs)
+        filter_data = data.copy()
+        win_idx = np.arange(len(filter_data))
+        means = np.array(pd.Series(filter_data).rolling(window).mean())
+        std_devs = np.array(pd.Series(filter_data).rolling(window).std())
+
+        for x in range(3):
+            for win in np.array_split(win_idx, int(len(filter_data) / window)):
+                idx = int(np.mean(win)) + 1
+                filter_data[win][filter_data[win] > means[idx] + std_devs[idx]] = np.nan
+                filter_data[win][filter_data[win] < means[idx] - std_devs[idx]] = np.nan
+
+        if rolling is True:
+            filter_data = np.array(pd.Series(filter_data).rolling(window).mean())
+        else:
+            for win in np.array_split(win_idx, int(len(filter_data) / window)):
+                data_mean = np.nanmean(filter_data[win])
+                filter_data[win] = np.nan
+                filter_data[int(np.mean(win))] = data_mean
+
+        no_nan_mask = np.repeat(True, len(filter_data)) ^ np.isnan(filter_data)
+        filter_data = np.interp(win_idx, win_idx[no_nan_mask], filter_data[no_nan_mask])
+
+        return filter_data
 
     else:
         return data

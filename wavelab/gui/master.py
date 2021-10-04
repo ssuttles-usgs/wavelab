@@ -14,6 +14,8 @@ The Storm GUI takes the sea and air pressure netCDF files and creates output net
 visualizations for water level and wave statistics.
 """
 
+VERSION = 1.1
+
 from tkinter import (Tk,
                      Label,
                      Button,
@@ -44,10 +46,11 @@ from wavelab.utilities.get_image import get_image
 from wavelab.utilities.nc import get_frequency
 import wavelab.gui.sea_pressure_gui as sea_gui
 from wavelab.processing.storm_options import StormOptions
-from wavelab.processing.storm_graph import StormGraph
+from wavelab.processing.storm_graph import StormGraph, comparison_plot
 from wavelab.processing.storm_csv import StormCSV
 from wavelab.processing.storm_netCDF import Storm_netCDF
 from wavelab.processing.storm_statistics import StormStatistics
+from wavelab.utilities import unit_conversion as uc
 
 
 def storm_processing(data_dict, queue):
@@ -57,32 +60,59 @@ def storm_processing(data_dict, queue):
     so.info_dict = data_dict
     so.extract_from_dict()
 
-    snc = Storm_netCDF()
-    snc.process_netCDFs(so)
-    snc = None
-    del snc
-    gc.collect()
+    data = {}
+    og_name = so.output_fname
 
-    scv = StormCSV()
-    scv.int_units = so.international_units
-    scv.process_csv(so)
-    scv = None
-    del scv
-    gc.collect()
+    for idx, val in enumerate([(so.filter1, 'Butterworth'),
+                               (so.filter2, 'Moving Avg 3 Std Devs'),
+                               (so.filter3, 'NOAA 3 Std Devs')]):
 
-    sg = StormGraph()
-    sg.international_units = so.international_units
-    sg.process_graphs(so)
-    sg = None
-    del sg
-    gc.collect()
+        if val[0] is True:
 
-    s_stat = StormStatistics()
-    s_stat.int_units = so.international_units
-    s_stat.process_graphs(so)
-    s_stat = None
-    del s_stat
-    gc.collect()
+            # To reprocess filter
+            so.surge_sea_pressure = None
+            so.surge_water_level = None
+            # ---
+
+            so.use_filter = val[1]
+            so.output_fname = '%s_%s' % (og_name, val[1].replace(' ', '_'))
+            snc = Storm_netCDF()
+            snc.process_netCDFs(so)
+            snc = None
+            del snc
+            gc.collect()
+
+            scv = StormCSV()
+            scv.int_units = so.international_units
+            scv.process_csv(so)
+            scv = None
+            del scv
+            gc.collect()
+
+            sg = StormGraph()
+            sg.international_units = so.international_units
+            sg.process_graphs(so)
+            sg = None
+            del sg
+            gc.collect()
+
+            s_stat = StormStatistics()
+            s_stat.int_units = so.international_units
+            s_stat.process_graphs(so)
+            s_stat = None
+            del s_stat
+            gc.collect()
+
+            # data[val[1]] = so.surge_water_level * uc.METER_TO_FEET
+
+    # if so.surge_sea_pressure is not None:
+    #     data['name'] = '%s_comparison.jpg' % og_name
+    #     data['raw'] = so.raw_water_level * uc.METER_TO_FEET
+    #     data['time'] = so.sea_time
+    #     data['timezone'] = so.timezone
+    #     data['daylight_savings'] = so.daylight_savings
+    #
+    #     comparison_plot(data)
 
     queue.put(0)
 
@@ -243,7 +273,30 @@ if __name__ == '__main__':
                 button.pack(anchor=W, padx=2, pady=2)
 
             self.TzLabel = Label(self.side3, text=' ')
-            self.TzLabel.pack(padx=2, pady=45)
+            self.TzLabel.pack(padx=2, pady=5)
+
+            self.level_troll = BooleanVar()
+            button = Checkbutton(self.side3, text='No Baro File', variable=self.level_troll, command=self.baro_check)
+            button.pack(anchor=W, padx=0, pady=2)
+
+            self.TzLabel = Label(self.side3, text=' ')
+            self.TzLabel.pack(padx=2, pady=5)
+
+            # -------------------------------------------------- Filters
+            self.filter1 = BooleanVar(value=True)
+            self.filter2 = BooleanVar(value=True)
+            self.filter3 = BooleanVar(value=True)
+
+            # buttonf1 = Checkbutton(self.side3, text='Butterworth Filter', variable=self.filter1)
+            # buttonf2 = Checkbutton(self.side3, text='Moving Avg 3 Std Deviations', variable=self.filter2)
+            # buttonf3 = Checkbutton(self.side3, text='NOAA 3 Std Deviations', variable=self.filter3)
+            #
+            # buttonf1.pack(anchor=W, padx=0, pady=2)
+            # buttonf2.pack(anchor=W, padx=0, pady=2)
+            # buttonf3.pack(anchor=W, padx=0, pady=2)
+            #
+            # self.TzLabel = Label(self.side3, text=' ')
+            # self.TzLabel.pack(padx=2, pady=5)
 
     #         self.TzLabel = Label(self.side2, text='Clip water level graph:')
     #         self.TzLabel.pack(padx = 2,pady = 2)
@@ -255,8 +308,16 @@ if __name__ == '__main__':
 
             # OptionMenu(self.side2, self.clip, *clip_options).pack( pady=10, padx=15)
 
+
             self.TzLabel = Label(self.side3, text=' ')
             self.TzLabel.pack(padx=2, pady=10)
+
+            self.TzLabel = Label(self.side3, text='Storm Name:')
+            self.TzLabel.pack(padx=2, pady=2)
+            #
+            self.storm_name = Entry(self.side3, width=20)
+            self.storm_name.pack(pady=2, padx=15)
+
             self.TzLabel = Label(self.side3, text='Output Name:')
             self.TzLabel.pack(padx=2, pady=2)
     #
@@ -265,14 +326,13 @@ if __name__ == '__main__':
 
             self.TzLabel = Label(self.side3, text=' ')
             self.TzLabel.pack(padx=2, pady=10)
-            self.level_troll = BooleanVar()
 
-            self.level_troll.set(False)
+            # self.level_troll.set(False)
 
             # 9-11-2018 Leave out level troll option and highcut for spectrum output
             # ------------------------------------------
-    #         button = Checkbutton(self.side3, text='LevelTroll', variable=self.level_troll)
-    #         button.pack(anchor=W, padx=2, pady = 2)
+            # Change name from sle.level_troll in storm options
+
 
 
     #         self.high_cut = Entry(self.side2, width=5)
@@ -282,7 +342,7 @@ if __name__ == '__main__':
             self.side3.grid(row=1, column=2, sticky=N, padx = 15)
 
             self.final = Frame(self.root)
-            self.b3 = ttk.Button(self.final,text="Process Files", command=c3, state=DISABLED,width=50)
+            self.b3 = ttk.Button(self.final, text="Process Files", command=c3, state=DISABLED, width=50)
 
             self.b3.pack(fill='both')
 
@@ -294,16 +354,26 @@ if __name__ == '__main__':
             if fname != '':
                 stringvar.set(fname)
                 setattr(self, varname, fname)
-                if(self.air_fname != ''):
+                if(self.air_fname != '') or self.level_troll.get() is True:
                     self.b3['state'] = 'ENABLED'
+            self.root.focus_force()
+
+        def baro_check(self, **kwargs):
+
+            if (self.air_fname != '') or self.level_troll.get() is True:
+                self.b3['state'] = 'ENABLED'
+
+            if (self.air_fname == '') and self.level_troll.get() is False:
+                self.b3.config(state='disabled')
+
             self.root.focus_force()
 
         def clear_file(self, varname, stringvar):
 
             stringvar.set('No file selected...')
             setattr(self, varname, '')
-            if(self.air_fname == ''):
-                    self.b3.config(state='disabled')
+            if(self.air_fname == '') and self.level_troll.get() is False:
+                self.b3.config(state='disabled')
 
         def make_button(self, root, text, command, state=None):
             """Creates a new button"""
@@ -342,12 +412,18 @@ if __name__ == '__main__':
                     sea_gui.MessageDialog(root, message=message, title='Error!')
                     return
 
+            if self.level_troll.get() is True:
+                if self.so.no_air_selected() is False:
+                    message = ("Please upload a barometric pressure file to output selected baro files")
+                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    return
+
             if self.so.check_selected() is False:
                 message = ("Please select at least one option")
                 sea_gui.MessageDialog(root, message=message, title='Error!')
                 return
 
-            if get_frequency(self.sea_fname) < 1 / 30.:
+            if get_frequency(self.sea_fname) < 1 / 180.:
                 if self.so.netCDF['Storm Tide Water Level'].get() is True or \
                    self.so.csv['Storm Tide Water Level'].get() is True or \
                    self.so.graph['Storm Tide Water Level'].get() is True:
@@ -368,92 +444,102 @@ if __name__ == '__main__':
             self.so.clear_data()
             self.so.international_units = False
 
+            # try:
+            self.so.air_fname = self.air_fname
+            self.so.sea_fname = self.sea_fname
+            self.so.output_fname = self.final_output_name
+
+            self.so.level_troll = self.level_troll.get()
+
+            # self.so.filter1 = self.filter1.get()
+            # self.so.filter2 = self.filter2.get()
+            # self.so.filter3 = self.filter3.get()
+            self.so.filter1 = True
+            self.so.filter2 = False
+            self.so.filter3 = False
+
+            self.so.timezone = self.tzstringvar.get()
+            self.so.daylight_savings = self.daylightSavings.get()
+
+            self.so.reference_name = self.ReferenceName.get()
+            self.so.reference_elevation = self.ReferenceElevation.get()
+
+            self.so.storm_name = self.storm_name.get()
+            self.so.version = VERSION
+
+            if self.so.reference_elevation != '':
+                if self.so.reference_name == '':
+                    message = ("Enter a Reference Name.")
+                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    return
+                try:
+                    self.so.reference_elevation = float(self.so.reference_elevation)
+                except:
+                    message = ("Reference Elevation is not a number.")
+                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    return
+
+            self.so.clip = False
+
+            self.so.baroYLims = []
             try:
-                self.so.air_fname = self.air_fname
-                self.so.sea_fname = self.sea_fname
-                self.so.output_fname = self.final_output_name
-
-                self.so.level_troll = self.level_troll.get()
-
-                self.so.timezone = self.tzstringvar.get()
-                self.so.daylight_savings = self.daylightSavings.get()
-
-                self.so.reference_name = self.ReferenceName.get()
-                self.so.reference_elevation = self.ReferenceElevation.get()
-
-                if self.so.reference_elevation != '':
-                    if self.so.reference_name == '':
-                        message = ("Enter a Reference Name.")
-                        sea_gui.MessageDialog(root, message=message, title='Error!')
-                        return
-                    try:
-                        self.so.reference_elevation = float(self.so.reference_elevation)
-                    except:
-                        message = ("Reference Elevation is not a number.")
-                        sea_gui.MessageDialog(root, message=message, title='Error!')
-                        return
-
-                self.so.clip = False
-
-                self.so.baroYLims = []
-                try:
-                    self.so.baroYLims.append(float(self.baroYlim1.get()))
-                    self.so.baroYLims.append(float(self.baroYlim2.get()))
-                except:
-                    self.so.baroYLims = None
-
-                self.so.wlYLims = []
-                try:
-                    self.so.wlYLims.append(float(self.wlYlim1.get()))
-                    self.so.wlYLims.append(float(self.wlYlim2.get()))
-                except:
-                    self.so.wlYLims = None
-
-                self.so.low_cut = 0.045
-                self.so.high_cut = 1.0
-
-                if self.sea_fname is not None and self.sea_fname != '':
-
-                    overlap = self.so.time_comparison()
-
-                    if overlap == 2:
-                        message = ("Air pressure and water pressure files don't "
-                                   "cover the same time period!\nPlease choose "
-                                   "other files.")
-                        sea_gui.MessageDialog(root, message=message, title='Error!')
-                        return
-                    elif overlap == 1:
-                        message = ("The air pressure file doesn't span the "
-                        "entire time period covered by the water pressure "
-                        "file.\nThe period not covered by both files will be "
-                        "chopped")
-                        sea_gui.MessageDialog(root, message=message, title='Warning')
-
-                self.so.convert_to_dict()
-                data_dict = self.so.info_dict
-                queue = mp.Queue()
-
-                p = mp.Process(target=storm_processing, args=(data_dict,queue))
-                p.start()
-                p.join()
-
-                return_code = queue.get()
-                print(return_code)
-                if return_code != 0:
-
-                    raise(ValueError)
-
-                sea_gui.MessageDialog(root, message="Success! Files processed.",
-                                      title='Success!')
-
+                self.so.baroYLims.append(float(self.baroYlim1.get()))
+                self.so.baroYLims.append(float(self.baroYlim2.get()))
             except:
-    #             exc_type, exc_value, exc_traceback = sys.exc_info()
-    #
-    #             message = traceback.format_exception(exc_type, exc_value,
-    #                                           exc_traceback)
-                message = 'Could not process files, please check file type.'
-                sea_gui.MessageDialog(root, message=message,
-                                 title='Error')
+                self.so.baroYLims = None
+
+            self.so.wlYLims = []
+            try:
+                self.so.wlYLims.append(float(self.wlYlim1.get()))
+                self.so.wlYLims.append(float(self.wlYlim2.get()))
+            except:
+                self.so.wlYLims = None
+
+            self.so.low_cut = 0.045
+            self.so.high_cut = 1.0
+
+            if self.sea_fname is not None and self.sea_fname != '':
+
+                overlap = self.so.time_comparison()
+
+                if overlap == 2:
+                    message = ("Air pressure and water pressure files don't "
+                               "cover the same time period!\nPlease choose "
+                               "other files.")
+                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    return
+                elif overlap == 1:
+                    message = ("The air pressure file doesn't span the "
+                    "entire time period covered by the water pressure "
+                    "file.\nThe period not covered by both files will be "
+                    "chopped")
+                    sea_gui.MessageDialog(root, message=message, title='Warning')
+
+            self.so.convert_to_dict()
+            data_dict = self.so.info_dict
+            queue = mp.Queue()
+
+            p = mp.Process(target=storm_processing, args=(data_dict,queue))
+            p.start()
+            p.join()
+
+            return_code = queue.get()
+            print(return_code)
+            if return_code != 0:
+
+                raise(ValueError)
+
+            sea_gui.MessageDialog(root, message="Success! Files processed.",
+                                  title='Success!')
+
+    #         except:
+    # #             exc_type, exc_value, exc_traceback = sys.exc_info()
+    # #
+    # #             message = traceback.format_exception(exc_type, exc_value,
+    # #                                           exc_traceback)
+    #             message = 'Could not process files, please check file type.'
+    #             sea_gui.MessageDialog(root, message=message,
+    #                              title='Error')
 
     def make_frame(frame, header=None):
         """Make a frame with uniform padding."""

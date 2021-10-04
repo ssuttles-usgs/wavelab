@@ -126,6 +126,12 @@ class StormOptions(StormData):
         self.reference_elevation = None
         self.combined_level_accuracy_in_meters = None
         self.info_dict = None
+        self.filter1 = None
+        self.filter2 = None
+        self.filter3 = None
+        self.use_filter = None
+        self.storm_name = None
+        self.version = None
         
     def get_sea_time(self):
         if self.sea_time is None:
@@ -196,10 +202,12 @@ class StormOptions(StormData):
 
     def get_corrected_pressure(self):
         if self.corrected_sea_pressure is None:
-            if self.level_troll == True:
+            if self.level_troll is True:
                 self.slice_series()
+                self.sea_time = self.extract_time(self.sea_fname)
+                self.get_sea_pressure()
                 self.corrected_sea_pressure = self.raw_sea_pressure
-            elif self.from_water_level_file == False:
+            elif self.from_water_level_file is False:
                 self.slice_series()
                 self.corrected_sea_pressure = self.raw_sea_pressure - self.interpolated_air_pressure
             else:
@@ -224,7 +232,9 @@ class StormOptions(StormData):
 
     def get_combined_level_accuracy(self):
         sea_accuracy = self.extract_level_accuracy(self.sea_fname, 'sea_pressure')
-        air_accuracy = self.extract_level_accuracy(self.air_fname, 'air_pressure')
+        air_accuracy = 0
+        if self.level_troll is False:
+            air_accuracy = self.extract_level_accuracy(self.air_fname, 'air_pressure')
         self.combined_level_accuracy_in_meters = sea_accuracy + air_accuracy
     
     def slice_all(self):
@@ -245,29 +255,26 @@ class StormOptions(StormData):
         if self.sliced is False:
             if self.level_troll is False:
                 self.get_interpolated_air_pressure()
-            else:
-                self.interpolated_air_pressure = nc.get_air_pressure(self.air_fname)
-            self.get_sea_time()
-            self.get_sea_pressure()
-            self.get_sensor_orifice_elevation()
-            self.get_land_surface_elevation()
-            #g et the indexes for the first and last point which the sea and air times overlap
-            
-            
-            itemindex = np.where(~np.isnan(self.interpolated_air_pressure))
-            self.begin = begin = itemindex[0][0]
-            self.end = end = itemindex[0][len(itemindex[0]) - 1]
-            
-            # slice all data to include all instances where the times overlap
-            self.interpolated_air_pressure = self.interpolated_air_pressure[begin:end]
-            self.raw_sea_pressure = self.raw_sea_pressure[begin:end]
-            self.sea_time = self.sea_time[begin:end]
-            self.sensor_orifice_elevation = self.sensor_orifice_elevation[begin:end]
-            self.land_surface_elevation = self.land_surface_elevation[begin:end]
+
+                self.get_sea_time()
+                self.get_sea_pressure()
+                self.get_sensor_orifice_elevation()
+                self.get_land_surface_elevation()
+                # get the indexes for the first and last point which the sea and air times overlap
+
+                itemindex = np.where(~np.isnan(self.interpolated_air_pressure))
+                self.begin = begin = itemindex[0][0]
+                self.end = end = itemindex[0][len(itemindex[0]) - 1]
+
+                # slice all data to include all instances where the times overlap
+                self.interpolated_air_pressure = self.interpolated_air_pressure[begin:end]
+                self.raw_sea_pressure = self.raw_sea_pressure[begin:end]
+                self.sea_time = self.sea_time[begin:end]
+                self.sensor_orifice_elevation = self.sensor_orifice_elevation[begin:end]
+                self.land_surface_elevation = self.land_surface_elevation[begin:end]
 
             self.sliced = True
-            
-    
+
     def slice_wind_data(self):
         """Slice off portions of the wind time that do not overlap with the sea time
         *I may want to make sure ALL data is sliced together in the future"""
@@ -303,7 +310,8 @@ class StormOptions(StormData):
             self.fs = 1/difference
             
             self.surge_sea_pressure = self.derive_surge_sea_pressure(self.corrected_sea_pressure,
-                                                                     self.sea_pressure_mean)
+                                                                     self.sea_pressure_mean,
+                                                                     self.use_filter)
 
     def get_wave_sea_pressure(self):
         if self.wave_sea_pressure is None:
@@ -318,9 +326,19 @@ class StormOptions(StormData):
             self.get_combined_level_accuracy()
             
             if self.raw_water_level is None:
-                self.raw_water_level = np.array(self.derive_raw_water_level(self.corrected_sea_pressure,
-                                                                             self.sensor_orifice_elevation,
-                                                                             self.salinity))
+                hydrostatic = True
+                try:
+                    if nc.get_variable_attr(self.sea_fname, 'sea_pressure', 'instrument_make') == "TD-Diver":
+                        hydrostatic = False
+                except:
+                    pass
+
+                if hydrostatic:
+                    self.raw_water_level = np.array(self.derive_raw_water_level(self.corrected_sea_pressure,
+                                                                                 self.sensor_orifice_elevation,
+                                                                                 self.salinity))
+                else:
+                    self.raw_water_level = np.array(self.corrected_sea_pressure + self.sensor_orifice_elevation)
             
     def get_surge_water_level(self): 
         if self.surge_water_level is None:
@@ -333,10 +351,21 @@ class StormOptions(StormData):
                 self.surge_water_level = nc.get_variable_data(self.sea_fname,
                                                               "water_surface_height_above_reference_datum")
             else:
-                self.surge_water_level = np.array(self.derive_filtered_water_level(self.surge_sea_pressure, 
-                                                                      self.sea_pressure_mean, 
-                                                                      self.sensor_orifice_elevation,
-                                                                      self.salinity))
+                hydrostatic = True
+                try:
+                    if nc.get_variable_attr(self.sea_fname, 'sea_pressure', 'instrument_make') == "TD-Diver":
+                        hydrostatic = False
+                except:
+                    pass
+
+                if hydrostatic:
+                    self.surge_water_level = np.array(self.derive_filtered_water_level(self.surge_sea_pressure,
+                                                                          self.sea_pressure_mean,
+                                                                          self.sensor_orifice_elevation,
+                                                                          self.salinity))
+                else:
+                    self.surge_water_level = np.array(self.surge_sea_pressure + self.sea_pressure_mean +
+                                                      self.sensor_orifice_elevation)
             
     def test_water_elevation_below_sensor_orifice_elevation(self):
         if self.elev_test is False:
@@ -466,7 +495,19 @@ class StormOptions(StormData):
             if x != 'Atmospheric Pressure' and self.graph[x].get() is True:
                 return True
             
-        return False  
+        return False
+
+    def no_air_selected(self):
+
+        for x in self.csv:
+            if x == 'Atmospheric Pressure' and self.csv[x].get() is True:
+                return False
+
+        for x in self.graph:
+            if x == 'Atmospheric Pressure' and self.graph[x].get() is True:
+                return False
+
+        return True
 
     def wind_check_selected(self):
         for x in self.graph:
@@ -491,13 +532,15 @@ class StormOptions(StormData):
         2 if none, 0 if all overlaps"""
 
         self.get_sea_time()
-        self.get_air_time()
-        
-        if self.air_time[-1] < self.sea_time[0] or self.air_time[0] > self.sea_time[-1]:
-            return 2
-        
-        elif self.air_time[0] > self.sea_time[0] or self.air_time[-1] < self.sea_time[-1]:
-            return 1
+
+        if self.level_troll is False:
+            self.get_air_time()
+
+            if self.air_time[-1] < self.sea_time[0] or self.air_time[0] > self.sea_time[-1]:
+                return 2
+
+            elif self.air_time[0] > self.sea_time[0] or self.air_time[-1] < self.sea_time[-1]:
+                return 1
             
         return 0
     
@@ -562,7 +605,12 @@ class StormOptions(StormData):
         self.info_dict['wlYLims'] = self.wlYLims
         self.info_dict['low_cut'] = self.low_cut
         self.info_dict['hight_cut'] = self.high_cut
-        self.info_dict['international_units'] =self.international_units
+        self.info_dict['international_units'] = self.international_units
+        self.info_dict['filter1'] = self.filter1
+        self.info_dict['filter2'] = self.filter2
+        self.info_dict['filter3'] = self.filter3
+        self.info_dict['storm_name'] = self.storm_name
+        self.info_dict['version'] = self.version
 
         self.info_dict['netCDF'] = {
             'Storm Tide with Unfiltered Water Level': self.netCDF['Storm Tide with Unfiltered Water Level'].get(),
@@ -605,6 +653,11 @@ class StormOptions(StormData):
         self.low_cut = self.info_dict['low_cut']
         self.high_cut = self.info_dict['hight_cut']
         self.international_units = self.info_dict['international_units']
+        self.filter1 = self.info_dict['filter1']
+        self.filter2 = self.info_dict['filter2']
+        self.filter3 = self.info_dict['filter3']
+        self.version = self.info_dict['version']
+        self.storm_name = self.info_dict['storm_name']
         self.netCDF = {
             'Storm Tide with Unfiltered Water Level': Bool(self.info_dict['netCDF']['Storm Tide with Unfiltered Water Level']),
             'Storm Tide Water Level': Bool(self.info_dict['netCDF']['Storm Tide Water Level']),
@@ -704,6 +757,12 @@ class StormOptions(StormData):
         self.reference_elevation = None
         self.combined_level_accuracy_in_meters = None
         self.info_dict = None
+        self.filter1 = None
+        self.filter2 = None
+        self.filter3 = None
+        self.use_filter = None
+        self.storm_name = None
+        self.version = None
 
 
 class Bool(object):

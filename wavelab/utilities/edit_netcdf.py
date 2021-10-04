@@ -137,6 +137,12 @@ class NetCDFWriter(object):
             vstore["instrument_model"] = "Solo"
             vstore["instrument_serial_number"] = self.instrument_serial
             vstore["instrument_level_accuracy_in_meters"] = 0.05
+        elif inst == "VanEssen":
+            vstore["instrument_manufacturer"] = "Van Essen"
+            vstore["instrument_make"] = "TD-Diver"
+            vstore["instrument_model"] = "TD-Diver 27"
+            vstore["instrument_serial_number"] = self.instrument_serial
+            vstore["instrument_level_accuracy_in_meters"] = 0.05 # Need to ask which part number to double check accuracy
         else:
             vstore["instrument_manufacturer"] = "Measurement Specialties"
             vstore["instrument_make"] = "TruBlue"

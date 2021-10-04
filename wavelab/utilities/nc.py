@@ -30,7 +30,10 @@ def chop_netcdf(fname, out_fname, begin, end, air_pressure = False):
     stn_site_id = get_global_attribute(fname, 'stn_station_number')
     
     t = get_time(fname)[begin:end]
-    flags = get_flags(fname)[begin:end]
+    try:
+        flags = get_flags(fname)[begin:end]
+    except:
+        flags = None
     alt = get_variable_data(fname, 'altitude')
     lat = get_variable_data(fname, 'latitude')
     long = get_variable_data(fname, 'longitude')
@@ -77,8 +80,10 @@ def chop_netcdf(fname, out_fname, begin, end, air_pressure = False):
         output.variables['sea_pressure'][:] = p
     else:
         output.variables['air_pressure'][:] = p
-    
-    output.variables['pressure_qc'][:] = flags
+
+    if flags is not None:
+        output.variables['pressure_qc'][:] = flags
+
     output.variables['altitude'][:] = alt
     output.variables['longitude'][:] = long
     output.variables['latitude'][:] = lat
@@ -100,12 +105,15 @@ def custom_copy(fname, out_fname, begin,end, mode="storm_surge", step = 1):
     if os.path.exists(out_fname):
         os.remove(out_fname)
     
-    #get station id for the station_id dimension
+    # get station id for the station_id dimension
     stn_site_id = get_global_attribute(fname, 'stn_station_number')
     
     t = get_time(fname)[begin:end:step]
-    
-    flags = get_flags(fname)[begin:end:step]
+
+    try:
+        flags = get_flags(fname)[begin:end:step]
+    except:
+        print('no pressure qc')
     alt = get_variable_data(fname, 'altitude')
     lat = get_variable_data(fname, 'latitude')
     long = get_variable_data(fname, 'longitude')
