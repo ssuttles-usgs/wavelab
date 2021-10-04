@@ -208,26 +208,7 @@ def eta_to_pressure(a, omega, k, z, H, t):
 
 
 def butterworth_filter(data, fs):
-    """Performs a rolling average with a 6 min cutoff."""
-    if fs >= 1 / 180.:
-
-        cutoff = 0.002777777777775
-
-        lowcut = cutoff / (.5 * fs)
-
-        b, a = signal.butter(4, [lowcut], btype='lowpass')
-
-        filtered_data = signal.filtfilt(b, a, data)
-
-        return filtered_data
-
-    else:
-        return data
-
-
-def butterworth_filter(data, fs):
-    """Performs a rolling average with a 6 min cutoff."""
-
+    """Performs a 4th order butterworth filter with a 6 min cutoff."""
     if fs >= 1 / 180.:
 
         cutoff = 0.002777777777775

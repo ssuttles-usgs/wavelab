@@ -1,4 +1,4 @@
-<img src="./images/usgs.png" style=" padding-top: 26px; float: left"/>
+<img src="./images/usgs.png" style="padding-top: 26px; float: left"/>
 <img src="./images/WaveLabLogo.png" style="float: left"/>
 
 # Storm-Tide Water Level
@@ -85,16 +85,17 @@ USGS defines Storm-Tide as low-pass filtered signal including frequencies of bot
 
 Other things to consider are:
 
--	A one-minute cutoff was used in the low-pass filter, this ensured that by 30 seconds (the beginning of wind-wave frequencies), the signal was fully attenuated.
+-	A six-minute cutoff was used in the low-pass filter.
 -	The signal was filtered twice to preserve the phase angles (original position) of the water level time series.
 -	Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data.)
 
 ### Calculating Storm-Tide
 
+
 ```python
 from wavelab.processing.pressure_to_depth import butterworth_filter
 
-storm_tide_water_level = butterworth_filter(unfiltered_water_level, 4)  # frequency in hz
+storm_tide_water_level = butterworth_filter(unfiltered_water_level, 4) #frequency in hz
 ```
 
 This is the longer hand version of the above:
@@ -104,7 +105,7 @@ This is the longer hand version of the above:
 from scipy import signal
 
 # One minute cutoff divided by the Nyquist Frequency of 4hz
-lowcut = .016666666665 / (.5 * 4)
+lowcut = 0.002777777777775 / (.5 * 4)
 
 # 4th order butterworth filter
 b, a = signal.butter(4, [lowcut], btype='lowpass')
