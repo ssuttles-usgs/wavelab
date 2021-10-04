@@ -199,7 +199,7 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = "Average Zero-Up-Crossing Period" 
+        first_title = "%s Average Zero-Up-Crossing Period (Version %.2f)" % (so.storm_name, so.version)
         second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
             % (so.latitude,so.longitude,str(so.stn_station_number).replace('\n', ''))
     
@@ -251,7 +251,7 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = "Peak Wave Period" 
+        first_title = "%s Peak Wave Period (Version %.2f)" % (so.storm_name, so.version)
         second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
                 % (so.latitude,so.longitude,str(so.stn_station_number).replace('\n', ''))
     
@@ -305,7 +305,8 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2)  # set a new position
         
-        first_title = "90% Confidence Intervals for Significant Wave Height" 
+        first_title = "%s 90 Percent Confidence Intervals for Significant Wave Height (Version %.2f)" % (so.storm_name,
+                                                                                                  so.version)
         second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
                 % (so.latitude,so.longitude,str(so.stn_station_number).replace('\n', ''))
     
@@ -432,9 +433,9 @@ class StormStatistics(object):
         ax.set_position(pos2)  # set a new position
         
         # graph title options
-        first_title = "Contours of Power Spectral Density"
+        first_title = "%s Contours of Power Spectral Density (Version %.2f)" % (so.storm_name, so.version)
         second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-            % (so.latitude,so.longitude,so.stn_station_number)
+            % (so.latitude, so.longitude, so.stn_station_number)
   
         ax.text(0.5, 1.065,first_title,
                 va='center', ha='center', transform=ax.transAxes)

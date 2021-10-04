@@ -126,6 +126,12 @@ class StormOptions(StormData):
         self.reference_elevation = None
         self.combined_level_accuracy_in_meters = None
         self.info_dict = None
+        self.filter1 = None
+        self.filter2 = None
+        self.filter3 = None
+        self.use_filter = None
+        self.storm_name = None
+        self.version = None
         
     def get_sea_time(self):
         if self.sea_time is None:
@@ -304,7 +310,8 @@ class StormOptions(StormData):
             self.fs = 1/difference
             
             self.surge_sea_pressure = self.derive_surge_sea_pressure(self.corrected_sea_pressure,
-                                                                     self.sea_pressure_mean)
+                                                                     self.sea_pressure_mean,
+                                                                     self.use_filter)
 
     def get_wave_sea_pressure(self):
         if self.wave_sea_pressure is None:
@@ -598,7 +605,12 @@ class StormOptions(StormData):
         self.info_dict['wlYLims'] = self.wlYLims
         self.info_dict['low_cut'] = self.low_cut
         self.info_dict['hight_cut'] = self.high_cut
-        self.info_dict['international_units'] =self.international_units
+        self.info_dict['international_units'] = self.international_units
+        self.info_dict['filter1'] = self.filter1
+        self.info_dict['filter2'] = self.filter2
+        self.info_dict['filter3'] = self.filter3
+        self.info_dict['storm_name'] = self.storm_name
+        self.info_dict['version'] = self.version
 
         self.info_dict['netCDF'] = {
             'Storm Tide with Unfiltered Water Level': self.netCDF['Storm Tide with Unfiltered Water Level'].get(),
@@ -641,6 +653,11 @@ class StormOptions(StormData):
         self.low_cut = self.info_dict['low_cut']
         self.high_cut = self.info_dict['hight_cut']
         self.international_units = self.info_dict['international_units']
+        self.filter1 = self.info_dict['filter1']
+        self.filter2 = self.info_dict['filter2']
+        self.filter3 = self.info_dict['filter3']
+        self.version = self.info_dict['version']
+        self.storm_name = self.info_dict['storm_name']
         self.netCDF = {
             'Storm Tide with Unfiltered Water Level': Bool(self.info_dict['netCDF']['Storm Tide with Unfiltered Water Level']),
             'Storm Tide Water Level': Bool(self.info_dict['netCDF']['Storm Tide Water Level']),
@@ -740,6 +757,12 @@ class StormOptions(StormData):
         self.reference_elevation = None
         self.combined_level_accuracy_in_meters = None
         self.info_dict = None
+        self.filter1 = None
+        self.filter2 = None
+        self.filter3 = None
+        self.use_filter = None
+        self.storm_name = None
+        self.version = None
 
 
 class Bool(object):

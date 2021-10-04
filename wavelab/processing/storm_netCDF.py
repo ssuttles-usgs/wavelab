@@ -87,6 +87,9 @@ class Storm_netCDF(object):
                                 ' %.4f degrees longitude from the date range of %s to %s.'
                                 % (lat, lon, first_stamp, last_stamp))
 
+        nc.set_global_attribute(file_name, 'version', '{0}'.format(so.version))
+        nc.set_global_attribute(file_name, 'storm_name', so.storm_name)
+
     def storm_tide_and_unfiltered_water_level(self, so):
 
         out_fname2 = ''.join([so.output_fname,'_stormtide_unfiltered', '.nc'])
@@ -103,7 +106,7 @@ class Storm_netCDF(object):
                                 ' The third was derived'
                                 ' from a time series of high frequency sea pressure measurements'
                                 ' adjusted using the former and then lowpass filtered to remove'
-                                ' waves of period 1 second or less. The fourth is also sea surface elevation'
+                                ' waves of period 6 minutes or less. The fourth is also sea surface elevation'
                                 ' with no such filter.')
         
         nc.append_depth(out_fname2, so.surge_water_level[::step])
@@ -156,6 +159,7 @@ class Storm_netCDF(object):
                                  'air_uuid',
                                  air_uuid)
 
+
     def storm_tide_water_level(self, so):
 
         out_fname2 = ''.join([so.output_fname, '_stormtide', '.nc'])
@@ -173,7 +177,7 @@ class Storm_netCDF(object):
                                 ' sea pressure 2) sea surface elevation%s.  The second was derived'
                                 ' from a time series of high frequency sea pressure measurements '
                                 ' adjusted using the former and then lowpass filtered to remove '
-                                ' waves of period 1 second or less.' % has_air)
+                                ' waves of period 6 minutes or less.' % has_air)
         
         nc.append_depth(out_fname2, so.surge_water_level[::step])
         
@@ -224,6 +228,9 @@ class Storm_netCDF(object):
         nc.set_global_attribute(out_fname2,
                                 'combined_instrument_accuracy_in_meters+-',
                                 so.combined_level_accuracy_in_meters)
+
+        nc.set_global_attribute(out_fname2, 'version', '{0}'.format(so.version))
+        nc.set_global_attribute(out_fname2, 'storm_name', so.storm_name)
 
 
 if __name__ == '__main__':

@@ -99,8 +99,13 @@ class StormData(object):
         init, final = nc.get_land_surface_elevation(fname)
         return np.linspace(init, final, series_len)
 
-    def derive_surge_sea_pressure(self, sea_pressure_data, sea_pressure_mean):
-        return p2d.lowpass_filter(sea_pressure_data - sea_pressure_mean, self.fs)
+    def derive_surge_sea_pressure(self, sea_pressure_data, sea_pressure_mean, use_filter=None):
+        if use_filter == 'Butterworth':
+            return p2d.butterworth_filter(sea_pressure_data - sea_pressure_mean, self.fs)
+        elif use_filter == 'Moving Avg 3 Std Devs':
+            return p2d.rolling_std_filter(sea_pressure_data - sea_pressure_mean, self.fs, rolling=True)
+        else:
+            return p2d.rolling_std_filter(sea_pressure_data - sea_pressure_mean, self.fs, rolling=False)
 
     @staticmethod
     def derive_wave_sea_pressure(sea_pressure_data, surge_pressure_data, salinity):

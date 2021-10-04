@@ -91,11 +91,10 @@ Other things to consider are:
 
 ### Calculating Storm-Tide
 
-
 ```python
-from wavelab.processing.pressure_to_depth import lowpass_filter
+from wavelab.processing.pressure_to_depth import butterworth_filter
 
-storm_tide_water_level = lowpass_filter(unfiltered_water_level, 4) #frequency in hz
+storm_tide_water_level = butterworth_filter(unfiltered_water_level, 4)  # frequency in hz
 ```
 
 This is the longer hand version of the above:

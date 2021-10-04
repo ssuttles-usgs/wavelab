@@ -270,9 +270,9 @@ class StormGraph(object):
         graph_stormtide = get_frequency(so.sea_fname) >= 1 / 180.
         # create the second graph title
 
-        first_title = "Storm Tide Water Elevation, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-                      % (so.latitude, so.longitude, so.stn_station_number)
-        ax.text(0.5, 1.055, first_title, \
+        first_title = "%s Storm Tide Water Elevation (6th Minute Butterworth Filter) \nLatitude: %.4f Longitude: %.4f STN Site ID: %s (Version %.2f)" \
+                      % (so.storm_name, so.latitude, so.longitude, so.stn_station_number, so.version)
+        ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
@@ -473,8 +473,8 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = "Storm Tide Water Elevation, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-                % (so.latitude,so.longitude,so.stn_station_number)
+        first_title = "%s Storm Tide Water Elevation (6th Minute Butterworth Filter) \n Latitude: %.4f Longitude: %.4f STN Site ID: %s (Version %.2f)" \
+                % (so.storm_name, so.latitude, so.longitude, so.stn_station_number, so.version)
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
@@ -482,7 +482,7 @@ class StormGraph(object):
             second_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
                     % (so.air_latitude,so.air_longitude,so.air_stn_station_number)
 
-            ax.text(0.5, 1.015,second_title,  \
+            ax.text(0.5, 1.015,second_title, \
                     va='center', ha='center', transform=ax.transAxes)
         
         par1 = ax.twinx()
@@ -653,8 +653,8 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = "Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-            % (so.air_latitude,so.air_longitude,so.air_stn_station_number)
+        first_title = "%s Barometric Pressure, Latitude: %.4f Longitude: %.4f STN Site ID: %s (Version %.2f)" \
+            % (so.storm_name, so.air_latitude, so.air_longitude, so.air_stn_station_number, so.version)
    
         ax.text(0.5, 1.03, first_title,
                 va='center', ha='center', transform=ax.transAxes)
@@ -729,6 +729,72 @@ class Bool(object):
          
     def get(self):
         return self.val
+
+
+def comparison_plot(data):
+
+    def format_date(x,arb=None):
+        """Format dates so that they are padded away from the x-axis"""
+        date_str = mdates.num2date(x).strftime('%b-%d-%Y \n %H:%M')
+        return ''.join([' ','\n',date_str])
+
+    first_date = uc.convert_ms_to_date(data['time'][0], pytz.UTC)
+    last_date = uc.convert_ms_to_date(data['time'][-1], pytz.UTC)
+    new_dates = uc.adjust_from_gmt([first_date, last_date], \
+                                   data['timezone'], data['daylight_savings'])
+
+    first_date = mdates.date2num(new_dates[0])
+    last_date = mdates.date2num(new_dates[1])
+
+    del new_dates
+
+    data['time'] = np.linspace(first_date, last_date, len(data['time']))
+
+    fig, ax = plt.subplots(1, 1, figsize=(16, 12))
+    maxs = []
+
+    ax.plot(data['time'], data['raw'], color='#969696', label='Unfiltered', alpha=.5)
+    raw_idx = data['raw'].argmax()
+    ax.plot(data['time'][raw_idx], data['raw'][raw_idx], 'x', markersize=12, color='#969696', alpha=.6,
+            label='Unfiltered Max')
+
+    maxs.append('Unfiltered Max %.4f ft' % data['raw'][raw_idx])
+
+    if 'Butterworth' in data:
+        ax.plot(data['time'], data['Butterworth'], color='green', label='Butterworth')
+        but_idx = data['Butterworth'].argmax()
+        ax.plot(data['time'][but_idx], data['Butterworth'][but_idx], 'o', markersize=10, color='green', alpha=.6,
+                label='Butter Max')
+        maxs.append('Butterworth Max %.4f ft' % data['Butterworth'][but_idx])
+
+    if 'Moving Avg 3 Std Devs' in data:
+        ax.plot(data['time'], data['Moving Avg 3 Std Devs'], color='red', label='Moving Avg 3 Std Devs')
+        mov_idx = data['Moving Avg 3 Std Devs'].argmax()
+        ax.plot(data['time'][mov_idx], data['Moving Avg 3 Std Devs'][mov_idx], '^', markersize=10, color='red',
+                alpha=.6, label='Rolling Avg Max')
+        maxs.append('Rolling Avg Max %.4f ft' % data['Moving Avg 3 Std Devs'][mov_idx])
+
+    if 'NOAA 3 Std Devs' in data:
+        ax.plot(data['time'], data['NOAA 3 Std Devs'], color='blue', label='NOAA 3 Std Devs')
+        noaa_idx = data['NOAA 3 Std Devs'].argmax()
+        ax.plot(data['time'][noaa_idx], data['NOAA 3 Std Devs'][noaa_idx], 's', markersize=10, color='blue', alpha=.6,
+                label='NOAA Max')
+        maxs.append('NOAA Max %.4f ft' % data['NOAA 3 Std Devs'][noaa_idx])
+
+
+
+    ax.text(0.5, 1.015, maxs, \
+            va='center', ha='center', transform=ax.transAxes)
+
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))
+
+    ax.grid()
+    ax.legend()
+
+    fig.savefig(data['name'])
+
+    a = pd.DataFrame({''})
+
 
 
 if __name__ == '__main__':

@@ -14,6 +14,8 @@ The Storm GUI takes the sea and air pressure netCDF files and creates output net
 visualizations for water level and wave statistics.
 """
 
+VERSION = 1.1
+
 from tkinter import (Tk,
                      Label,
                      Button,
@@ -44,10 +46,11 @@ from wavelab.utilities.get_image import get_image
 from wavelab.utilities.nc import get_frequency
 import wavelab.gui.sea_pressure_gui as sea_gui
 from wavelab.processing.storm_options import StormOptions
-from wavelab.processing.storm_graph import StormGraph
+from wavelab.processing.storm_graph import StormGraph, comparison_plot
 from wavelab.processing.storm_csv import StormCSV
 from wavelab.processing.storm_netCDF import Storm_netCDF
 from wavelab.processing.storm_statistics import StormStatistics
+from wavelab.utilities import unit_conversion as uc
 
 
 def storm_processing(data_dict, queue):
@@ -57,32 +60,59 @@ def storm_processing(data_dict, queue):
     so.info_dict = data_dict
     so.extract_from_dict()
 
-    snc = Storm_netCDF()
-    snc.process_netCDFs(so)
-    snc = None
-    del snc
-    gc.collect()
+    data = {}
+    og_name = so.output_fname
 
-    scv = StormCSV()
-    scv.int_units = so.international_units
-    scv.process_csv(so)
-    scv = None
-    del scv
-    gc.collect()
+    for idx, val in enumerate([(so.filter1, 'Butterworth'),
+                               (so.filter2, 'Moving Avg 3 Std Devs'),
+                               (so.filter3, 'NOAA 3 Std Devs')]):
 
-    sg = StormGraph()
-    sg.international_units = so.international_units
-    sg.process_graphs(so)
-    sg = None
-    del sg
-    gc.collect()
+        if val[0] is True:
 
-    s_stat = StormStatistics()
-    s_stat.int_units = so.international_units
-    s_stat.process_graphs(so)
-    s_stat = None
-    del s_stat
-    gc.collect()
+            # To reprocess filter
+            so.surge_sea_pressure = None
+            so.surge_water_level = None
+            # ---
+
+            so.use_filter = val[1]
+            so.output_fname = '%s_%s' % (og_name, val[1].replace(' ', '_'))
+            snc = Storm_netCDF()
+            snc.process_netCDFs(so)
+            snc = None
+            del snc
+            gc.collect()
+
+            scv = StormCSV()
+            scv.int_units = so.international_units
+            scv.process_csv(so)
+            scv = None
+            del scv
+            gc.collect()
+
+            sg = StormGraph()
+            sg.international_units = so.international_units
+            sg.process_graphs(so)
+            sg = None
+            del sg
+            gc.collect()
+
+            s_stat = StormStatistics()
+            s_stat.int_units = so.international_units
+            s_stat.process_graphs(so)
+            s_stat = None
+            del s_stat
+            gc.collect()
+
+            # data[val[1]] = so.surge_water_level * uc.METER_TO_FEET
+
+    # if so.surge_sea_pressure is not None:
+    #     data['name'] = '%s_comparison.jpg' % og_name
+    #     data['raw'] = so.raw_water_level * uc.METER_TO_FEET
+    #     data['time'] = so.sea_time
+    #     data['timezone'] = so.timezone
+    #     data['daylight_savings'] = so.daylight_savings
+    #
+    #     comparison_plot(data)
 
     queue.put(0)
 
@@ -243,7 +273,30 @@ if __name__ == '__main__':
                 button.pack(anchor=W, padx=2, pady=2)
 
             self.TzLabel = Label(self.side3, text=' ')
-            self.TzLabel.pack(padx=2, pady=45)
+            self.TzLabel.pack(padx=2, pady=5)
+
+            self.level_troll = BooleanVar()
+            button = Checkbutton(self.side3, text='No Baro File', variable=self.level_troll, command=self.baro_check)
+            button.pack(anchor=W, padx=0, pady=2)
+
+            self.TzLabel = Label(self.side3, text=' ')
+            self.TzLabel.pack(padx=2, pady=5)
+
+            # -------------------------------------------------- Filters
+            self.filter1 = BooleanVar(value=True)
+            self.filter2 = BooleanVar(value=True)
+            self.filter3 = BooleanVar(value=True)
+
+            # buttonf1 = Checkbutton(self.side3, text='Butterworth Filter', variable=self.filter1)
+            # buttonf2 = Checkbutton(self.side3, text='Moving Avg 3 Std Deviations', variable=self.filter2)
+            # buttonf3 = Checkbutton(self.side3, text='NOAA 3 Std Deviations', variable=self.filter3)
+            #
+            # buttonf1.pack(anchor=W, padx=0, pady=2)
+            # buttonf2.pack(anchor=W, padx=0, pady=2)
+            # buttonf3.pack(anchor=W, padx=0, pady=2)
+            #
+            # self.TzLabel = Label(self.side3, text=' ')
+            # self.TzLabel.pack(padx=2, pady=5)
 
     #         self.TzLabel = Label(self.side2, text='Clip water level graph:')
     #         self.TzLabel.pack(padx = 2,pady = 2)
@@ -255,8 +308,16 @@ if __name__ == '__main__':
 
             # OptionMenu(self.side2, self.clip, *clip_options).pack( pady=10, padx=15)
 
+
             self.TzLabel = Label(self.side3, text=' ')
             self.TzLabel.pack(padx=2, pady=10)
+
+            self.TzLabel = Label(self.side3, text='Storm Name:')
+            self.TzLabel.pack(padx=2, pady=2)
+            #
+            self.storm_name = Entry(self.side3, width=20)
+            self.storm_name.pack(pady=2, padx=15)
+
             self.TzLabel = Label(self.side3, text='Output Name:')
             self.TzLabel.pack(padx=2, pady=2)
     #
@@ -265,15 +326,13 @@ if __name__ == '__main__':
 
             self.TzLabel = Label(self.side3, text=' ')
             self.TzLabel.pack(padx=2, pady=10)
-            self.level_troll = BooleanVar()
 
             # self.level_troll.set(False)
 
             # 9-11-2018 Leave out level troll option and highcut for spectrum output
             # ------------------------------------------
             # Change name from sle.level_troll in storm options
-            button = Checkbutton(self.side3, text='No Baro File', variable=self.level_troll, command=self.baro_check)
-            button.pack(anchor=W, padx=2, pady=2)
+
 
 
     #         self.high_cut = Entry(self.side2, width=5)
@@ -283,7 +342,7 @@ if __name__ == '__main__':
             self.side3.grid(row=1, column=2, sticky=N, padx = 15)
 
             self.final = Frame(self.root)
-            self.b3 = ttk.Button(self.final,text="Process Files", command=c3, state=DISABLED,width=50)
+            self.b3 = ttk.Button(self.final, text="Process Files", command=c3, state=DISABLED, width=50)
 
             self.b3.pack(fill='both')
 
@@ -392,11 +451,21 @@ if __name__ == '__main__':
 
             self.so.level_troll = self.level_troll.get()
 
+            # self.so.filter1 = self.filter1.get()
+            # self.so.filter2 = self.filter2.get()
+            # self.so.filter3 = self.filter3.get()
+            self.so.filter1 = True
+            self.so.filter2 = False
+            self.so.filter3 = False
+
             self.so.timezone = self.tzstringvar.get()
             self.so.daylight_savings = self.daylightSavings.get()
 
             self.so.reference_name = self.ReferenceName.get()
             self.so.reference_elevation = self.ReferenceElevation.get()
+
+            self.so.storm_name = self.storm_name.get()
+            self.so.version = VERSION
 
             if self.so.reference_elevation != '':
                 if self.so.reference_name == '':
