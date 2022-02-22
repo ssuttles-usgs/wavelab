@@ -3,36 +3,68 @@
 
 # WaveLab (wavelab)
 
-### About
 This software calculates Storm-Tide water level and wave statistics (where applicable) for deployed instrument data.
 
-### Use of Executable
+## Information for WaveLab Users
 
-For windows, download WaveLab.zip, unzip, and then double click WaveLab.exe.  The program may take a minute or more to load.
+### How to run WaveLab
+
+Windows users:
+
+1. Vsit https://code.usgs.gov/wavelab/wavelab and click [WaveLab.zip](https://code.usgs.gov/wavelab/wavelab/-/blob/master/WaveLab.zip).
+2. Click the [Download](https://code.usgs.gov/wavelab/wavelab/-/raw/master/WaveLab.zip?inline=false) button.
+3. Unzip the file on your computer.
+4. Double-click WaveLab.exe. The program may take a minute or more to load.
+
+### How to use WaveLab
+
+Please visit the [Documentation pages](https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/index.md) to learn to use WaveLab.
+
+### How to request new features 
+
+1. Visit the Issues page: https://code.usgs.gov/wavelab/wavelab/-/issues.
+2. Click the "New issue" button.
+3. Enter a title that describes the new feature.
+4. Next to "Description", select "Feature Request" in the dropdown box.
+5. Use the template to describe the feature that you would like to request.
+
+Please note that all new feature requests must be approved by the Short-Term Network User Group.
+
+### How to report bugs/issues
+
+1. Visit the Issues page: https://code.usgs.gov/wavelab/wavelab/-/issues
+2. Click the "New issue" button
+3. Enter a title that describes the bug you have encountered.
+4. Next to "Description", select "Bug" in the dropdown box.
+5. Use the template to describe the bug that you wouldl ike to report.
+
+Please note that all bug fixes must be approved by the Short-Term Network User Group.
+
+## Information for WaveLab Developers
 
 ### Code Installation
 
-Clone the repository, in the command terminal enter the root of the directory
+1. Clone the repository
+2. In the command prompt, enter the root of the directory.
+3. Run the following command in the terminal. This will install the package "wavelab" in your environment.
 
-Run the following command in the terminal
+`pip install .`
 
-<code>pip install .</code>
+4. Run the following command in order to run data tests for the sea pressure data:
 
-This will install the package "wavelab" in your respective environment.
+`python ./wavelab/addons/cython_setup.py build_ext --inplace`
 
-You will need to run the following in order to run data tests for the sea pressure data:
+5. Run the following command to build the final executable:
 
-<code>python ./wavelab/addons/cython_setup.py build_ext --inplace</code>
+For Windows:
 
-To build the final executable for Windows, run the following command:
-
-<code>pyinstaller --clean --add-data wavelab/images/*;./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole ./wavelab/gui/master.py</code>
+`pyinstaller --clean --add-data wavelab/images/*;./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole ./wavelab/gui/master.py`
 
 For Linux:
 
-<code>pyinstaller --clean --add-data wavelab/images/*:./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole --hidden-import='PIL._tkinter_finder' ./wavelab/gui/master.py</code>
+`pyinstaller --clean --add-data wavelab/images/*:./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole --hidden-import='PIL._tkinter_finder' ./wavelab/gui/master.py`
 
-Note building an executable makes it usable for only that operating system.  Consult pyinsller docs for more info:
+Note: building an executable makes it usable for only that operating system. Consult pyinstaller docs for more info:
 https://pyinstaller.readthedocs.io/en/stable/usage.html
 
 ### Repository Structure
@@ -41,22 +73,22 @@ https://pyinstaller.readthedocs.io/en/stable/usage.html
 
 - Reference documentation can be found <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/index.md">here</a>.
 
-- The jupyter notebooks can be found in the "documentation/notebooks" directory. These can run by changing to the notebooks directory and running the following command: <code>jupyter notebook</code>.  This will provide a link to view the notebooks in your browser or automatically open in a browser window.
+- The jupyter notebooks can be found in the [documentation/notebooks directory](https://code.usgs.gov/wavelab/wavelab/-/tree/master/documentation/notebooks). These can run by changing to the notebooks directory and running the following command: `jupyter notebook`.  This will provide a link to view the notebooks in your browser or automatically open in a browser window.
 
-- The "documentation/notebook_html" directory has the html pages pre built and can be viewed in your browser by opening index.html (code.usgs.gov does not support GitLab Pages as of now).   
+- The [documentation/notebooks directory](https://code.usgs.gov/wavelab/wavelab/-/tree/master/documentation/notebooks) has the HTML pages pre-built and can be viewed in your browser by opening index.html (code.usgs.gov does not support GitLab Pages as of now).   
 
-- Images for the readme are in the "documentation/notebooks/images" directory.
+- Images for the ReadMe are in the [documentation/notebooks/images directory](https://code.usgs.gov/wavelab/wavelab/-/tree/master/documentation/notebooks/images).
 
-- The "documentation/references" directory has a copies of papers (where available) in our bibliography.
+- The [documentation/references directory](https://code.usgs.gov/wavelab/wavelab/-/tree/master/documentation/references) has a copies of papers (where available) in our bibliography.
 
 #### Code
 
-- All of the main code is contained in the "wavelab" directory.
+- All of the main code is contained in the [wavelab directory](https://code.usgs.gov/wavelab/wavelab/-/tree/master/wavelab).
 
 ### Dependencies
 #### Software
 
-- Python >= 3.6 (3.7 reccomended)
+- Python >= 3.6 (3.7 recommended)
 
 #### Python Packages
 
@@ -74,17 +106,19 @@ https://pyinstaller.readthedocs.io/en/stable/usage.html
 - (juptyer to run notebooks)
 - (pyinstaller to build executable)
 
+## About the Software
 
 ### License
 
-This project is licensed under the Creative Commons CC0 1.0 Universal License - see the LICENSE.md file for details
+This project is licensed under the Creative Commons CC0 1.0 Universal License. See the [LICENSE.md file](https://code.usgs.gov/wavelab/wavelab/-/blob/master/LICENSE.md) for details
 
 
 ### Citation
 
 Petrochenkov G (2020). WaveLab Water Level and Wave Statistics Processing Toolbox: U.S. Geological Survey Software Release, doi:10.5066/P9M6YLMN.
 
-<code>@Manual{,
+```
+@Manual{,
   author = {Gregory Petrochenkov},
   title = {wavelab: Storm-Tide water level and wave statistics processing toolbox},
   publisher = {U.S. Geological Survey},
@@ -93,7 +127,8 @@ Petrochenkov G (2020). WaveLab Water Level and Wave Statistics Processing Toolbo
   institution = {U.S. Geological Survey},
   year = {2020},
   url = {https://code.usgs.gov/wavelab/wavelab},
-}</code>
+}
+```
 
 ##### DOI
 https://doi.org/10.5066/P9M6YLMN
@@ -102,6 +137,9 @@ https://doi.org/10.5066/P9M6YLMN
 IP-121859
 
 ##### Authors
-Gregory Petrochenkov. Author, maintainer. <br />
-Harry Jenter. Contributor. <br />
-Christopher Mazzullo. Contributor.
+- [Gregory Petrochenkov](https://www.usgs.gov/staff-profiles/gregory-petrochenkov): Author
+- [Harry Jenter](https://www.usgs.gov/staff-profiles/harry-jenter): Contributor
+- Christopher Mazzullo: Contributor
+- Anders Hopkins: Maintainer 
+- [Andrea Medenblik](https://www.usgs.gov/staff-profiles/andrea-s-medenblik): Maintainer 
+
