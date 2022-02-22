@@ -1,6 +1,6 @@
 <!-- Please use the below template to describe the WaveLab issue you would like to report.  -->
 
-## Summary
+## Summary of Issue
 
 <!-- Summarize the issue you have encountered. -->
 
@@ -16,7 +16,7 @@
 ## Screenshots
 <!-- If desired, please include screenshots here. !-->
 
-## Priority/Severity
+## Severity
 <!-- Place an "X" in the appropriate box below. !-->
 - [ ] High (negatively impacts scientific results)
 - [ ] Medium (negatively impacts user experience but does not affect scientific results)
