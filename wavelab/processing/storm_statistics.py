@@ -19,7 +19,7 @@ from wavelab.processing.storm_options import StormOptions
 from wavelab.utilities.nc import get_frequency
 from wavelab.utilities import unit_conversion as uc
 from wavelab.utilities.get_image import get_image
-matplotlib.use('Agg', warn=False)
+matplotlib.use('Agg', force=False)
 
 
 class StormStatistics(object):

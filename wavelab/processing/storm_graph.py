@@ -19,7 +19,7 @@ from wavelab.utilities import unit_conversion as uc
 from matplotlib.ticker import FormatStrFormatter
 from wavelab.utilities.get_image import get_image
 from wavelab.utilities.nc import get_frequency
-matplotlib.use('Agg', warn=False)
+matplotlib.use('Agg', force=False)
 
 
 class StormGraph(object):

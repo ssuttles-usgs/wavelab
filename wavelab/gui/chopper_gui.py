@@ -20,7 +20,7 @@ from tkinter.constants import W, LEFT, RIGHT
 from tkinter import filedialog
 from wavelab.utilities import nc, unit_conversion as uc
 from wavelab.utilities.nc import chop_netcdf
-matplotlib.use('TkAgg', warn=False)
+matplotlib.use('TkAgg', force=False)
 
 def find_index(array, value):
     

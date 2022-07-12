@@ -38,5 +38,5 @@ setup(
                       'netCDF4==1.5.3',
                       'defusedxml==0.6.0',
                       'jupyter==1.0.0',
-                      'pyinstaller==3.6']
+                      'pyinstaller==4.10']
 )
