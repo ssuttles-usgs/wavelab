@@ -445,7 +445,7 @@ class West_Coast_Station(edit_netcdf.NetCDFWriter):
 
 
 class VanEssen(edit_netcdf.NetCDFWriter):
-    """derived class for hobo csv files """
+    """derived class for VanEssen csv files """
 
     def __init__(self):
         self.timezone_marker = "time zone"

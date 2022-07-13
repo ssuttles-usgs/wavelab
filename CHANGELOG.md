@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added 
 
--
+- Added Van Essen to the list of possible baro sensors
 
 ### Changed  
 
--
+- Changed all instances of `matplotlib.use()` with `warn=False` to `force=False`
+- Changed pyinstaller to version 4.10
 
 ### Deprecated 
 
@@ -29,6 +30,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security  
 
-- 
 
 ## [v1.1.0](https://code.usgs.gov/wavelab/wavelab/-/tags/v1.1.0) - 2022-07-12
