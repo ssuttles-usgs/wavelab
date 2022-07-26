@@ -73,12 +73,12 @@ class StormCSV(object):
         if air is False:
             csv_header = ["", "Latitude: %.4f" % so.latitude, 'Longitude: %.4f' % so.longitude,
                 f'STN_Station_Number: {so.stn_station_number}', f"Storm Name: {so.storm_name}",
-                          f'Version: {so.version}']
+                          f'WaveLab Version: {so.version}']
                 
         else:
             csv_header = ["", "Latitude: %.4f" % so.air_latitude, 'Longitude: %.4f' % so.air_longitude,
                 'STN_Station_Number: %s' % so.air_stn_station_number, "Storm Name: %s" % so.storm_name,
-                          'Version: {0}'.format(so.version)]
+                          'WaveLab Version: {0}'.format(so.version)]
         
         with open(out_file_name, 'w') as csvfile:
             writer = csv_package.writer(csvfile, delimiter=',')

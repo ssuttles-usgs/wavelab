@@ -199,7 +199,7 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = f"{so.storm_name} Average Zero-Up-Crossing Period (Version {so.version})"
+        first_title = f"{so.storm_name} Average Zero-Up-Crossing Period (WaveLab Version {so.version})"
         second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
     
         ax.text(0.5, 1.065,first_title,
@@ -250,7 +250,7 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = f"{so.storm_name} Peak Wave Period (Version {so.version})"
+        first_title = f"{so.storm_name} Peak Wave Period (WaveLab Version {so.version})"
         second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
     
         ax.text(0.5, 1.065,first_title,  \
@@ -303,7 +303,7 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2)  # set a new position
         
-        first_title = f"{so.storm_name} 90 Percent Confidence Intervals for Significant Wave Height (Version {so.version})"
+        first_title = f"{so.storm_name} 90 Percent Confidence Intervals for Significant Wave Height (WaveLab Version {so.version})"
         second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
     
         ax.text(0.5, 1.065,first_title,  \
@@ -429,7 +429,7 @@ class StormStatistics(object):
         ax.set_position(pos2)  # set a new position
         
         # graph title options
-        first_title = f"{so.storm_name} Contours of Power Spectral Density (Version {so.version})"
+        first_title = f"{so.storm_name} Contours of Power Spectral Density (WaveLab Version {so.version})"
         second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
   
         ax.text(0.5, 1.065,first_title,

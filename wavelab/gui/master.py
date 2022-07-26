@@ -579,7 +579,7 @@ if __name__ == '__main__':
             # self.b4.pack(anchor=W, padx=15, pady=2)
             self.b5 = Button(self.root, text='Storm GUI', command=self.storm_surge)
             self.b5.pack(anchor=W, padx=15, pady=2)
-            self.emptyLabel2 = Label(self.root, text=f'Software Version {VERSION}')
+            self.emptyLabel2 = Label(self.root, text=f'WaveLab Version {VERSION}')
             self.emptyLabel2.pack(anchor=W, padx=15, pady=15)
 
         def sea_gui(self):

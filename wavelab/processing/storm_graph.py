@@ -271,7 +271,7 @@ class StormGraph(object):
         # create the second graph title
 
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (Version {so.version})"
+            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
         
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
@@ -468,7 +468,7 @@ class StormGraph(object):
         ax.set_position(pos2) # set a new position
         
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (Version {so.version})"
+            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
 
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
@@ -645,7 +645,7 @@ class StormGraph(object):
         ax.set_position(pos2) # set a new position
         
         first_title = f"{so.storm_name} Barometric Pressure, Latitude: {so.latitude} Longitude: {so.longitude} \
-            \nSTN Site ID: {so.stn_station_number} (Version {so.version})"
+            \nSTN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
    
         ax.text(0.5, 1.03, first_title,
                 va='center', ha='center', transform=ax.transAxes)
