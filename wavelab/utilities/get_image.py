@@ -17,6 +17,6 @@ def get_image(image_name):
     else:
         file_dir = os.path.dirname(__file__)
         application_path = os.path.join(file_dir, "../images")
-        print(application_path)
+        # print(application_path)
 
     return os.path.join(application_path, image_name)

@@ -14,7 +14,7 @@ The Storm GUI takes the sea and air pressure netCDF files and creates output net
 visualizations for water level and wave statistics.
 """
 
-VERSION = 1.1
+VERSION = '1.1.0'
 
 from tkinter import (Tk,
                      Label,
@@ -579,8 +579,8 @@ if __name__ == '__main__':
             # self.b4.pack(anchor=W, padx=15, pady=2)
             self.b5 = Button(self.root, text='Storm GUI', command=self.storm_surge)
             self.b5.pack(anchor=W, padx=15, pady=2)
-            self.emptyLabel2 = Label(self.root, text='', font=("Helvetica", 2))
-            self.emptyLabel2.pack(anchor=W, padx=15, pady=0)
+            self.emptyLabel2 = Label(self.root, text=f'Software Version {VERSION}')
+            self.emptyLabel2.pack(anchor=W, padx=15, pady=15)
 
         def sea_gui(self):
             self.root1 = Toplevel(self.root)

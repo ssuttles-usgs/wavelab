@@ -68,11 +68,12 @@ class StormCSV(object):
     @staticmethod
     def write_header(out_file_name, so, air=False, write_type="normal"):
         """Write descriptive csv header"""
+        print('so.latitude:', type(so.latitude), so.latitude, "Latitude: %.4f" % so.latitude, "Latitude: %.5f" % so.latitude)
         
         if air is False:
             csv_header = ["", "Latitude: %.4f" % so.latitude, 'Longitude: %.4f' % so.longitude,
-                'STN_Station_Number: %s' % so.stn_station_number, "Storm Name: %s" % so.storm_name,
-                          'Version: {0}'.format(so.version)]
+                f'STN_Station_Number: {so.stn_station_number}', f"Storm Name: {so.storm_name}",
+                          f'Version: {so.version}']
                 
         else:
             csv_header = ["", "Latitude: %.4f" % so.air_latitude, 'Longitude: %.4f' % so.air_longitude,
@@ -88,9 +89,9 @@ class StormCSV(object):
     @staticmethod
     def time_column_format(so):
         if so.daylight_savings is not None and so.daylight_savings is True:
-            return '%s Daylight Savings Time' % so.timezone 
+            return f'{so.timezone} Daylight Savings Time'
         else:
-            return '%s Time' % so.timezone  
+            return f'{so.timezone} Time'
             
     def storm_tide_and_unfiltered_water_level(self, so):
         """csv for Storm Surge and Unfiltered Water Level"""
