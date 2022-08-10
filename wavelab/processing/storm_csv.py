@@ -68,7 +68,6 @@ class StormCSV(object):
     @staticmethod
     def write_header(out_file_name, so, air=False, write_type="normal"):
         """Write descriptive csv header"""
-        print('so.latitude:', type(so.latitude), so.latitude, "Latitude: %.4f" % so.latitude, "Latitude: %.5f" % so.latitude)
         
         if air is False:
             csv_header = ["", "Latitude: %.4f" % so.latitude, 'Longitude: %.4f' % so.longitude,
