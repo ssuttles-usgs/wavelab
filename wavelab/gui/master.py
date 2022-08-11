@@ -14,7 +14,6 @@ The Storm GUI takes the sea and air pressure netCDF files and creates output net
 visualizations for water level and wave statistics.
 """
 
-VERSION = '1.1.0'
 
 from tkinter import (Tk,
                      Label,
@@ -52,6 +51,8 @@ from wavelab.processing.storm_netCDF import Storm_netCDF
 from wavelab.processing.storm_statistics import StormStatistics
 from wavelab.utilities import unit_conversion as uc
 
+
+VERSION = '1.1.0'
 
 def storm_processing(data_dict, queue):
 
@@ -131,7 +132,7 @@ if __name__ == '__main__':
 
             # root and selection dialogs for sea and air netCDF files
             self.root = root
-
+            
             self.top = Frame(self.root)
             root.title('Storm Surge GUI (Pressure -> Water Level)')
             self.root.focus_force()
