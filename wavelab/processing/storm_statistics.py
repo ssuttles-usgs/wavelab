@@ -199,9 +199,8 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = "%s Average Zero-Up-Crossing Period (Version %.2f)" % (so.storm_name, so.version)
-        second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-            % (so.latitude,so.longitude,str(so.stn_station_number).replace('\n', ''))
+        first_title = f"{so.storm_name} Average Zero-Up-Crossing Period (WaveLab Version {so.version})"
+        second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
     
         ax.text(0.5, 1.065,first_title,
                 va='center', ha='center', transform=ax.transAxes)
@@ -215,7 +214,7 @@ class StormStatistics(object):
     
         #x axis formatter for dates (function format_date() below)
         ax.xaxis.set_major_formatter(ticker.FuncFormatter(self.format_date))
-        ax.set_xlabel('Timezone: %s' % so.timezone)
+        ax.set_xlabel(f'Timezone: {so.timezone}')
         
         p6, = ax.plot(self.time_nums,so.stat_dictionary['Average Z Cross'], color='blue')
         
@@ -251,9 +250,8 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = "%s Peak Wave Period (Version %.2f)" % (so.storm_name, so.version)
-        second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-                % (so.latitude,so.longitude,str(so.stn_station_number).replace('\n', ''))
+        first_title = f"{so.storm_name} Peak Wave Period (WaveLab Version {so.version})"
+        second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
     
         ax.text(0.5, 1.065,first_title,  \
                 va='center', ha='center', transform=ax.transAxes)
@@ -267,7 +265,7 @@ class StormStatistics(object):
     
         # x axis formatter for dates (function format_date() below)
         ax.xaxis.set_major_formatter(ticker.FuncFormatter(self.format_date))
-        ax.set_xlabel('Timezone: %s' % so.timezone)
+        ax.set_xlabel(f'Timezone: {so.timezone}')
         
         p6, = ax.plot(self.time_nums,so.stat_dictionary['Peak Wave'], color='blue')
 
@@ -305,10 +303,8 @@ class StormStatistics(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2)  # set a new position
         
-        first_title = "%s 90 Percent Confidence Intervals for Significant Wave Height (Version %.2f)" % (so.storm_name,
-                                                                                                  so.version)
-        second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-                % (so.latitude,so.longitude,str(so.stn_station_number).replace('\n', ''))
+        first_title = f"{so.storm_name} 90 Percent Confidence Intervals for Significant Wave Height (WaveLab Version {so.version})"
+        second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
     
         ax.text(0.5, 1.065,first_title,  \
                 va='center', ha='center', transform=ax.transAxes)
@@ -325,7 +321,7 @@ class StormStatistics(object):
     
         # x axis formatter for dates (function format_date() below)
         ax.xaxis.set_major_formatter(ticker.FuncFormatter(self.format_date))
-        ax.set_xlabel('Timezone: %s' % so.timezone)
+        ax.set_xlabel(f'Timezone: so.timezone')
         
 #         p7, = ax.plot(self.time_nums, so.upper_stat_dictionary['H1/3'],"--", \
 #                       alpha=0,color="red")
@@ -433,9 +429,8 @@ class StormStatistics(object):
         ax.set_position(pos2)  # set a new position
         
         # graph title options
-        first_title = "%s Contours of Power Spectral Density (Version %.2f)" % (so.storm_name, so.version)
-        second_title = "Latitude: %.4f Longitude: %.4f STN Site ID: %s" \
-            % (so.latitude, so.longitude, so.stn_station_number)
+        first_title = f"{so.storm_name} Contours of Power Spectral Density (WaveLab Version {so.version})"
+        second_title = f"Latitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number}" 
   
         ax.text(0.5, 1.065,first_title,
                 va='center', ha='center', transform=ax.transAxes)
