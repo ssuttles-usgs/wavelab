@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added 
 
 - Added Van Essen to the list of possible baro sensors
-- Added version statement to main GUI and all graphs
+- Added software version statement to main GUI and all graphs
+- Added software version to metadata of output netCDF files
 
 ### Changed  
 
