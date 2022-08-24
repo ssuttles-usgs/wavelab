@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="wavelab",
-    version="1.1.0",
+    version="1.2.0",
     author="Gregory Petrochenkov",
     author_email="gpetrochenkov@usgs.gov",
     description="Post Storm Processing of Storm Surge and Wave Statistics",
