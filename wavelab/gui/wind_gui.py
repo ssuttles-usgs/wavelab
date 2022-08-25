@@ -13,7 +13,7 @@ from tkinter import filedialog
 import easygui
 import numpy
 from wavelab.processing.wind_script import get_wind_data
-matplotlib.use('TkAgg', warn=False)
+matplotlib.use('TkAgg', force=False)
 
 
 def find_index(array, value):

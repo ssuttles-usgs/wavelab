@@ -9,10 +9,13 @@ import uuid
 from wavelab.utilities import unit_conversion as uc
 from numpy import float64
 
+VERSION = '1.2.0'
+
 
 class DataStore(object):
     """Use this as an abstract data store, then pass a netCDF write stream to send data method"""
     def __init__(self, grouping):
+        self.version = VERSION
         self.utc_millisecond_data = None
         self.data_start_date = None
         self.data_end_date = None
@@ -225,7 +228,8 @@ class DataStore(object):
                                  "Metadata_Conventions": "Unidata Dataset Discovery v1.0",
                                  "metadata_link": "http://cfconventions.org/Data/cf-standard-names/30/build/cf-standard-name-table.html",
                                  "naming_authority": "gov.usgs.water.stn",
-                                 "readme": "File created by Wavelab Tool Suite version 1.0",
+                                 "readme": f"File created by Wavelab Tool Suite version {self.version}",
+                                 "filter_type": "Butterworth: 6-min",
                                  "standard_name_vocabulary": "CF-1.6",
                                  "summary": "",
                                  "time_coverage_start": "utility coverage start",
