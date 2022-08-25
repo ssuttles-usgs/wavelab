@@ -123,7 +123,7 @@ Petrochenkov G (2020). WaveLab Water Level and Wave Statistics Processing Toolbo
   title = {wavelab: Storm-Tide water level and wave statistics processing toolbox},
   publisher = {U.S. Geological Survey},
   address = {Reston, VA},
-  version = {1.1.0},
+  version = {1.2.0},
   institution = {U.S. Geological Survey},
   year = {2020},
   url = {https://code.usgs.gov/wavelab/wavelab},

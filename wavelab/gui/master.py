@@ -52,7 +52,7 @@ from wavelab.processing.storm_statistics import StormStatistics
 from wavelab.utilities import unit_conversion as uc
 
 
-VERSION = '1.1.0'
+VERSION = '1.2.0'
 
 def storm_processing(data_dict, queue):
 

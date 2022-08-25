@@ -9,7 +9,7 @@ import uuid
 from wavelab.utilities import unit_conversion as uc
 from numpy import float64
 
-VERSION = '1.1.0'
+VERSION = '1.2.0'
 
 
 class DataStore(object):
