@@ -74,10 +74,11 @@ https://pyinstaller.readthedocs.io/en/stable/usage.htm
 3. Work on the issue. Frequently commit your work to your local branch. Use simple, short, and descriptive messages with a verb describing the work. Include the issue number. Example: `git commit -m "#5 added styling"`
 4. Update the "Unreleased" section of the CHANGELOG.md to describe you work.
 5. Ensure your code is synced with the latest version of the dev branch: `git pull origin dev`. Resolve merge conflicts, if necessary.
-6. Push your committed and synced branch to the remote repository on GitHub: `git push origin JD-5`
-7. Submit a Merge Request into the `dev` branch. Name the Merge Request in this format: "Fixes #5 - Issue Description". Use keywords to automatically close issues (e.g. "Closes #5). Assign a code reviewer.
-8. Once your Merge Request is reviewed, address any feedback that needs to be addressed. Once you have addressed feedback, re-request review.
-9. Upon approval of the Merge Request, your branch will be merged into the `dev` branch and you can start on a new issue.
+6. Build a new executable WaveLab.exe file. Run the file and confirm functionality works as intended: `pyinstaller --clean --add-data wavelab/images/*;./images -F -n WaveLab --icon=wavelab/images/wavelab_icon.ico --noconsole ./wavelab/gui/master.py --upx-dir=".\upx-3.96-win64" --windowed --debug=all --version-file="versionfile.txt"`
+7. Push your committed and synced branch to the remote repository on GitHub: `git push origin JD-5`
+8. Submit a Merge Request into the `dev` branch. Name the Merge Request in this format: "Fixes #5 - Issue Description". Use keywords to automatically close issues (e.g. "Closes #5). Assign a code reviewer.
+9. Once your Merge Request is reviewed, address any feedback that needs to be addressed. Once you have addressed feedback, re-request review.
+10. Upon approval of the Merge Request, your branch will be merged into the `dev` branch and you can start on a new issue.
 ### Release Workflow
 
 Follow these steps when a new version of WaveLab is ready to be released to users. 
