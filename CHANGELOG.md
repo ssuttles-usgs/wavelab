@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added 
 
-- 
+- Development Workflow section to README.md
+- Release Workflow section to README.md
+- versionfile.txt file to add details about the WaveLab.exe
 
 ### Changed  
 
-- 
+- history.json, history2_air.json, and history2_sea.json files are now saved in a WaveLab folder under the UserProfile environment variable instead of the same directory as WaveLab.exe
 
 ### Deprecated 
 

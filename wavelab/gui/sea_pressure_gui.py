@@ -10,6 +10,7 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import traceback
 import sys
+import pathlib
 import os
 from collections import OrderedDict
 from wavelab.processing.pressure_script import convert_to_netcdf
@@ -17,8 +18,11 @@ import json
 import re
 from wavelab.utilities import unit_conversion as uc
 
-GLOBAL_HISTFILE = 'history.json'
-LOCAL_HISTFILE = 'history2_sea.json'
+# Save history JSON files at a location: ex. C:\Users\username\WaveLab
+HISTFILEPATH = os.environ['USERPROFILE'] + r'\WaveLab'
+pathlib.Path(HISTFILEPATH).mkdir(parents=True, exist_ok=True) # Create WaveLab folder if it doesn't already exist
+GLOBAL_HISTFILE = os.path.join(HISTFILEPATH, 'history.json') 
+LOCAL_HISTFILE = os.path.join(HISTFILEPATH, 'history2_sea.json')
 GLOBAL_FIELDS = OrderedDict([
     ('creator_name', ['Your full name:', '']),
     ('creator_email', ['Your email address:', '']),
