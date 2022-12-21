@@ -130,20 +130,21 @@ class House(edit_netcdf.NetCDFWriter):
 
 class Leveltroll(edit_netcdf.NetCDFWriter):
     """derived class for leveltroll ascii files"""
-
+    
     def __init__(self):
         self.numpy_dtype = np.dtype([("seconds", np.float32),
                                      ("pressure", np.float32)])
         self.record_start_marker = "Date and Time,Seconds"
         self.timezone_marker = "time zone"
         super().__init__()
-        # self.date_format_string = "%m/%d/%Y %H:%M"
-        self.date_format_string = "%m/%d/%y %H:%M:%S"
+        self.date_format_string = "%m/%d/%Y %H:%M"
+        # self.date_format_string = "%m/%d/%y %H:%M:%S"
         self.temperature_data = None
 
     def read(self):
         """load the data from in_filename
         only parse the initial datetime = much faster"""
+        
 
         self.get_serial()
         skip_index = find_first(self.in_filename, 'Time') # Date and Time,Seconds
