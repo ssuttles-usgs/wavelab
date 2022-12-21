@@ -26,11 +26,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 
 ### Fixed  
 
-- 
+- Fixed the datetime error that prevented the processing of LevelTroll files.
 
 ### Security  
 
--
+- 
+
 ## [v1.2.0](https://code.usgs.gov/wavelab/wavelab/-/tags/v1.2.0) - 2022-08-24
 
 ### Added 

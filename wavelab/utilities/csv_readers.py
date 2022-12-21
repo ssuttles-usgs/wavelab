@@ -130,7 +130,7 @@ class House(edit_netcdf.NetCDFWriter):
 
 class Leveltroll(edit_netcdf.NetCDFWriter):
     """derived class for leveltroll ascii files"""
-
+    
     def __init__(self):
         self.numpy_dtype = np.dtype([("seconds", np.float32),
                                      ("pressure", np.float32)])
@@ -138,27 +138,29 @@ class Leveltroll(edit_netcdf.NetCDFWriter):
         self.timezone_marker = "time zone"
         super().__init__()
         self.date_format_string = "%m/%d/%Y %H:%M"
-        # self.date_format_string2 = "%m/%d/%Y %H:%M:%S "
+        # self.date_format_string = "%m/%d/%y %H:%M:%S"
         self.temperature_data = None
 
     def read(self):
         """load the data from in_filename
         only parse the initial datetime = much faster"""
+        
 
         self.get_serial()
-        skip_index = find_first(self.in_filename, 'Date and Time,Seconds')
+        skip_index = find_first(self.in_filename, 'Time') # Date and Time,Seconds
 #         data = pd.read_table(self.in_filename, skiprows=skip_index, header=None,
 #                            engine='c', sep=',', usecols=(0,1,2,3))
 
         data = pd.read_table(self.in_filename, skiprows=skip_index, header=None,
                             engine='c', sep=',', usecols=(0,1,2))
         
-        self.data_start = uc.datestring_to_ms(data[0][1], self.date_format_string,
+        self.data_start = uc.datestring_to_ms(data[1][0], self.date_format_string,
                                            self.tz_info, self.daylight_savings)
-        # self.data_start2 = uc.datestring_to_ms(data[0][2], self.date_format_string,
-        #                                    self.tz_info, self.daylight_savings)
+        self.data_start2 = uc.datestring_to_ms(data[1][1], self.date_format_string,
+                                           self.tz_info, self.daylight_savings)
         
-        self.frequency = 1 / int(data[1][1] - data[1][0])
+        # self.frequency = 1 / int(data[1][1] - data[1][0])
+        self.frequency = 1000 / (self.data_start2 - self.data_start)
         
         self.utc_millisecond_data = uc.generate_ms(self.data_start, len(data[0]), 
                                                    self.frequency)
