@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://code.usgs.gov/wavelab/wavelab/-/tree/dev)
+## [Unreleased](https://code.usgs.gov/wavelab/wavelab/-/tree/dev) - 2023-01-19
 
 ### Added 
 
@@ -23,7 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed 
 
-- 
+- Removed changes to the LevelTroll csv processing class from a previous commit.
+
 ### Fixed  
 
 - Fixed the datetime error that prevented the processing of LevelTroll files.
@@ -44,4 +45,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Changed all instances of `matplotlib.use()` with `warn=False` to `force=False`
 - Changed pyinstaller to version 4.10
+  
+
 ## [v1.1.0](https://code.usgs.gov/wavelab/wavelab/-/tags/v1.1.0) - 2022-07-12
