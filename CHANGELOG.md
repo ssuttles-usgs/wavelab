@@ -24,9 +24,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed 
 
 - 
+
 ### Fixed  
 
-- Fixed the datetime error that prevented the processing of LevelTroll files.
+- 
 
 ### Security  
 
@@ -44,4 +45,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Changed all instances of `matplotlib.use()` with `warn=False` to `force=False`
 - Changed pyinstaller to version 4.10
+  
+
 ## [v1.1.0](https://code.usgs.gov/wavelab/wavelab/-/tags/v1.1.0) - 2022-07-12

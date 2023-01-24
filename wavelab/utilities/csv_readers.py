@@ -138,7 +138,7 @@ class Leveltroll(edit_netcdf.NetCDFWriter):
         self.timezone_marker = "time zone"
         super().__init__()
         self.date_format_string = "%m/%d/%Y %H:%M"
-        # self.date_format_string = "%m/%d/%y %H:%M:%S"
+        # self.date_format_string = "%m/%d/%Y %H:%M:%S "
         self.temperature_data = None
 
     def read(self):
@@ -147,20 +147,19 @@ class Leveltroll(edit_netcdf.NetCDFWriter):
         
 
         self.get_serial()
-        skip_index = find_first(self.in_filename, 'Time') # Date and Time,Seconds
+        skip_index = find_first(self.in_filename, 'Date and Time,Seconds')
 #         data = pd.read_table(self.in_filename, skiprows=skip_index, header=None,
 #                            engine='c', sep=',', usecols=(0,1,2,3))
 
         data = pd.read_table(self.in_filename, skiprows=skip_index, header=None,
                             engine='c', sep=',', usecols=(0,1,2))
         
-        self.data_start = uc.datestring_to_ms(data[1][0], self.date_format_string,
+        self.data_start = uc.datestring_to_ms(data[0][1], self.date_format_string,
                                            self.tz_info, self.daylight_savings)
-        self.data_start2 = uc.datestring_to_ms(data[1][1], self.date_format_string,
-                                           self.tz_info, self.daylight_savings)
+        # self.data_start2 = uc.datestring_to_ms(data[1][1], self.date_format_string,
+        #                                    self.tz_info, self.daylight_savings)
         
-        # self.frequency = 1 / int(data[1][1] - data[1][0])
-        self.frequency = 1000 / (self.data_start2 - self.data_start)
+        self.frequency = 1 / int(data[1][1] - data[1][0])
         
         self.utc_millisecond_data = uc.generate_ms(self.data_start, len(data[0]), 
                                                    self.frequency)
@@ -234,7 +233,7 @@ class MeasureSysLogger(edit_netcdf.NetCDFWriter):
                     match = re.search("[0-9]{7}", line)
                     self.instrument_serial = match.group(0)
                     break
-        
+
 
 class RBRSolo(edit_netcdf.NetCDFWriter):
     """derived class for RBR solo engineer text files, (exported via ruskin software)"""
