@@ -271,13 +271,13 @@ class StormGraph(object):
         # create the second graph title
 
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {round(so.latitude,4)} Longitude: {round(so.longitude,4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
+            \nLatitude: {so.latitude.round(4)} Longitude: {so.longitude.round(4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
         
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
-            second_title = f"Barometric Pressure, Latitude: {round(so.air_latitude,4)} Longitude: {round(so.air_longitude,4)} STN Site ID: {so.air_stn_station_number}"
+            second_title = f"Barometric Pressure, Latitude: {so.air_latitude.round(4)} Longitude: {so.air_longitude.round(4)} STN Site ID: {so.air_stn_station_number}"
 
             ax.text(0.5, 1.015, second_title, \
                 va='center', ha='center', transform=ax.transAxes)
@@ -468,13 +468,13 @@ class StormGraph(object):
         ax.set_position(pos2) # set a new position
         
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {round(so.latitude,4)} Longitude: {round(so.longitude,4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
+            \nLatitude: {so.latitude.round(4)} Longitude: {so.longitude.round(4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
 
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
-            second_title = f"Barometric Pressure, Latitude: {round(so.air_latitude,4)} Longitude: {round(so.air_longitude,4)} STN Site ID: {so.air_stn_station_number}"
+            second_title = f"Barometric Pressure, Latitude: {so.air_latitude.round(4)} Longitude: {so.air_longitude.round(4)} STN Site ID: {so.air_stn_station_number}"
 
 
             ax.text(0.5, 1.015,second_title, \
@@ -644,7 +644,7 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = f"{so.storm_name} Barometric Pressure, Latitude: {round(so.latitude,4)} Longitude: {round(so.longitude,4)} \
+        first_title = f"{so.storm_name} Barometric Pressure, Latitude: {so.latitude.round(4)} Longitude: {so.longitude.round(4)} \
             \nSTN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
    
         ax.text(0.5, 1.03, first_title,
