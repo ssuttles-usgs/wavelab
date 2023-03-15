@@ -19,15 +19,30 @@ def find_first(fname, expr):
                 return i + 1
 
 
+def get_date_format(date):
+    "Return datatime format string given a string of datetime data."
+    date_formats = ['%m/%d/%y %I:%M:%S %p', '%m/%d/%Y %H:%M', '%m/%d/%y %H:%M:%S', 
+                '%Y.%m.%d %H:%M:%S ', "%m/%d/%Y %H:%M:%S ", '%m/%d/%Y %H:%M:%S.%f', 
+                '%m/%d/%Y %I:%M:%S.%f %p', '%Y-%m-%d %H:%M:%S.%f', '%d-%b-%Y %H:%M:%S.%f',
+               "%Y-%m-%dT%H:%M:%SZ", '%Y/%m/%d %H:%M','%m/%d/%Y %H:%M UTC']
+    
+    for d in date_formats:
+        try:
+            datetime.strptime(date, d)
+            date_format_string = d
+            break
+        except:
+            pass
+
+    return date_format_string
+
+
 class Hobo(edit_netcdf.NetCDFWriter):
     """derived class for hobo csv files """
 
     def __init__(self):
         self.timezone_marker = "time zone"
         super().__init__()
-        self.date_format_string = '%m/%d/%y %I:%M:%S %p'
-        self.date_format_string2 = '%m/%d/%Y %H:%M'
-        self.date_format_string3 = '%m/%d/%y %H:%M:%S'
 
 
     def read(self):
@@ -50,6 +65,9 @@ class Hobo(edit_netcdf.NetCDFWriter):
         else:
             vals = df[2].values
             date1, date2 = df[1][0], df[1][1]
+
+        # Determine the format of the datetime
+        self.date_format_string = get_date_format(date1)
         
         try:
             first_stamp = uc.datestring_to_ms(date1, self.date_format_string,

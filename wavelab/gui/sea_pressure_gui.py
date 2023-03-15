@@ -30,8 +30,7 @@ GLOBAL_FIELDS = OrderedDict([
 LOCAL_FIELDS = OrderedDict([
     ('instrument_name', ['Instrument:', [
         'MS TruBlue 255', 'Onset Hobo U20', 'LevelTroll', 'RBRSolo',
-        'VanEssen'
-        # , 'USGS Homebrew'
+        'VanEssen', 'Generic' # , 'USGS Homebrew'
         ], True]),
     ('stn_station_number', ['STN Site Id:', '']),
     ('stn_instrument_id', ['STN Instrument Id:', '']),
@@ -125,7 +124,7 @@ class SeaPressureGUI:
         message = ('Working, this may take a few minutes.')
 
         dialog = None
-         
+
         try:
             dialog = MessageDialog(self.parent, message=message,
                                    title='Processing...', buttons=0, wait=False)
@@ -186,12 +185,12 @@ class SeaPressureGUI:
             message = traceback.format_exception(exc_type, exc_value,
                                         exc_traceback)
 
-            MessageDialog(root, message=message,
+            MessageDialog(self.parent, message=message,
                              title='Error')
     
     def validate_entries(self, inputs):
         """Check if the GUI entries are filled out and in the proper format"""
-        
+
         ignore = [
                   'in_filename',
                   'tzinfo', 
