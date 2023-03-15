@@ -271,13 +271,13 @@ class StormGraph(object):
         # create the second graph title
 
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
+            \nLatitude: {round(so.latitude,4)} Longitude: {round(so.longitude,4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
         
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
-            second_title = f"Barometric Pressure, Latitude: {so.air_latitude} Longitude: {so.air_longitude} STN Site ID: {so.air_stn_station_number}"
+            second_title = f"Barometric Pressure, Latitude: {round(so.air_latitude,4)} Longitude: {round(so.air_longitude,4)} STN Site ID: {so.air_stn_station_number}"
 
             ax.text(0.5, 1.015, second_title, \
                 va='center', ha='center', transform=ax.transAxes)
@@ -422,15 +422,15 @@ class StormGraph(object):
             add_entry(entry, 'Maximum Storm Tide Water Elevation')
 
         if self.international_units:
-            max_storm_tide = f"Maximum Unfiltered Water Elevation, meters above datum = {depth_max} at {depth_time}"
-            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, meters above datum = {tide_max} at {tide_time}" if graph_stormtide else ""
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {so.combined_level_accuracy_in_meters}',
+            max_storm_tide = f"Maximum Unfiltered Water Elevation, meters above datum = {round(depth_max,2)} at {depth_time}"
+            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, meters above datum = {round(tide_max,2)} at {tide_time}" if graph_stormtide else ""
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {round(so.combined_level_accuracy_in_meters,2)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
-            max_storm_tide = f"Maximum Unfiltered Water Elevation, feet above datum = {depth_max} at {depth_time}"
-            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, feet above datum = {tide_max} at {tide_time}" if graph_stormtide else ""
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {(so.combined_level_accuracy_in_meters * uc.METER_TO_FEET)}',
+            max_storm_tide = f"Maximum Unfiltered Water Elevation, feet above datum = {round(depth_max,2)} at {depth_time}"
+            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, feet above datum = {round(tide_max,2)} at {tide_time}" if graph_stormtide else ""
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {round((so.combined_level_accuracy_in_meters * uc.METER_TO_FEET),2)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
 
@@ -468,13 +468,13 @@ class StormGraph(object):
         ax.set_position(pos2) # set a new position
         
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
+            \nLatitude: {round(so.latitude,4)} Longitude: {round(so.longitude,4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
 
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
-            second_title = f"Barometric Pressure, Latitude: {so.air_latitude} Longitude: {so.air_longitude} STN Site ID: {so.air_stn_station_number}"
+            second_title = f"Barometric Pressure, Latitude: {round(so.air_latitude,4)} Longitude: {round(so.air_longitude,4)} STN Site ID: {so.air_stn_station_number}"
 
 
             ax.text(0.5, 1.015,second_title, \
@@ -575,15 +575,15 @@ class StormGraph(object):
             inst_accuracy_y = 1.115
 
         if self.international_units is True:
-            max_storm_tide = f"Maximum Storm Tide Water Elevation, meters above datum = {tide_max} at {tide_time}"
+            max_storm_tide = f"Maximum Storm Tide Water Elevation, meters above datum = {round(tide_max,2)} at {tide_time}" 
 
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {so.combined_level_accuracy_in_meters}',
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {round(so.combined_level_accuracy_in_meters,2)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
-            max_storm_tide = f"Maximum Storm Tide Water Elevation, feet above datum = {tide_max} at {tide_time}"
+            max_storm_tide = f"Maximum Storm Tide Water Elevation, feet above datum = {round(tide_max,2)} at {tide_time}"
 
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {(so.combined_level_accuracy_in_meters * uc.METER_TO_FEET)}',
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {round((so.combined_level_accuracy_in_meters * uc.METER_TO_FEET),2)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         
@@ -644,14 +644,14 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = f"{so.storm_name} Barometric Pressure, Latitude: {so.latitude} Longitude: {so.longitude} \
+        first_title = f"{so.storm_name} Barometric Pressure, Latitude: {round(so.latitude,4)} Longitude: {round(so.longitude,4)} \
             \nSTN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
    
         ax.text(0.5, 1.03, first_title,
                 va='center', ha='center', transform=ax.transAxes)
 
         if self.international_units is True:
-            ax.text(0.735, 1.26, 'Instrument Error (dbar): %f' %
+            ax.text(0.735, 1.26, 'Instrument Error (dbar): %.2f' %
                     so.extract_level_accuracy(so.air_fname, 'air_pressure'),
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
@@ -659,7 +659,7 @@ class StormGraph(object):
             #         va='center', ha='left', transform=ax.transAxes,
             #         fontsize=10)
         else:
-            ax.text(0.735, 1.26, 'Instrument Error (inHg): %f' %
+            ax.text(0.735, 1.26, 'Instrument Error (inHg): %.2f' %
                     (so.extract_level_accuracy(so.air_fname, 'air_pressure') * uc.DBAR_TO_INCHES_OF_MERCURY),
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
