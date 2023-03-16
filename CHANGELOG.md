@@ -12,12 +12,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Development Workflow section to README.md
 - Release Workflow section to README.md
 - versionfile.txt file to add details about the WaveLab.exe
+- Documentation about the "Sea Name" attribute
 
 ### Changed  
 
 - history.json, history2_air.json, and history2_sea.json files are now saved in a WaveLab folder under the UserProfile environment variable instead of the same directory as WaveLab.exe
 - Latitude and Longitude on graphs reduced to 4 decimal places
 - Instrument Error, Combined Instrument Error, Maximum Storm Tide Water Elevation, and Maximum Unfiltered Water Elevation reduced to 2 decimal places
+- Graph Explanations now say "Butterworth 6-minute Filtered" instead of "Lowpass Filtered"
 
 ### Deprecated 
 
@@ -29,7 +31,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed  
 
-- 
+- Latitude and Longitude are again rounded to 4 decimal places in the graphs
+- Maximum Storm Tide Water Elevation and Maximum Unfiltered Water Elevation are now rounded to 2 decimal places in the graphs
+- Documentation that erroneously referred to a one-minute Butterworth filter has been changed to refer to a six-minute Butterworth filter
 
 ### Security  
 
