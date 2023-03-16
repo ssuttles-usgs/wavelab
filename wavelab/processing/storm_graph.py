@@ -395,7 +395,7 @@ class StormGraph(object):
 
         if graph_stormtide:
             entry, = ax.plot(self.time_nums, self.df.SurgeDepth, color="#045a8d" )
-            add_entry(entry, 'Storm Tide (Lowpass Filtered) Water Elevation')
+            add_entry(entry, 'Storm Tide (Butterworth 6-minute Filtered) Water Elevation')
 
         entry, = ax.plot(self.time_nums, np.repeat(sensor_min, len(self.df.SurgeDepth)), linestyle="--",
                       color="#fd8d3c")
@@ -597,7 +597,7 @@ class StormGraph(object):
         if so.level_troll is False:
             legend_entries = [p2, p3, p1, p6]
             legend_names = [
-            'Storm Tide (Lowpass Filtered) Water Elevation',
+            'Storm Tide (Butterworth 6-minute Filtered) Water Elevation',
             'Minimum Recordable Water Elevation',
             'Barometric Pressure',
             'Maximum Storm Tide Water Elevation'
@@ -605,7 +605,7 @@ class StormGraph(object):
         else:
             legend_entries = [p2, p3, p6]
             legend_names = [
-                'Storm Tide (Lowpass Filtered) Water Elevation',
+                'Storm Tide (Butterworth 6-minute  Filtered) Water Elevation',
                 'Minimum Recordable Water Elevation',
                 'Maximum Storm Tide Water Elevation'
             ]
