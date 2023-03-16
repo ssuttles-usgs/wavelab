@@ -424,13 +424,13 @@ class StormGraph(object):
         if self.international_units:
             max_storm_tide = f"Maximum Unfiltered Water Elevation, meters above datum = {round(depth_max,2)} at {depth_time}"
             max_storm_tide += f"\nMaximum Storm Tide Water Elevation, meters above datum = {round(tide_max,2)} at {tide_time}" if graph_stormtide else ""
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {round(so.combined_level_accuracy_in_meters,2)}',
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {so.combined_level_accuracy_in_meters}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
             max_storm_tide = f"Maximum Unfiltered Water Elevation, feet above datum = {round(depth_max,2)} at {depth_time}"
             max_storm_tide += f"\nMaximum Storm Tide Water Elevation, feet above datum = {round(tide_max,2)} at {tide_time}" if graph_stormtide else ""
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {round((so.combined_level_accuracy_in_meters * uc.METER_TO_FEET),2)}',
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {(so.combined_level_accuracy_in_meters * uc.METER_TO_FEET)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
 
@@ -577,13 +577,13 @@ class StormGraph(object):
         if self.international_units is True:
             max_storm_tide = f"Maximum Storm Tide Water Elevation, meters above datum = {round(tide_max,2)} at {tide_time}" 
 
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {round(so.combined_level_accuracy_in_meters,2)}',
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {so.combined_level_accuracy_in_meters}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
             max_storm_tide = f"Maximum Storm Tide Water Elevation, feet above datum = {round(tide_max,2)} at {tide_time}"
 
-            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {round((so.combined_level_accuracy_in_meters * uc.METER_TO_FEET),2)}',
+            ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {(so.combined_level_accuracy_in_meters * uc.METER_TO_FEET)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         
@@ -651,7 +651,7 @@ class StormGraph(object):
                 va='center', ha='center', transform=ax.transAxes)
 
         if self.international_units is True:
-            ax.text(0.735, 1.26, 'Instrument Error (dbar): %.2f' %
+            ax.text(0.735, 1.26, 'Instrument Error (dbar): %f' %
                     so.extract_level_accuracy(so.air_fname, 'air_pressure'),
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
@@ -659,7 +659,7 @@ class StormGraph(object):
             #         va='center', ha='left', transform=ax.transAxes,
             #         fontsize=10)
         else:
-            ax.text(0.735, 1.26, 'Instrument Error (inHg): %.2f' %
+            ax.text(0.735, 1.26, 'Instrument Error (inHg): %f' %
                     (so.extract_level_accuracy(so.air_fname, 'air_pressure') * uc.DBAR_TO_INCHES_OF_MERCURY),
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
