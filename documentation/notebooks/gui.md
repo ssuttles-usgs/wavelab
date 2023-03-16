@@ -52,6 +52,7 @@ Enter the appropriate information in the fields and then press "Add File(s)".  Y
         <li>"Sensor orifice elevation at retrieval time": Tape down to sensor at retrieval time</li>
         <li>"Deployment time": Time of instrument deployment</li>
         <li>"Retrieval time": Time of instrument retrieval</li>
+        <li>"Sea Name": The sea in which the data was collected. The sea name is stored as metadata and is not accounted for during WaveLab analysis. Sea Names adhere to the ACDD (Attribute Conventions for Dataset Discovery) and CF (Climate Forecasting) conventions. A full list of sea names is available here: https://www.ncei.noaa.gov/data/oceans/ncei/vocabulary/seanames.xml.</li>
     </ul>
 </div>
 
