@@ -22,7 +22,7 @@ Please visit the [Documentation pages](https://code.usgs.gov/wavelab/wavelab/-/b
 
 ### How to request new features 
 
-1. Visit this page: https://code.usgs.gov/wavelab/wavelab/-/issues.
+1. Visit this page: https://code.usgs.gov/wavelab/wavelab/-/issues/new?issuable_template=Feature%20Request.
 2. Enter a title that describes the new feature.
 3. Use the template to describe the feature that you would like to request.
 
