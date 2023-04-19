@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - versionfile.txt file to add details about the WaveLab.exe
 - Documentation about the "Sea Name" attribute
 - wavelab@usgs.gov contact email address to README.md
+- Documentation about reading NetCDF files
 
 ### Changed  
 
