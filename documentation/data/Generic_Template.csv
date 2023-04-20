@@ -1,6 +1,14 @@
-﻿Plot Title: Storm Event,SEN S/N: 00000000, LGR S/N: 00000000,
-#,"Date Time, GMT-0:00","Abs Pres, psi","Temp, °F"
-1,,,
+﻿Storm Title: Storm Event,SEN S/N: 00000000, LGR S/N: 00000000,
+#,"Date Time, MM/DD/YYYY HH:MM:SS","Absolute Pressure, psi","Temperature, °F"
+1,10/10/2000 16:15:00,14.7409,77.749
 2,,,
 3,,,
 4,,,
+5,,,
+6,,,
+7,,,
+8,,,
+9,,,
+10,,,
+11,,,
+12,,,

@@ -21,10 +21,21 @@ def find_first(fname, expr):
 
 def get_date_format(date):
     "Return datatime format string given a string of datetime data."
-    date_formats = ['%m/%d/%y %I:%M:%S %p', '%m/%d/%Y %H:%M', '%m/%d/%y %H:%M:%S', 
-                '%Y.%m.%d %H:%M:%S ', "%m/%d/%Y %H:%M:%S ", '%m/%d/%Y %H:%M:%S.%f', 
-                '%m/%d/%Y %I:%M:%S.%f %p', '%Y-%m-%d %H:%M:%S.%f', '%d-%b-%Y %H:%M:%S.%f',
-               "%Y-%m-%dT%H:%M:%SZ", '%Y/%m/%d %H:%M','%m/%d/%Y %H:%M UTC']
+    date_formats = ['%m/%d/%Y %H:%M:%S', '%m/%d/%Y %H:%M:%S:%f', '%m/%d/%Y %I:%M:%S %p', '%m/%d/%Y %I:%M:%S:%f %p',
+                '%m/%d/%Y %H:%M', '%m/%d/%Y %I:%M %p', '%m/%d/%y %I:%M:%S %p', '%m/%d/%y %I:%M:%S:%f %p',
+                '%m/%d/%y %H:%M:%S', '%m/%d/%y %H:%M:%S:%f', '%m/%d/%y %H:%M', '%m/%d/%y %I:%M %p',
+                '%Y/%m/%d %H:%M:%S', '%Y/%m/%d %H:%M:%S:%f', '%Y/%m/%d %I:%M:%S %p', '%Y/%m/%d %I:%M:%S:%f %p',
+                '%Y/%m/%d %H:%M', '%Y/%m/%d %I:%M %p', '%m-%d-%Y %H:%M:%S', '%m-%d-%Y %H:%M:%S:%f',
+                '%m-%d-%Y %I:%M:%S %p', '%m-%d-%Y %I:%M:%S:%f %p', '%m-%d-%Y %H:%M %f', '%m-%d-%Y %I:%M %p',
+                '%m-%d-%y %H:%M:%S', '%m-%d-%y %H:%M:%S:%f', '%m-%d-%y %I:%M:%S %p', '%m-%d-%y %I:%M:%S:%f %p',
+                '%m-%d-%y %H:%M', '%m-%d-%y %I:%M %p', '%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M:%S:%f',
+                '%Y-%m-%d %I:%M:%S %p', '%Y-%m-%d %I:%M:%S:%f %p', '%Y-%m-%d %H:%M', '%Y-%m-%d %I:%M %p',
+                '%Y.%m.%d %H:%M:%S', '%Y.%m.%d %H:%M:%S:%f', '%Y.%m.%d %I:%M:%S %p', '%Y.%m.%d %I:%M:%S:%f %p',
+                '%Y.%m.%d %H:%M', '%Y.%m.%d %I:%M %p', '%m.%d.%Y %H:%M:%S', '%m.%d.%Y %H:%M:%S:%f',
+                '%m.%d.%Y %I:%M:%S %p', '%m.%d.%Y %H:%M', '%m.%d.%Y %I:%M %p', '%m.%d.%Y %I:%M:%S:%f %p',
+                '%m.%d.%y %H:%M:%S', '%m.%d.%y %H:%M:%S:%f', '%m.%d.%y %I:%M:%S %p', '%m.%d.%y %I:%M:%S:%f %p',
+                '%m.%d.%y %H:%M', '%m.%d.%y %I:%M %p'
+               ]
     
     for d in date_formats:
         try:
