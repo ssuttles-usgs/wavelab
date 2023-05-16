@@ -143,6 +143,17 @@ Instructions:
 
 ## About the Software
 
+### Statement on Filters
+
+The USGS uses the Butterworth Filter (low-pass filter) to attenuate high frequencies in order to remove the components of wave setup and runup to estimate the storm tide at the site. 
+
+The smoothness of the low-pass filtered line will depend on the sensor type (water level or wave sensor), on the location of where the sensor was deployed, the intensity of the storm, filter type, and filter window.  
+
+Listed below is the history of the use of the WaveLab Butterworth Filter utilized by the USGS: 
+- From 2005 - 2015, the USGS did not apply a low-pass filter to remove the components of wave setup and runup. 
+- From 2015-2020, the USGS used the Butterworth Filter with various filtering windows.   
+- Starting in 2021, with Hurricane Henri, the USGS standardized the filtering window to 6-minutes. 
+
 ### License
 
 This project is licensed under the Creative Commons CC0 1.0 Universal License. See the [LICENSE.md file](https://code.usgs.gov/wavelab/wavelab/-/blob/master/LICENSE.md) for details
