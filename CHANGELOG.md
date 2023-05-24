@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Development Workflow section to README.md
 - Release Workflow section to README.md
 - versionfile.txt file to add details about the WaveLab.exe
+- Statement of Filters to README.md
 
 ### Changed  
 
