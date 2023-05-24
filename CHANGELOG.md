@@ -12,14 +12,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Development Workflow section to README.md
 - Release Workflow section to README.md
 - versionfile.txt file to add details about the WaveLab.exe
+- Statement of Filters to README.md
 - Documentation about the "Sea Name" attribute
 - wavelab@usgs.gov contact email address to README.md
 - Documentation about reading NetCDF files
+
 
 ### Changed  
 
 - history.json, history2_air.json, and history2_sea.json files are now saved in a WaveLab folder under the UserProfile environment variable instead of the same directory as WaveLab.exe
 - Latitude and Longitude on graphs reduced to 4 decimal places
+- Improved documentation for reporting bugs and requesting new features
 - Instrument Error, Combined Instrument Error, Maximum Storm Tide Water Elevation, and Maximum Unfiltered Water Elevation reduced to 2 decimal places
 - Graph Explanations now say "Butterworth 6-minute Filtered" instead of "Lowpass Filtered"
 - Documentation now describes how to access WaveLab via WFast

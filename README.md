@@ -29,21 +29,17 @@ Please visit the [Documentation pages](https://code.usgs.gov/wavelab/wavelab/-/b
 
 ### How to request new features 
 
-1. Visit the Issues page: https://code.usgs.gov/wavelab/wavelab/-/issues.
-2. Click the "New issue" button.
-3. Enter a title that describes the new feature.
-4. Next to "Description", select "Feature Request" in the dropdown box.
-5. Use the template to describe the feature that you would like to request.
+1. Visit this page: https://code.usgs.gov/wavelab/wavelab/-/issues/new?issuable_template=Feature%20Request.
+2. Enter a title that describes the new feature.
+3. Use the template to describe the feature that you would like to request.
 
 Please note that all new feature requests must be approved by the Short-Term Network User Group.
 
 ### How to report bugs/issues
 
-1. Visit the Issues page: https://code.usgs.gov/wavelab/wavelab/-/issues
-2. Click the "New issue" button
-3. Enter a title that describes the bug you have encountered.
-4. Next to "Description", select "Bug" in the dropdown box.
-5. Use the template to describe the bug that you wouldl ike to report.
+1. Visit this page: https://code.usgs.gov/wavelab/wavelab/-/issues/new?issuable_template=Bug
+2. Enter a title that describes the bug you encountered.
+3. Use the template to describe the bug that you would ike to report.
 
 Please note that all bug fixes must be approved by the Short-Term Network User Group.
 
@@ -138,6 +134,17 @@ Instructions:
 - See [setup.py](setup.py) for list of Python packages.
 
 ## About the Software
+
+### Statement on Filters
+
+The USGS uses the Butterworth Filter (low-pass filter) to attenuate high frequencies in order to remove the components of wave setup and runup to estimate the storm tide at the site. 
+
+The smoothness of the low-pass filtered line will depend on the sensor type (water level or wave sensor), on the location of where the sensor was deployed, the intensity of the storm, filter type, and filter window.  
+
+Listed below is the history of the use of the WaveLab Butterworth Filter utilized by the USGS: 
+- From 2005 - 2015, the USGS did not apply a low-pass filter to remove the components of wave setup and runup. 
+- From 2015-2020, the USGS used the Butterworth Filter with various filtering windows.   
+- Starting in 2021, with Hurricane Henri, the USGS standardized the filtering window to 6-minutes. 
 
 ### License
 
