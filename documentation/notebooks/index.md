@@ -12,4 +12,4 @@
 - <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/storm-tide.md">Storm-Tide Water Level</a>
 - <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/wave-stats.md">Wave Statistics</a>
 
-Feel free to email gpetrochenkov@usgs.gov with any questions.
+Please email wavelab@usgs.gov with questions.
