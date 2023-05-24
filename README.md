@@ -9,12 +9,19 @@ This software calculates Storm-Tide water level and wave statistics (where appli
 
 ### How to run WaveLab
 
-Windows users:
+USGS personnel: please access WaveLab via [Water Field Application Software Transfer (WFast)](https://tst.usgs.gov/availability-of-water-field-application-software-transfer-wfast-for-automated-installation-of-field-software/)
+
+1. Contact IT and request to be added to the "WFast Computer Group."
+2. Once you have been added to the WFast Computer Group, access WaveLab by opening the Start menu, scrolling to the USGS folder, and clicking WaveLab. The program may take a minute or more to load. 
+3. Updates to WaveLab will automatically be pushed to computers via WFast.
+
+Other users:
 
 1. Vsit https://code.usgs.gov/wavelab/wavelab and click [WaveLab.zip](https://code.usgs.gov/wavelab/wavelab/-/blob/master/WaveLab.zip).
 2. Click the [Download](https://code.usgs.gov/wavelab/wavelab/-/raw/master/WaveLab.zip?inline=false) button.
 3. Unzip the file on your computer.
 4. Double-click WaveLab.exe. The program may take a minute or more to load.
+5. Always confirm that the WaveLab Version (visible at the bottom of the WaveLab window) is the same as the most recent release on the [Releases page](https://code.usgs.gov/wavelab/wavelab/-/releases). If not, please repeat these steps to download the latest version of WaveLab.
 
 ### How to use WaveLab
 
@@ -35,6 +42,10 @@ Please note that all new feature requests must be approved by the Short-Term Net
 3. Use the template to describe the bug that you would ike to report.
 
 Please note that all bug fixes must be approved by the Short-Term Network User Group.
+
+### Contact Information
+
+Please contact the WaveLab team by emailing wavelab@usgs.gov.
 
 ## Information for WaveLab Developers
 
@@ -103,7 +114,7 @@ Instructions:
 10. A code reviewer reviews and completes the Merge Request.
 11. Submit a Merge Request to merge the `dev` branch into the `master` branch.
 12. A code reviewer reviews and completes the Merge Request.
-13. Email the USGS Hurricane Coordination Group to notify users that a new WaveLab version is available and should be downloaded. 
+13. Email the WFast Team at wfast@usgs.gov to request an update to WaveLab on WFast. Provide the URL to the updated zipped WaveLab.exe.
 
 #### Documentation
 
@@ -120,22 +131,7 @@ Instructions:
 #### Software
 
 - Python >= 3.6 (3.7 recommended)
-
-#### Python Packages
-
-- easygui
-- matplotlib
-- numpy
-- scipy
-- stats
-- pillow
-- pytz
-- pandas
-- uuid
-- netCDF4
-- defusedxml
-- (juptyer to run notebooks)
-- (pyinstaller to build executable)
+- See [setup.py](setup.py) for list of Python packages.
 
 ## About the Software
 
