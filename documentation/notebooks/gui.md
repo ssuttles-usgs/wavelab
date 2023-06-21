@@ -20,7 +20,7 @@ If you are starting from the beginning you should go through each of these toolb
 
 ## Sea GUI
 
-This toolbox takes the extracted sea pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  You will see the following screen when you click on "Sea GUI":
+This toolbox takes the extracted sea pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  You will see the following screen when you click "Sea GUI":
 
 <img src="images/sea_air_begin.PNG" style="float:left; border:2px solid black; border-bottom: 1px solid black" />
 
@@ -30,8 +30,17 @@ This toolbox takes the extracted sea pressure data from the instrument and conve
 - <b>Process Files</b>:  To process data after filling out all required information of added files 
 - <b>Quit</b>: Quit Sea GUI
 
+Enter the appropriate information in the fields. 
 
-Enter the appropriate information in the fields and then press "Add File(s)".  You will see the following window:
+Click "Add File(s)". You will be prompted to upload a sea pressure data file. Please note the following:
+
+- File format must be CSV.
+- The file should contain the exported data from the sea pressure instrument.
+- Permitted instruments are listed in the next Sea GUI window, in the dropdown menu under "Instrument".
+- If you are using a different instrument than those listed, you may use the [Generic Data Template CSV file](documentation/data/Generic_Template.csv) and select the "Generic" instrument type.
+- WaveLab will detect the sampling rate based on the difference in time between the first two rows of data. WaveLab filtering will automatically adjust for the detected measurement sampling rate.
+
+After selecting a file, you will see the following window:
 
 <span style="padding-top: 5px">
 <img src="images/sea_gui.PNG" style="margin-top: 17px; float: left; width: 550px; height: 550px; border: 2px solid black" />
@@ -64,7 +73,17 @@ After filling in all the fields click on "Process Files" to convert all added fi
 
 ## Air GUI
 
-This toolbox takes the extracted barometric pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  At first you will see the same screen when you click on "Sea GUI".  After filling in the fields click "Add File(s)" and then you will see the following screen:
+This toolbox takes the extracted barometric pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  At first, you will see the same screen when you click on "Sea GUI".  Enter the appropriate information in the fields. 
+
+Click "Add File(s)". You will be prompted to upload a barometric pressure data file. Please note the following:
+
+- File format must be CSV.
+- The file should contain the exported data from the barometric pressure instrument.
+- Permitted instruments are listed in the next Air GUI window, in the dropdown menu under "Instrument".
+- If you are using a different instrument than those listed, you may use the [Generic Data Template CSV file](documentation/data/Generic_Template.csv) and select the "Generic" instrument type.
+- WaveLab will detect the sampling rate based on the difference in time between the first two rows of data. WaveLab filtering will automatically adjust for the detected measurement sampling rate.
+
+After selecting a file, you will see the following window:
 
 <span>
 <img src="images/air_gui.PNG" style="margin-top: 5px; float: left; width: 550px; height: 400px; border: 2px solid black" />
