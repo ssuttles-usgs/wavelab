@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Documentation about reading NetCDF files
 - Additional documentation about Butterworth filter and file processing
 - Additional documentation about file upload
+- About GUI
 
 ### Changed  
 
