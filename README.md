@@ -146,6 +146,8 @@ Listed below is the history of the use of the WaveLab Butterworth Filter utili
 - From 2015-2020, the USGS used the Butterworth Filter with various filtering windows.   
 - Starting in 2021, with Hurricane Henri, the USGS standardized the filtering window to 6-minutes. 
 
+For more information about filtering, please visit the [Storm-Tide Water Level documentation](documentation/notebooks/storm-tide.md).
+
 ### License
 
 This project is licensed under the Creative Commons CC0 1.0 Universal License. See the [LICENSE.md file](https://code.usgs.gov/wavelab/wavelab/-/blob/master/LICENSE.md) for details
