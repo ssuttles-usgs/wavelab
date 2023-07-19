@@ -35,7 +35,10 @@ def convert_to_netcdf(inputs):
     for key in translated:
         setattr(instrument, key, translated[key])
     instrument.read()
-    instrument.write(pressure_type=translated['pressure_type'])
+    if instrument.bad_data:
+        return instrument.bad_data, instrument.error_message
+    else:
+        instrument.write(pressure_type=translated['pressure_type'])
     
     if instrument.included_baro == True:
         instrument.pressure_data = instrument.air_pressure_data
@@ -44,7 +47,7 @@ def convert_to_netcdf(inputs):
         time.sleep(1)
         instrument.write(pressure_type='Air Pressure')
         
-    return instrument.bad_data
+    return instrument.bad_data, None
 
 
 DATATYPES = {

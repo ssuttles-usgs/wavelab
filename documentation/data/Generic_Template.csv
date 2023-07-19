@@ -1,5 +1,5 @@
 ﻿Storm Title: Storm Event,SEN S/N: 00000000, LGR S/N: 00000000,
-#,"Date Time, MM/DD/YYYY HH:MM:SS","Absolute Pressure, psi","Temperature, °F"
+#,"Date Time, MM/DD/YYYY HH:MM:SS.MS","Absolute Pressure, psi","Temperature, °F"
 1,10/10/2000 16:15:00,14.7409,77.749
 2,,,
 3,,,

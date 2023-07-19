@@ -43,13 +43,12 @@ import wavelab.gui.sea_pressure_gui as script1
 import wavelab.gui.baro_pressure_gui as script1_air
 from wavelab.utilities.get_image import get_image
 from wavelab.utilities.nc import get_frequency
-import wavelab.gui.sea_pressure_gui as sea_gui
+from wavelab.utilities.utils import MessageDialog
 from wavelab.processing.storm_options import StormOptions
 from wavelab.processing.storm_graph import StormGraph, comparison_plot
 from wavelab.processing.storm_csv import StormCSV
 from wavelab.processing.storm_netCDF import Storm_netCDF
 from wavelab.processing.storm_statistics import StormStatistics
-from wavelab.utilities import unit_conversion as uc
 
 
 VERSION = '1.2.0'
@@ -410,18 +409,18 @@ if __name__ == '__main__':
             if self.sea_fname is None or self.sea_fname == '':
                 if self.so.air_check_selected() is True:
                     message = ("Please upload a water netCDF file or uncheck options that require it")
-                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    MessageDialog(root, message=message, title='Error!')
                     return
 
             if self.level_troll.get() is True:
                 if self.so.no_air_selected() is False:
                     message = ("Please upload a barometric pressure file to output selected baro files")
-                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    MessageDialog(root, message=message, title='Error!')
                     return
 
             if self.so.check_selected() is False:
                 message = ("Please select at least one option")
-                sea_gui.MessageDialog(root, message=message, title='Error!')
+                MessageDialog(root, message=message, title='Error!')
                 return
 
             if get_frequency(self.sea_fname) < 1 / 180.:
@@ -431,7 +430,7 @@ if __name__ == '__main__':
 
                     message = ("Sampling rate is over the minimum to apply filter, "
                                "please deselect 'Storm Tide Water Level'")
-                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    MessageDialog(root, message=message, title='Error!')
                     return
 
             if get_frequency(self.sea_fname) < 4:
@@ -439,7 +438,7 @@ if __name__ == '__main__':
                     if val.get() is True:
                         message = ("Sampling rate is over the minimum to run wave statistics, "
                                    "please deselect all 'Statistics Graph Options'")
-                        sea_gui.MessageDialog(root, message=message, title='Error!')
+                        MessageDialog(root, message=message, title='Error!')
                         return
 
             self.so.clear_data()
@@ -471,13 +470,13 @@ if __name__ == '__main__':
             if self.so.reference_elevation != '':
                 if self.so.reference_name == '':
                     message = ("Enter a Reference Name.")
-                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    MessageDialog(root, message=message, title='Error!')
                     return
                 try:
                     self.so.reference_elevation = float(self.so.reference_elevation)
                 except:
                     message = ("Reference Elevation is not a number.")
-                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    MessageDialog(root, message=message, title='Error!')
                     return
 
             self.so.clip = False
@@ -507,14 +506,14 @@ if __name__ == '__main__':
                     message = ("Air pressure and water pressure files don't "
                                "cover the same time period!\nPlease choose "
                                "other files.")
-                    sea_gui.MessageDialog(root, message=message, title='Error!')
+                    MessageDialog(root, message=message, title='Error!')
                     return
                 elif overlap == 1:
                     message = ("The air pressure file doesn't span the "
                     "entire time period covered by the water pressure "
                     "file.\nThe period not covered by both files will be "
                     "chopped")
-                    sea_gui.MessageDialog(root, message=message, title='Warning')
+                    MessageDialog(root, message=message, title='Warning')
 
             self.so.convert_to_dict()
             data_dict = self.so.info_dict
@@ -525,12 +524,12 @@ if __name__ == '__main__':
             p.join()
 
             return_code = queue.get()
-            print(return_code)
+
             if return_code != 0:
 
                 raise(ValueError)
 
-            sea_gui.MessageDialog(root, message="Success! Files processed.",
+            MessageDialog(root, message="Success! Files processed.",
                                   title='Success!')
 
     #         except:
@@ -539,7 +538,7 @@ if __name__ == '__main__':
     # #             message = traceback.format_exception(exc_type, exc_value,
     # #                                           exc_traceback)
     #             message = 'Could not process files, please check file type.'
-    #             sea_gui.MessageDialog(root, message=message,
+    #             MessageDialog(root, message=message,
     #                              title='Error')
 
     def make_frame(frame, header=None):

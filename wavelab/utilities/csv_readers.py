@@ -96,23 +96,30 @@ class Hobo(edit_netcdf.NetCDFWriter):
                                                   self.tz_info, self.daylight_savings)
                 second_stamp = uc.datestring_to_ms(date2, self.date_format_string3,
                                                    self.tz_info, self.daylight_savings)
-            
-        self.frequency = 1000 / (second_stamp - first_stamp)
-        
-        try:
-            start_ms = uc.datestring_to_ms(date1, self.date_format_string,
-                                           self.tz_info, self.daylight_savings)
-        except:
-            try:
-                start_ms = uc.datestring_to_ms(date1, self.date_format_string2,
-                                               self.tz_info, self.daylight_savings)
-            except:
-                start_ms = uc.datestring_to_ms(date1, self.date_format_string3,
-                                               self.tz_info, self.daylight_savings)
-            
-        self.utc_millisecond_data = uc.generate_ms(start_ms, df.shape[0], self.frequency)
 
-        self.pressure_data = vals * uc.PSI_TO_DBAR
+        timestep = second_stamp - first_stamp
+        # check time step:
+        if timestep <= 0:
+            self.bad_data = True
+            self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
+
+        else:
+            self.frequency = 1000 / (second_stamp - first_stamp)
+            
+            try:
+                start_ms = uc.datestring_to_ms(date1, self.date_format_string,
+                                            self.tz_info, self.daylight_savings)
+            except:
+                try:
+                    start_ms = uc.datestring_to_ms(date1, self.date_format_string2,
+                                                self.tz_info, self.daylight_savings)
+                except:
+                    start_ms = uc.datestring_to_ms(date1, self.date_format_string3,
+                                                self.tz_info, self.daylight_savings)
+                
+            self.utc_millisecond_data = uc.generate_ms(start_ms, df.shape[0], self.frequency)
+
+            self.pressure_data = vals * uc.PSI_TO_DBAR
         
     def get_serial(self):
         self.instrument_serial = "not found"
@@ -187,16 +194,23 @@ class Leveltroll(edit_netcdf.NetCDFWriter):
                                            self.tz_info, self.daylight_savings)
         # self.data_start2 = uc.datestring_to_ms(data[1][1], self.date_format_string,
         #                                    self.tz_info, self.daylight_savings)
+
+        timestep = int(data[1][1] - data[1][0])
+        # check time step:
+        if timestep <= 0:
+            self.bad_data = True
+            self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
         
-        self.frequency = 1 / int(data[1][1] - data[1][0])
-        
-        self.utc_millisecond_data = uc.generate_ms(self.data_start, len(data[0]), 
-                                                   self.frequency)
-        self.pressure_data = (data[2].values + self.offset ) * uc.PSI_TO_DBAR
-        self.pressure_data += self.offset
-        
-        if self.included_baro == True:
-            self.air_pressure_data = data[2].values * uc.PSI_TO_DBAR
+        else:
+            self.frequency = 1 / timestep
+            
+            self.utc_millisecond_data = uc.generate_ms(self.data_start, len(data[0]), 
+                                                    self.frequency)
+            self.pressure_data = (data[2].values + self.offset ) * uc.PSI_TO_DBAR
+            self.pressure_data += self.offset
+            
+            if self.included_baro == True:
+                self.air_pressure_data = data[2].values * uc.PSI_TO_DBAR
         
 
     def get_serial(self):
@@ -234,22 +248,34 @@ class MeasureSysLogger(edit_netcdf.NetCDFWriter):
                                                   self.date_format_string, self.tz_info, self.daylight_savings)
             second_stamp = uc.datestring_to_ms(df[3][4][1:],
                                                self.date_format_string, self.tz_info, self.daylight_savings)
-            self.frequency = 1000 / (second_stamp - self.data_start)
             
+            timestep = second_stamp - self.data_start
+            # check time step:
+            if timestep <= 0:
+                self.bad_data = True
+                self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
             
-            self.pressure_data = df[5].values * uc.PSI_TO_DBAR
-            start_ms = uc.datestring_to_ms('%s' % df[3][0][1:], self.date_format_string, self.tz_info, self.daylight_savings)
+            else:
+                self.frequency = 1000 / (second_stamp - self.data_start)
+                self.pressure_data = df[5].values * uc.PSI_TO_DBAR
+                start_ms = uc.datestring_to_ms('%s' % df[3][0][1:], self.date_format_string, self.tz_info, self.daylight_savings)
         
         except:
             self.data_start = uc.datestring_to_ms(df[3][3][1:],
                                                   self.date_format_string2, self.tz_info, self.daylight_savings)
             second_stamp = uc.datestring_to_ms(df[3][4][1:],
                                                self.date_format_string2, self.tz_info, self.daylight_savings)
-            self.frequency = 1000 / (second_stamp - self.data_start)
             
+            timestep = second_stamp - self.data_start
+            # check time step:
+            if timestep <= 0:
+                self.bad_data = True
+                self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
             
-            self.pressure_data = df[5].values * uc.PSI_TO_DBAR
-            start_ms = uc.datestring_to_ms('%s' % df[3][0][1:], self.date_format_string2, self.tz_info, self.daylight_savings)
+            else:
+                self.frequency = 1000 / (second_stamp - self.data_start)
+                self.pressure_data = df[5].values * uc.PSI_TO_DBAR
+                start_ms = uc.datestring_to_ms('%s' % df[3][0][1:], self.date_format_string2, self.tz_info, self.daylight_savings)
             
         self.utc_millisecond_data = uc.generate_ms(start_ms, df.shape[0], self.frequency)
  
@@ -314,12 +340,19 @@ class Waveguage(edit_netcdf.NetCDFWriter):
         timestamps = self.get_times(data)
         self.data_start_date = datetime.strftime(timestamps[0], "%Y-%m-%dT%H:%M:%SZ")
         self.data_duration_time = timestamps[-1] - timestamps[0]
-        with open(self.in_filename) as f:
-            self.frequency = f.readline()[25:27]
-        self.utc_millisecond_data = self.get_ms_data(timestamps, chunks)
-        raw_pressure = self.make_pressure_array(timestamps, chunks)
-        self.pressure_data = raw_pressure * 10.0 + uc.ATM_TO_DBAR
-        return self.pressure_data, self.utc_millisecond_data
+
+        # check time step:
+        if self.data_duration_time <= 0:
+            self.bad_data = True
+            self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
+        
+        else:
+            with open(self.in_filename) as f:
+                self.frequency = f.readline()[25:27]
+            self.utc_millisecond_data = self.get_ms_data(timestamps, chunks)
+            raw_pressure = self.make_pressure_array(timestamps, chunks)
+            self.pressure_data = raw_pressure * 10.0 + uc.ATM_TO_DBAR
+            return self.pressure_data, self.utc_millisecond_data
 
     def make_pressure_array(self, t, chunks):
         def press_entries(t2, t1):
@@ -501,12 +534,19 @@ class VanEssen(edit_netcdf.NetCDFWriter):
                                           self.tz_info, self.daylight_savings)
         second_stamp = uc.datestring_to_ms(date2, self.date_format_string,
                                            self.tz_info, self.daylight_savings)
+        
+        timestep = second_stamp - first_stamp
+        # check time step:
+        if timestep <= 0:
+            self.bad_data = True
+            self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
 
-        self.frequency = 1000 / (second_stamp - first_stamp)
+        else:
+            self.frequency = 1000 / (second_stamp - first_stamp)
 
-        self.utc_millisecond_data = uc.generate_ms(first_stamp, df.shape[0], self.frequency)
+            self.utc_millisecond_data = uc.generate_ms(first_stamp, df.shape[0], self.frequency)
 
-        self.pressure_data = vals / uc.METER_TO_FEET
+            self.pressure_data = vals / uc.METER_TO_FEET
 
     def get_serial(self):
         self.instrument_serial = "not found"
