@@ -104,7 +104,7 @@ This is the longer hand version of the above:
 ```python
 from scipy import signal
 
-# One minute cutoff divided by the Nyquist Frequency of 4hz
+# Six-minute cutoff divided by the Nyquist Frequency of 4hz
 lowcut = 0.002777777777775 / (.5 * 4)
 
 # 4th order butterworth filter

@@ -9,12 +9,19 @@ This software calculates Storm-Tide water level and wave statistics (where appli
 
 ### How to run WaveLab
 
-Windows users:
+USGS personnel: please access WaveLab via [Water Field Application Software Transfer (WFast)](https://tst.usgs.gov/availability-of-water-field-application-software-transfer-wfast-for-automated-installation-of-field-software/)
+
+1. Contact IT and request to be added to the "WFast Computer Group."
+2. Once you have been added to the WFast Computer Group, access WaveLab by opening the Start menu, scrolling to the USGS folder, and clicking WaveLab. The program may take a minute or more to load. 
+3. Updates to WaveLab will automatically be pushed to computers via WFast.
+
+Other users:
 
 1. Vsit https://code.usgs.gov/wavelab/wavelab and click [WaveLab.zip](https://code.usgs.gov/wavelab/wavelab/-/blob/master/WaveLab.zip).
 2. Click the [Download](https://code.usgs.gov/wavelab/wavelab/-/raw/master/WaveLab.zip?inline=false) button.
 3. Unzip the file on your computer.
 4. Double-click WaveLab.exe. The program may take a minute or more to load.
+5. Always confirm that the WaveLab Version (visible at the bottom of the WaveLab window) is the same as the most recent release on the [Releases page](https://code.usgs.gov/wavelab/wavelab/-/releases). If not, please repeat these steps to download the latest version of WaveLab.
 
 ### How to use WaveLab
 
@@ -22,23 +29,23 @@ Please visit the [Documentation pages](https://code.usgs.gov/wavelab/wavelab/-/b
 
 ### How to request new features 
 
-1. Visit the Issues page: https://code.usgs.gov/wavelab/wavelab/-/issues.
-2. Click the "New issue" button.
-3. Enter a title that describes the new feature.
-4. Next to "Description", select "Feature Request" in the dropdown box.
-5. Use the template to describe the feature that you would like to request.
+1. Visit this page: https://code.usgs.gov/wavelab/wavelab/-/issues/new?issuable_template=Feature%20Request.
+2. Enter a title that describes the new feature.
+3. Use the template to describe the feature that you would like to request.
 
 Please note that all new feature requests must be approved by the Short-Term Network User Group.
 
 ### How to report bugs/issues
 
-1. Visit the Issues page: https://code.usgs.gov/wavelab/wavelab/-/issues
-2. Click the "New issue" button
-3. Enter a title that describes the bug you have encountered.
-4. Next to "Description", select "Bug" in the dropdown box.
-5. Use the template to describe the bug that you wouldl ike to report.
+1. Visit this page: https://code.usgs.gov/wavelab/wavelab/-/issues/new?issuable_template=Bug
+2. Enter a title that describes the bug you encountered.
+3. Use the template to describe the bug that you would ike to report.
 
 Please note that all bug fixes must be approved by the Short-Term Network User Group.
+
+### Contact Information
+
+Please contact the WaveLab team by emailing wavelab@usgs.gov.
 
 ## Information for WaveLab Developers
 
@@ -107,7 +114,7 @@ Instructions:
 10. A code reviewer reviews and completes the Merge Request.
 11. Submit a Merge Request to merge the `dev` branch into the `master` branch.
 12. A code reviewer reviews and completes the Merge Request.
-13. Email the USGS Hurricane Coordination Group to notify users that a new WaveLab version is available and should be downloaded. 
+13. Email the WFast Team at wfast@usgs.gov to request an update to WaveLab on WFast. Provide the URL to the updated zipped WaveLab.exe.
 
 #### Documentation
 
@@ -124,24 +131,20 @@ Instructions:
 #### Software
 
 - Python >= 3.6 (3.7 recommended)
-
-#### Python Packages
-
-- easygui
-- matplotlib
-- numpy
-- scipy
-- stats
-- pillow
-- pytz
-- pandas
-- uuid
-- netCDF4
-- defusedxml
-- (juptyer to run notebooks)
-- (pyinstaller to build executable)
+- See [setup.py](setup.py) for list of Python packages.
 
 ## About the Software
+
+### Statement on Filters
+
+The USGS uses the Butterworth Filter (low-pass filter) to attenuate high frequencies in order to remove the components of wave setup and runup to estimate the storm tide at the site. 
+
+The smoothness of the low-pass filtered line will depend on the sensor type (water level or wave sensor), on the location of where the sensor was deployed, the intensity of the storm, filter type, and filter window.  
+
+Listed below is the history of the use of the WaveLab Butterworth Filter utilized by the USGS: 
+- From 2005 - 2015, the USGS did not apply a low-pass filter to remove the components of wave setup and runup. 
+- From 2015-2020, the USGS used the Butterworth Filter with various filtering windows.   
+- Starting in 2021, with Hurricane Henri, the USGS standardized the filtering window to 6-minutes. 
 
 ### License
 
