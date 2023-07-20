@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - versionfile.txt file to add details about the WaveLab.exe
 - Added Generic sensor type to Air and Sea guis. This sensor type will process data using the Hobo data class. Input
     data files must follow the Generic or Hobo data template.
+- Added some minor data format tests to catch errors and open pop ups to explain the problem.
 
 ### Changed  
 
