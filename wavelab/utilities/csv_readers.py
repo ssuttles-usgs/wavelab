@@ -36,7 +36,8 @@ def get_date_format(date):
                 '%m.%d.%y %H:%M:%S', '%m.%d.%y %H:%M:%S.%f', '%m.%d.%y %I:%M:%S %p', '%m.%d.%y %I:%M:%S.%f %p',
                 '%m.%d.%y %H:%M', '%m.%d.%y %I:%M %p'
                ]
-    
+    date_format_string = "None"
+
     for d in date_formats:
         try:
             datetime.strptime(date, d)
@@ -80,47 +81,53 @@ class Hobo(edit_netcdf.NetCDFWriter):
         # Determine the format of the datetime
         self.date_format_string = get_date_format(date1)
         
-        try:
-            first_stamp = uc.datestring_to_ms(date1, self.date_format_string,
-                                              self.tz_info, self.daylight_savings)
-            second_stamp = uc.datestring_to_ms(date2, self.date_format_string,
-                                               self.tz_info, self.daylight_savings)
-        except:
-            try:
-                first_stamp = uc.datestring_to_ms(date1, self.date_format_string2,
-                                                  self.tz_info, self.daylight_savings)
-                second_stamp = uc.datestring_to_ms(date2, self.date_format_string2,
-                                                   self.tz_info, self.daylight_savings)
-            except:
-                first_stamp = uc.datestring_to_ms(date1, self.date_format_string3,
-                                                  self.tz_info, self.daylight_savings)
-                second_stamp = uc.datestring_to_ms(date2, self.date_format_string3,
-                                                   self.tz_info, self.daylight_savings)
-
-        timestep = second_stamp - first_stamp
-        # check time step:
-        if timestep <= 0:
+        # If the datetime format is not recognized...
+        if self.date_format_string == "None":
             self.bad_data = True
-            self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
-
+            self.error_message = 'Error! Date time format was not recognized. Try changing it to this format: %m/%d/%Y %H:%M:%S.%f'
+        
         else:
-            self.frequency = 1000 / (second_stamp - first_stamp)
-            
             try:
-                start_ms = uc.datestring_to_ms(date1, self.date_format_string,
-                                            self.tz_info, self.daylight_savings)
+                first_stamp = uc.datestring_to_ms(date1, self.date_format_string,
+                                                self.tz_info, self.daylight_savings)
+                second_stamp = uc.datestring_to_ms(date2, self.date_format_string,
+                                                self.tz_info, self.daylight_savings)
             except:
                 try:
-                    start_ms = uc.datestring_to_ms(date1, self.date_format_string2,
+                    first_stamp = uc.datestring_to_ms(date1, self.date_format_string2,
+                                                    self.tz_info, self.daylight_savings)
+                    second_stamp = uc.datestring_to_ms(date2, self.date_format_string2,
+                                                    self.tz_info, self.daylight_savings)
+                except:
+                    first_stamp = uc.datestring_to_ms(date1, self.date_format_string3,
+                                                    self.tz_info, self.daylight_savings)
+                    second_stamp = uc.datestring_to_ms(date2, self.date_format_string3,
+                                                    self.tz_info, self.daylight_savings)
+
+            timestep = second_stamp - first_stamp
+            # check time step:
+            if timestep <= 0:
+                self.bad_data = True
+                self.error_message = 'Error! Time step is zero. Check the datetime column of the input data.'
+
+            else:
+                self.frequency = 1000 / (second_stamp - first_stamp)
+                
+                try:
+                    start_ms = uc.datestring_to_ms(date1, self.date_format_string,
                                                 self.tz_info, self.daylight_savings)
                 except:
-                    start_ms = uc.datestring_to_ms(date1, self.date_format_string3,
-                                                self.tz_info, self.daylight_savings)
-                
-            self.utc_millisecond_data = uc.generate_ms(start_ms, df.shape[0], self.frequency)
+                    try:
+                        start_ms = uc.datestring_to_ms(date1, self.date_format_string2,
+                                                    self.tz_info, self.daylight_savings)
+                    except:
+                        start_ms = uc.datestring_to_ms(date1, self.date_format_string3,
+                                                    self.tz_info, self.daylight_savings)
+                    
+                self.utc_millisecond_data = uc.generate_ms(start_ms, df.shape[0], self.frequency)
 
-            self.pressure_data = vals * uc.PSI_TO_DBAR
-        
+                self.pressure_data = vals * uc.PSI_TO_DBAR
+            
     def get_serial(self):
         self.instrument_serial = "not found"
         with open(self.in_filename, 'r') as text:
