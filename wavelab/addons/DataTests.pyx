@@ -66,6 +66,11 @@ def run_tests(np.ndarray[DTYPE2_t, ndim=1] data, int interpolate, int air):
             check_3 = 255
             
         qc.append(bin(check_1 & check_2 & check_3 & check_4)[2:])
+
+    if bad_data:
+        error_message = "There were some bad data points in the file, please cut them using chopper\n and/or" \
+                                      " use the \"Hydrostatic\" method in the Water Level GUI"
+                                      
     return (qc, bad_data)
 
     

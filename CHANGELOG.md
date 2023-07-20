@@ -12,11 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Development Workflow section to README.md
 - Release Workflow section to README.md
 - versionfile.txt file to add details about the WaveLab.exe
-- Statement of Filters to README.md
-- Documentation about the "Sea Name" attribute
-- wavelab@usgs.gov contact email address to README.md
-- Documentation about reading NetCDF files
-
+- Added Generic sensor type to Air and Sea guis. This sensor type will process data using the Hobo data class. Input
+    data files must follow the Generic or Hobo data template.
 
 ### Changed  
 
