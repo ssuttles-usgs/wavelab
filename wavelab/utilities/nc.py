@@ -113,7 +113,9 @@ def custom_copy(fname, out_fname, begin,end, mode="storm_surge", step = 1):
     try:
         flags = get_flags(fname)[begin:end:step]
     except:
+        flags = None
         print('no pressure qc')
+
     alt = get_variable_data(fname, 'altitude')
     lat = get_variable_data(fname, 'latitude')
     long = get_variable_data(fname, 'longitude')
@@ -155,8 +157,9 @@ def custom_copy(fname, out_fname, begin,end, mode="storm_surge", step = 1):
             
     output.variables['time'][:] = t
     
-    if mode != 'storm_surge':
-        output.variables['pressure_qc'][:] = flags
+    if mode == 'storm_surge':
+        if flags is not None:
+            output.variables['pressure_qc'][:] = flags
         p = get_pressure(fname)[begin:end]
         output.variables['sea_pressure'][:] = p
         
