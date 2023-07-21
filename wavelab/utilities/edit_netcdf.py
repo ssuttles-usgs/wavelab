@@ -85,6 +85,7 @@ class NetCDFWriter(object):
             self.summary = "These data were collected by an unvented pressure logger " \
                            "deployed in the air"
             self.vstore.pressure_range = [np.float64(0),np.float64(20)]
+           
         else:
             self.vstore.pressure_name = "sea_pressure"
             self.vstore.pressure_var['standard_name'] = "sea_pressure"
@@ -109,7 +110,7 @@ class NetCDFWriter(object):
             pressure_test = 1
 
         if data_test_import is True:
-            self.vstore.pressure_qc_data, self.bad_data = DataTests.run_tests(self.pressure_data.astype(np.double),
+            self.vstore.pressure_qc_data, self.bad_data, self.error_message = DataTests.run_tests(self.pressure_data.astype(np.double),
                                                                               0,
                                                                               pressure_test)
         

@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Development Workflow section to README.md
 - Release Workflow section to README.md
 - versionfile.txt file to add details about the WaveLab.exe
+- Added Generic sensor type to Air and Sea guis. This sensor type will process data using the Hobo data class. Input data files must follow the Generic or Hobo data template.
+- Added some minor data format tests to catch errors and open pop ups to explain the problem.
 - Statement of Filters to README.md
 - Documentation about the "Sea Name" attribute
 - wavelab@usgs.gov contact email address to README.md
@@ -42,6 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Latitude and Longitude are again rounded to 4 decimal places in the graphs
 - Maximum Storm Tide Water Elevation and Maximum Unfiltered Water Elevation are now rounded to 2 decimal places in the graphs
 - Documentation that erroneously referred to a one-minute Butterworth filter has been changed to refer to a six-minute Butterworth filter
+- sea_pressure data is no longer NaN in the stormtide_unflitered.nc output file
 
 ### Security  
 
