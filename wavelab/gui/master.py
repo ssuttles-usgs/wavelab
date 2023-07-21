@@ -49,7 +49,7 @@ from wavelab.processing.storm_graph import StormGraph, comparison_plot
 from wavelab.processing.storm_csv import StormCSV
 from wavelab.processing.storm_netCDF import Storm_netCDF
 from wavelab.processing.storm_statistics import StormStatistics
-
+import webbrowser
 
 VERSION = '1.2.0'
 
@@ -125,6 +125,46 @@ if __name__ == '__main__':
 
     mp.freeze_support()
 
+    class About:
+
+        def __init__(self, root):
+
+            # root and selection dialogs for sea and air netCDF files
+            self.root = root
+            
+            self.top = Frame(self.root)
+            self.root.focus_force()
+
+            self.root1 = None
+            self.root2 = None
+            self.root3 = None
+            self.root4 = None
+            self.root5 = None
+
+            img = Image.open(get_image('wavelab.jpg'))
+            photo = ImageTk.PhotoImage(img)
+
+            self.panel = Label(root, image=photo)
+            self.image = photo
+            self.panel.pack()
+
+            self.root.title(f'About WaveLab')
+            self.Label = Label(self.root, text=f'About WaveLab')
+            self.Label.pack(anchor=W, padx=15, pady = (2,0))
+            self.emptyLabel0 = Label(self.root, text=f'Version Number {VERSION}')
+            self.emptyLabel0.pack(anchor=W, padx=15, pady=(0,2))
+            self.emptyLabel1 = Label(self.root, text=f'WaveLab calculates Storm-Tide water level and wave statistics for deployed instrument data.', wraplength=225, justify='left')
+            self.emptyLabel1.pack(anchor=W, padx=15, pady=2)
+            self.emptyLabel2 = Label(self.root, text=f'WaveLab uses a 4th order Butterworth Filter with a six-minute cutoff to attenuate high frequencies in order to remove the components of wave setup and runup to estimate the storm tide at the site.', wraplength=225, justify='left')
+            self.emptyLabel2.pack(anchor=W, padx=15, pady=2)
+            self.emptyLabel3 = Label(self.root, text=f'More information:')
+            self.emptyLabel3.pack(anchor=W, padx=15, pady=0)
+            self.emptyLabel4 = Label(self.root, text=f'https://code.usgs.gov/wavelab/wavelab', fg="blue", cursor="hand2")
+            self.emptyLabel4.pack(anchor=W, padx=15, pady=0)
+            self.emptyLabel4.bind("<Button-1>", lambda e: webbrowser.open_new("https://code.usgs.gov/wavelab/wavelab"))
+            self.emptyLabel5 = Label(self.root, text=f'wavelab@usgs.gov')
+            self.emptyLabel5.pack(anchor=W, padx=15, pady=2)
+            
     class StormGui:
 
         def __init__(self, root):
@@ -579,8 +619,8 @@ if __name__ == '__main__':
             # self.b4.pack(anchor=W, padx=15, pady=2)
             self.b5 = Button(self.root, text='Storm GUI', command=self.storm_surge)
             self.b5.pack(anchor=W, padx=15, pady=2)
-            self.emptyLabel2 = Label(self.root, text=f'WaveLab Version {VERSION}')
-            self.emptyLabel2.pack(anchor=W, padx=15, pady=15)
+            self.b6 = Button(self.root, text=f'About WaveLab Version {VERSION}', command=self.about)
+            self.b6.pack(anchor=W, padx=15, pady=(25,15))
 
         def sea_gui(self):
             self.root1 = Toplevel(self.root)
@@ -605,6 +645,12 @@ if __name__ == '__main__':
             if os.name == 'nt': self.root5.iconbitmap(get_image('wavelab_icon.ico'))
             gui5 = StormGui(self.root5)
             self.root5.mainloop()
+
+        def about(self):
+            self.root6 = Toplevel(self.root)
+            if os.name == 'nt': self.root6.iconbitmap(get_image('wavelab_icon.ico'))
+            gui6 = About(self.root6)
+            self.root6.mainloop()
 
         def on_closing(self):
             if messagebox.askokcancel("Quit", "Do you want to quit?"):

@@ -84,7 +84,7 @@ class Hobo(edit_netcdf.NetCDFWriter):
         # If the datetime format is not recognized...
         if self.date_format_string == "None":
             self.bad_data = True
-            self.error_message = 'Error! Date time format was not recognized. Try changing it to this format: %m/%d/%Y %H:%M:%S.%f'
+            self.error_message = 'Error! Date time format was not recognized. Try changing it to this format: mm/dd/YYYY HH:MM:SS.MS'
         
         else:
             try:

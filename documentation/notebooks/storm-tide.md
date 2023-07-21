@@ -81,13 +81,17 @@ unfiltered_water_level = hydrostatic_method(corrected_pressure, density="salt")
 
 ### Choosing a Filter
 
-USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge. There are many such filters to accomplish this low-pass including USGS PL33 and Godin which use a kernel to attenuate the high frequencies. This software uses a Butterworth filter which attenuates in frequency space. It is desirable because of the minimized edge effects and steep decay in attenuation. One of the parameters of the filter is an order which increases the steepness of the decay, (affecting less signal), however edge effects can occur and best judgement balancing the order must be used. The best practice is to use an even number for the order of the filter because mathematically it is easier to resolve in frequency space. After assessing performance of many orders, a 4th order filter was chosen.
+USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge. There are many such filters to accomplish this low-pass, including USGS PL33 and Godin, which use a kernel to attenuate the high frequencies.
 
-Other things to consider are:
+WaveLab uses a **Butterworth filter** (low-pass filter) to attenuate high frequencies in order to remove the components of wave setup and runup to estimate the storm tide at a site. It is desirable because of the minimized edge effects and steep decay in attenuation. 
 
--	A six-minute cutoff was used in the low-pass filter.
--	The signal was filtered twice to preserve the phase angles (original position) of the water level time series.
--	Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data.)
+**Butterworth Filter Specifications**
+
+- Order: The order parameter increases the steepness of the decay, affecting less signal. However, edge effects can occur, and best judgement balancing the order must be used. The best practice is to use an even number for the order of the filter because mathematically it is easier to resolve in frequency space. After assessing performance of many orders, a 4th order filter was chosen.
+- Cutoff Frequency: A six-minute cutoff is used.
+- The signal was filtered twice to preserve the phase angles (original position) of the water level time series.
+- Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data).
+- WaveLab automatically adjusts for the measurement sampling rate of the provided files.
 
 ### Calculating Storm-Tide
 

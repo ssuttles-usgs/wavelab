@@ -13288,22 +13288,23 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge. There are many such filters to accomplish this low-pass including USGS PL33 and Godin which use a kernel to attenuate the high frequencies. This software uses a Butterworth filter which attenuates in frequency space. It is desirable because of the minimized edge effects and steep decay in attenuation. One of the parameters of the filter is an order which increases the steepness of the decay, (affecting less signal), however edge effects can occur and best judgement balancing the order must be used. The best practice is to use an even number for the order of the filter because mathematically it is easier to resolve in frequency space. After assessing performance of many orders, a 4th order filter was chosen.</p>
-
+<p>USGS defines Storm-Tide as low-pass filtered signal including frequencies of both tide and storm surge. There are many such filters to accomplish this low-pass, including USGS PL33 and Godin, which use a kernel to attenuate the high frequencies.</p>
+<p>WaveLab uses a <b>Butterworth filter</b> (low-pass filter) to attenuate high frequencies in order to remove the components of wave setup and runup to estimate the storm tide at a site. It is desirable because of the minimized edge effects and steep decay in attenuation. </p>
+<br>
+<b>Butterworth Filter Specifications</b>
+<ul>
+  <li>Order: The order parameter increases the steepness of the decay, affecting less signal. However, edge effects can occur, and best judgement balancing the order must be used. The best practice is to use an even number for the order of the filter because mathematically it is easier to resolve in frequency space. After assessing performance of many orders, a 4th order filter was chosen.</li>
+  <li>Cutoff Frequency: A six-minute cutoff is used.</li>
+  <li>The signal was filtered twice to preserve the phase angles (original position) of the water level time series.</li>
+  <li>Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data).</li>
+  <li>WaveLab automatically adjusts for the measurement sampling rate of the provided files.</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Other things to consider are:</p>
-<ul>
-<li>A one-minute cutoff was used in the low-pass filter, this ensured that by 30 seconds (the beginning of wind-wave frequencies), the signal was fully attenuated.</li>
-<li>The signal was filtered twice to preserve the phase angles (original position) of the water level time series.</li>
-<li>Although adequate for data with a wide range of sampling frequencies, this filter was optimized for 4hz data (adjustments were made to prepare for edge cases of 1 minute or more sampled data.)</li>
-</ul>
 
-</div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
@@ -13343,7 +13344,7 @@ $\mu$ = gravity in meters per a second squared ($ms^{2}$)</p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
 
-<span class="c1"># One minute cutoff divided by the Nyquist Frequency of 4hz</span>
+<span class="c1"># Six-minute cutoff divided by the Nyquist Frequency of 4hz</span>
 <span class="n">lowcut</span> <span class="o">=</span> <span class="o">.</span><span class="mi">016666666665</span> <span class="o">/</span> <span class="p">(</span><span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
 
 <span class="c1"># 4th order butterworth filter</span>
