@@ -3,7 +3,7 @@
     "name": "WaveLab",
     "organization": "U.S. Geological Survey",
     "description": "Storm-Tide water level and wave statistics processing toolbox.",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "status": "Production",
     "permissions": {
       "usageType": "openSource",
@@ -40,7 +40,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2022-08-24"
+      "metadataLastUpdated": "2023-08-16"
     }
   }
 ]
