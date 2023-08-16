@@ -9,6 +9,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added 
 
+- 
+
+### Changed  
+
+- 
+
+### Deprecated 
+
+-
+
+### Removed 
+
+- 
+
+### Fixed  
+
+- 
+
+### Security  
+
+- 
+
+## [v1.3.0](https://code.usgs.gov/wavelab/wavelab/-/tags/v1.3.0) - 2023-08-16
+
+### Added 
+
 - Development Workflow section to README.md
 - Release Workflow section to README.md
 - versionfile.txt file to add details about the WaveLab.exe
@@ -31,10 +57,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Graph Explanations now say "Butterworth 6-minute Filtered" instead of "Lowpass Filtered"
 - Documentation now describes how to access WaveLab via WFast
 
-### Deprecated 
-
--
-
 ### Removed 
 
 - Disabled the Generic sensor type for the time being.
@@ -45,10 +67,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Maximum Storm Tide Water Elevation and Maximum Unfiltered Water Elevation are now rounded to 2 decimal places in the graphs
 - Documentation that erroneously referred to a one-minute Butterworth filter has been changed to refer to a six-minute Butterworth filter
 - sea_pressure data is no longer NaN in the stormtide_unflitered.nc output file
-
-### Security  
-
-- 
 
 ## [v1.2.0](https://code.usgs.gov/wavelab/wavelab/-/tags/v1.2.0) - 2022-08-24
 
