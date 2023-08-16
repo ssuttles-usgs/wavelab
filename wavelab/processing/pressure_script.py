@@ -21,7 +21,7 @@ INSTRUMENTS = {
     'USGS Homebrew': House,
     'MS TruBlue 255': MeasureSysLogger,
     'Onset Hobo U20': Hobo,
-    'Generic': Hobo,
+    # 'Generic': Hobo,
     'NOAA Station': NOAA_Station,
     'Meso West': West_Coast_Station,
     'VanEssen': VanEssen

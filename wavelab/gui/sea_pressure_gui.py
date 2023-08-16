@@ -30,7 +30,7 @@ GLOBAL_FIELDS = OrderedDict([
 LOCAL_FIELDS = OrderedDict([
     ('instrument_name', ['Instrument:', [
         'MS TruBlue 255', 'Onset Hobo U20', 'LevelTroll', 'RBRSolo',
-        'VanEssen', 'Generic' # , 'USGS Homebrew'
+        'VanEssen', # 'Generic' , 'USGS Homebrew'
         ], True]),
     ('stn_station_number', ['STN Site Id:', '']),
     ('stn_instrument_id', ['STN Instrument Id:', '']),
