@@ -51,7 +51,7 @@ from wavelab.processing.storm_netCDF import Storm_netCDF
 from wavelab.processing.storm_statistics import StormStatistics
 import webbrowser
 
-VERSION = '1.2.0'
+VERSION = '1.3.0'
 
 def storm_processing(data_dict, queue):
 
