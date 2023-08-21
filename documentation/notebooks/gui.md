@@ -20,7 +20,7 @@ If you are starting from the beginning you should go through each of these toolb
 
 ## Sea GUI
 
-This toolbox takes the extracted sea pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  You will see the following screen when you click "Sea GUI":
+This toolbox takes the extracted sea pressure data from the instrument and converts it to netCDF format with the appropriate data and metadata.  You will see the following screen when you click "Sea GUI":
 
 <img src="images/sea_air_begin.PNG" style="float:left; border:2px solid black; border-bottom: 1px solid black" />
 
