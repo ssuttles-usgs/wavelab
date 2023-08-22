@@ -13225,7 +13225,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This toolbox takes the extracted sea pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  You will see the following screen when you click on "Sea GUI":</p>
+<p>This toolbox takes the extracted sea pressure data from the instrument and converts it to netCDF format with the appropriate data and metadata.  You will see the following screen when you click "Sea GUI":</p>
 
 </div>
 </div>
@@ -13248,15 +13248,22 @@ div#notebook {
 <li><b>Process Files</b>:  To process data after filling out all required information of added files </li>
 <li><b>Quit</b>: Quit Sea GUI</li>
 </ul>
-
+<p>Enter the appropriate information in the fields.</p>
+<p>Click "Add File(s)". You will be prompted to upload a sea pressure data file. Please note the following:</p>
+<ul>
+  <li>File format must be CSV.</li>
+  <li>The file should contain the exported data from the sea pressure instrument.</li>
+  <li>Permitted instruments are listed in the next Sea GUI window, in the dropdown menu under "Instrument".</li>
+  <li>If you are using a different instrument than those listed, you may use the <a href="https://code.usgs.gov/wavelab/wavelab/-/tree/master/documentation/data/Generic_Template.csv" target="_blank">Generic Data Template CSV file</a> and select the "Generic" instrument type.</li>
+  <li>WaveLab will detect the sampling rate based on the difference in time between the first two rows of data. WaveLab filtering will automatically adjust for the detected measurement sampling rate.</li>
+</ul>
+<p>After selecting a file, you will see the following window:</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Enter the appropriate information in the fields and then press "Add File(s)".  You will see the following window:</p>
-
 </div>
 </div>
 </div>
@@ -13311,8 +13318,16 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This toolbox takes the extracted barometric pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  At first you will see the same screen when you click on "Sea GUI".  After filling in the fields click "Add File(s)" and then you will see the following screen:</p>
-
+<p>This toolbox takes the extracted barometric pressure data from the instrument and converts to netCDF format with the appropriate data and metadata.  At first, you will see the same screen when you click on "Sea GUI".  Enter the appropriate information in the fields. </p>
+<p>Click "Add File(s)". You will be prompted to upload a barometric pressure data file. Please note the following:</p>
+<ul>
+  <li>File format must be CSV.</li>
+  <li>The file should contain the exported data from the barometric pressure instrument.</li>
+  <li>Permitted instruments are listed in the next Air GUI window, in the dropdown menu under "Instrument".</li>
+  <li>If you are using a different instrument than those listed, you may use the <a href="https://code.usgs.gov/wavelab/wavelab/-/tree/master/documentation/data/Generic_Template.csv" target="_blank">Generic Data Template CSV file</a> and select the "Generic" instrument type.</li>
+  <li>WaveLab will detect the sampling rate based on the difference in time between the first two rows of data. WaveLab filtering will automatically adjust for the detected measurement sampling rate.</li>
+</ul>
+<p>After selecting a file, you will see the following window:</p>
 </div>
 </div>
 </div>

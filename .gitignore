@@ -125,3 +125,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Temporary user data files
+.wavelab/gui/history.json
+.wavelab/gui/history2_air.json
+.wavelab/gui/history2_sea.json

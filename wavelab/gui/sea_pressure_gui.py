@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 Contains a GUI that interfaces with this package's netCDF-writing
-modules. Also contains some convenience methods for other GUIs and a
-general class, MessageDialog, for creating custom dialog boxes.
+modules. Also contains some convenience methods for other GUIs.
 """
 
 import tkinter as tk
@@ -10,15 +9,20 @@ from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import traceback
 import sys
+import pathlib
 import os
 from collections import OrderedDict
 from wavelab.processing.pressure_script import convert_to_netcdf
+from wavelab.utilities.utils import MessageDialog
 import json
 import re
 from wavelab.utilities import unit_conversion as uc
 
-GLOBAL_HISTFILE = 'history.json'
-LOCAL_HISTFILE = 'history2_sea.json'
+# Save history JSON files at a location: ex. C:\Users\username\WaveLab
+HISTFILEPATH = os.environ['USERPROFILE'] + r'\WaveLab'
+pathlib.Path(HISTFILEPATH).mkdir(parents=True, exist_ok=True) # Create WaveLab folder if it doesn't already exist
+GLOBAL_HISTFILE = os.path.join(HISTFILEPATH, 'history.json') 
+LOCAL_HISTFILE = os.path.join(HISTFILEPATH, 'history2_sea.json')
 GLOBAL_FIELDS = OrderedDict([
     ('creator_name', ['Your full name:', '']),
     ('creator_email', ['Your email address:', '']),
@@ -26,8 +30,7 @@ GLOBAL_FIELDS = OrderedDict([
 LOCAL_FIELDS = OrderedDict([
     ('instrument_name', ['Instrument:', [
         'MS TruBlue 255', 'Onset Hobo U20', 'LevelTroll', 'RBRSolo',
-        'VanEssen'
-        # , 'USGS Homebrew'
+        'VanEssen', # 'Generic' , 'USGS Homebrew'
         ], True]),
     ('stn_station_number', ['STN Site Id:', '']),
     ('stn_instrument_id', ['STN Instrument Id:', '']),
@@ -121,73 +124,78 @@ class SeaPressureGUI:
         message = ('Working, this may take a few minutes.')
 
         dialog = None
-         
-        try:
-            dialog = MessageDialog(self.parent, message=message,
-                                   title='Processing...', buttons=0, wait=False)
-            globs = dict(zip(GLOBAL_FIELDS.keys(),
-                             self.global_form.export_entries()))
-            bad_data = None
 
-            for fname, datafile in self.datafiles.items():
-                inputs = dict(zip(LOCAL_FIELDS.keys(), datafile.export_entries()))
-                inputs.update(globs)
+        #  If no file is selected yet
+        if len(self.datafiles) == 0:
+            MessageDialog(self.parent, message='No file selected. Please select a file before running.',
+                                  title='No file selected!')
+        # Run if there is a file
+        else:
+            try:
+                dialog = MessageDialog(self.parent, message=message,
+                                    title='Processing...', buttons=0, wait=False)
+                globs = dict(zip(GLOBAL_FIELDS.keys(),
+                                self.global_form.export_entries()))
+                bad_data = None
 
-                if self.air_pressure == False:
-                    inputs['pressure_type'] = 'Sea Pressure'
-                else:
-                    inputs['pressure_type'] = 'Air Pressure'
-                inputs['sea_pressure'] = not self.air_pressure
-                inputs['in_filename'] = fname
-                inputs['out_filename'] = fname + '.nc'
+                for fname, datafile in self.datafiles.items():
+                    inputs = dict(zip(LOCAL_FIELDS.keys(), datafile.export_entries()))
+                    inputs.update(globs)
 
-                process_files = self.validate_entries(inputs)
-
-                inputs['deployment_time'] = uc.datestring_to_ms(inputs['deployment_time'], '%Y%m%d %H%M', \
-                                                                 inputs['tz_info'],
-                                                                 inputs['daylight_savings'])
-
-                inputs['retrieval_time'] = uc.datestring_to_ms(inputs['retrieval_time'], '%Y%m%d %H%M', \
-                                                                 inputs['tz_info'],
-                                                                 inputs['daylight_savings'])
-
-                if process_files == True:
-                    bad_data = convert_to_netcdf(inputs)
-                    self.remove_file(fname)
-                    dialog.destroy()
-                    if bad_data == True:
-                        MessageDialog(self.parent, message="There were some bad data points in the file, please cut them using chopper\n and/or" \
-                                      " use the \"Hydrostatic\" method in the Water Level GUI",
-                                  title='Data Issues!')
+                    if self.air_pressure == False:
+                        inputs['pressure_type'] = 'Sea Pressure'
                     else:
-                        MessageDialog(self.parent, message="There were no bad data points in the file",
-                                  title='No Data Issues!')
+                        inputs['pressure_type'] = 'Air Pressure'
+                    inputs['sea_pressure'] = not self.air_pressure
+                    inputs['in_filename'] = fname
+                    inputs['out_filename'] = fname + '.nc'
 
-                    MessageDialog(self.parent, message="Success! Files saved.",
-                                  title='Success!')
-                else:
+                    process_files = self.validate_entries(inputs)
+
+                    inputs['deployment_time'] = uc.datestring_to_ms(inputs['deployment_time'], '%Y%m%d %H%M', \
+                                                                    inputs['tz_info'],
+                                                                    inputs['daylight_savings'])
+
+                    inputs['retrieval_time'] = uc.datestring_to_ms(inputs['retrieval_time'], '%Y%m%d %H%M', \
+                                                                    inputs['tz_info'],
+                                                                    inputs['daylight_savings'])
+
+                    if process_files == True:
+                        bad_data, message = convert_to_netcdf(inputs)
+                        self.remove_file(fname)
+                        dialog.destroy()
+                        if bad_data == True:
+                            MessageDialog(self.parent, message=message,
+                                    title='Data Issues!')
+                        else:
+                            MessageDialog(self.parent, message="There were no bad data points in the file",
+                                    title='No Data Issues!')
+
+                            MessageDialog(self.parent, message="Success! Files saved.",
+                                        title='Success!')
+                    else:
+                        dialog.destroy()
+                        MessageDialog(self.parent, message= self.error_message,
+                                    title='Error')
+
+                    self.error_message = ''
+
+            except:
+                if dialog is not None:
                     dialog.destroy()
-                    MessageDialog(self.parent, message= self.error_message,
-                                  title='Error')
+                MessageDialog(self.parent, message="Could not process files, please check file type.",
+                            title='Error')
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+    #
+                message = traceback.format_exception(exc_type, exc_value,
+                                            exc_traceback)
 
-                self.error_message = ''
-
-        except:
-            if dialog is not None:
-                dialog.destroy()
-            MessageDialog(self.parent, message="Could not process files, please check file type.",
-                        title='Error')
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-#
-            message = traceback.format_exception(exc_type, exc_value,
-                                        exc_traceback)
-
-            MessageDialog(root, message=message,
-                             title='Error')
+                MessageDialog(self.parent, message=message,
+                                title='Error')
     
     def validate_entries(self, inputs):
         """Check if the GUI entries are filled out and in the proper format"""
-        
+
         ignore = [
                   'in_filename',
                   'tzinfo', 
@@ -334,43 +342,6 @@ class ButtonBar(tk.Frame):
         for i, props in enumerate(buttonlist):
             button = tk.Button(self, text=props[0], command=props[1], width=12)
             button.grid(row=0, column=i, sticky=('W', 'E'))
-
-
-class MessageDialog(tk.Toplevel):
-    """ A template for nice dialog boxes. """
-
-    def __init__(self, parent, message="", title="", buttons=1, wait=True):
-
-        tk.Toplevel.__init__(self, parent)
-        body = tk.Frame(self)
-        self.title(title)
-        self.boolean = None
-        self.parent = parent
-        self.transient(parent)
-        tk.Label(body, text=message).pack()
-        if buttons == 1:
-            b = tk.Button(body, text="OK", command=self.destroy)
-            b.pack(pady=5)
-        elif buttons == 2:
-            buttonframe = tk.Frame(body, padding="3 3 5 5")
-
-            def event(boolean):
-                self.boolean = boolean
-                self.destroy()
-
-            b1 = tk.Button(buttonframe, text='YES',
-                           command=lambda: event(True))
-            b1.grid(row=0, column=0)
-            b2 = tk.Button(buttonframe, text='NO',
-                           command=lambda: event(False))
-            b2.grid(row=0, column=1)
-            buttonframe.pack()
-        body.pack()
-        self.grab_set()
-        self.geometry("+%d+%d" % (parent.winfo_rootx()+50,
-                                  parent.winfo_rooty()+50))
-        if wait:
-            self.wait_window(self)
 
 
 if __name__ == '__main__':

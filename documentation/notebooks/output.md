@@ -28,6 +28,8 @@ The following is breakdown of output files that can be output from Storm GUI aft
                                 were derived.</td></tr>
 </table>
 
+For guidance on how to read NetCDF files, please visit the <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/documentation/notebooks/netcdf.md">Reading NetCDF Files</a> page.
+
 ### Visualizations
 
 <table class="cust-table">

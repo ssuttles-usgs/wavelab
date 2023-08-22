@@ -271,13 +271,13 @@ class StormGraph(object):
         # create the second graph title
 
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
+            \nLatitude: {so.latitude.round(4)} Longitude: {so.longitude.round(4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
         
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
-            second_title = f"Barometric Pressure, Latitude: {so.air_latitude} Longitude: {so.air_longitude} STN Site ID: {so.air_stn_station_number}"
+            second_title = f"Barometric Pressure, Latitude: {so.air_latitude.round(4)} Longitude: {so.air_longitude.round(4)} STN Site ID: {so.air_stn_station_number}"
 
             ax.text(0.5, 1.015, second_title, \
                 va='center', ha='center', transform=ax.transAxes)
@@ -395,7 +395,7 @@ class StormGraph(object):
 
         if graph_stormtide:
             entry, = ax.plot(self.time_nums, self.df.SurgeDepth, color="#045a8d" )
-            add_entry(entry, 'Storm Tide (Lowpass Filtered) Water Elevation')
+            add_entry(entry, 'Storm Tide (Butterworth 6-minute Filtered) Water Elevation')
 
         entry, = ax.plot(self.time_nums, np.repeat(sensor_min, len(self.df.SurgeDepth)), linestyle="--",
                       color="#fd8d3c")
@@ -422,14 +422,14 @@ class StormGraph(object):
             add_entry(entry, 'Maximum Storm Tide Water Elevation')
 
         if self.international_units:
-            max_storm_tide = f"Maximum Unfiltered Water Elevation, meters above datum = {depth_max} at {depth_time}"
-            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, meters above datum = {tide_max} at {tide_time}" if graph_stormtide else ""
+            max_storm_tide = f"Maximum Unfiltered Water Elevation, meters above datum = {round(depth_max,2)} at {depth_time}"
+            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, meters above datum = {round(tide_max,2)} at {tide_time}" if graph_stormtide else ""
             ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {so.combined_level_accuracy_in_meters}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
-            max_storm_tide = f"Maximum Unfiltered Water Elevation, feet above datum = {depth_max} at {depth_time}"
-            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, feet above datum = {tide_max} at {tide_time}" if graph_stormtide else ""
+            max_storm_tide = f"Maximum Unfiltered Water Elevation, feet above datum = {round(depth_max,2)} at {depth_time}"
+            max_storm_tide += f"\nMaximum Storm Tide Water Elevation, feet above datum = {round(tide_max,2)} at {tide_time}" if graph_stormtide else ""
             ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {(so.combined_level_accuracy_in_meters * uc.METER_TO_FEET)}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
@@ -468,13 +468,13 @@ class StormGraph(object):
         ax.set_position(pos2) # set a new position
         
         first_title = f"{so.storm_name} Storm Tide Water Elevation (6th Minute Butterworth Filter) \
-            \nLatitude: {so.latitude} Longitude: {so.longitude} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
+            \nLatitude: {so.latitude.round(4)} Longitude: {so.longitude.round(4)} STN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
 
         ax.text(0.5, 1.065, first_title, \
                 va='center', ha='center', transform=ax.transAxes)
 
         if so.level_troll is False:
-            second_title = f"Barometric Pressure, Latitude: {so.air_latitude} Longitude: {so.air_longitude} STN Site ID: {so.air_stn_station_number}"
+            second_title = f"Barometric Pressure, Latitude: {so.air_latitude.round(4)} Longitude: {so.air_longitude.round(4)} STN Site ID: {so.air_stn_station_number}"
 
 
             ax.text(0.5, 1.015,second_title, \
@@ -575,13 +575,13 @@ class StormGraph(object):
             inst_accuracy_y = 1.115
 
         if self.international_units is True:
-            max_storm_tide = f"Maximum Storm Tide Water Elevation, meters above datum = {tide_max} at {tide_time}"
+            max_storm_tide = f"Maximum Storm Tide Water Elevation, meters above datum = {round(tide_max,2)} at {tide_time}" 
 
             ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (m): {so.combined_level_accuracy_in_meters}',
                     va='center', ha='left', transform=ax.transAxes,
                     fontsize=10)
         else:
-            max_storm_tide = f"Maximum Storm Tide Water Elevation, feet above datum = {tide_max} at {tide_time}"
+            max_storm_tide = f"Maximum Storm Tide Water Elevation, feet above datum = {round(tide_max,2)} at {tide_time}"
 
             ax.text(0.645, inst_accuracy_y, f'Combined Instrument Error (ft): {(so.combined_level_accuracy_in_meters * uc.METER_TO_FEET)}',
                     va='center', ha='left', transform=ax.transAxes,
@@ -597,7 +597,7 @@ class StormGraph(object):
         if so.level_troll is False:
             legend_entries = [p2, p3, p1, p6]
             legend_names = [
-            'Storm Tide (Lowpass Filtered) Water Elevation',
+            'Storm Tide (Butterworth 6-minute Filtered) Water Elevation',
             'Minimum Recordable Water Elevation',
             'Barometric Pressure',
             'Maximum Storm Tide Water Elevation'
@@ -605,7 +605,7 @@ class StormGraph(object):
         else:
             legend_entries = [p2, p3, p6]
             legend_names = [
-                'Storm Tide (Lowpass Filtered) Water Elevation',
+                'Storm Tide (Butterworth 6-minute  Filtered) Water Elevation',
                 'Minimum Recordable Water Elevation',
                 'Maximum Storm Tide Water Elevation'
             ]
@@ -644,7 +644,7 @@ class StormGraph(object):
         pos2 = [pos1.x0, pos1.y0,  pos1.width, pos1.height + .06] 
         ax.set_position(pos2) # set a new position
         
-        first_title = f"{so.storm_name} Barometric Pressure, Latitude: {so.latitude} Longitude: {so.longitude} \
+        first_title = f"{so.storm_name} Barometric Pressure, Latitude: {so.latitude.round(4)} Longitude: {so.longitude.round(4)} \
             \nSTN Site ID: {so.stn_station_number} (WaveLab Version {so.version})"
    
         ax.text(0.5, 1.03, first_title,
