@@ -303,7 +303,7 @@ class RBRSolo(edit_netcdf.NetCDFWriter):
     def __init__(self):
         self.timezone_marker = "time zone"
         super().__init__()
-        self.frequency = 4
+#        self.frequency = 4
 #         self.date_format_string = '%d-%b-%Y %H:%M:%S.%f'
         self.date_format_string = '%Y-%m-%d %H:%M:%S.%f'
 
@@ -321,8 +321,19 @@ class RBRSolo(edit_netcdf.NetCDFWriter):
                                              self.date_format_string,
                                              self.tz_info,
                                              self.daylight_savings)
+        
+        second_stamp = uc.datestring_to_ms('%s' % (df[0][1]),
+                                             self.date_format_string,
+                                             self.tz_info,
+                                             self.daylight_savings)
+        
+        self.frequency = 1000 / (second_stamp - self.datestart)
+
+        #self.utc_millisecond_data = pd.to_datetime(df[0][1::]).astype(np.int64)/int(1e6)
+        
         self.utc_millisecond_data = uc.generate_ms(self.datestart, df.shape[0] - 1,
                                                     self.frequency)
+        
         self.pressure_data = np.array([x for x in df[1][:-1]])
 
 
